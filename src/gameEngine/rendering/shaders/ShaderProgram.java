@@ -1,4 +1,4 @@
-package game.shaders;
+package gameEngine.rendering.shaders;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

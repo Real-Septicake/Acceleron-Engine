@@ -12,14 +12,14 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import game.models.*;
-import game.shaders.*;
+import gameEngine.rendering.shaders.*;
 import gameEngine.common.Maths;
 import gameEngine.components.Entity;
 
 public class Renderer {
 	
 	private static final float FOV = 60.0f;
-	private static final float NEAR_PLANE = 0.1f;
+	private static final float NEAR_PLANE = 0.01f;
 	private static final float FAR_PLANE = 1000f;
 	
 	private Matrix4f projectionMatrix;

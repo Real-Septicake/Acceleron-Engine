@@ -1,4 +1,4 @@
-package game.shaders;
+package gameEngine.rendering.shaders;
 
 import org.joml.Matrix4f;
 
@@ -8,8 +8,8 @@ import gameEngine.components.Light;
 
 public class StaticShader extends ShaderProgram {
 
-	private static final String VERTEX_FILE = "src/com/Game/shaders/vertexShader.txt";
-	private static final String FRAGMENT_FILE = "src/com/Game/shaders/fragmentShader.txt";
+	private static final String VERTEX_FILE = "src/gameEngine/rendering/shaders/vertexShader.txt";
+	private static final String FRAGMENT_FILE = "src/gameEngine/rendering/shaders/fragmentShader.txt";
 
 	private int location_transformationMatrix;
 	private int location_projectionMatrix;

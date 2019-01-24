@@ -1,5 +1,6 @@
 package gameEngine.components;
 
-public class ComponentBase {
-
+public abstract class ComponentBase {
+	
+	public abstract void Destroy();
 }
