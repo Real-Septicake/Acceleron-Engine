@@ -15,6 +15,7 @@ import game.models.*;
 import gameEngine.rendering.shaders.*;
 import gameEngine.common.Maths;
 import gameEngine.components.Entity;
+import gameEngine.components.MeshRenderer;
 
 public class Renderer {
 	
@@ -43,12 +44,12 @@ public class Renderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
-	public void render(Map<TexturedMesh, List<Entity>> entities) {
+	public void render(Map<TexturedMesh, List<MeshRenderer>> entities) {
 		
 		for(TexturedMesh mesh:entities.keySet()) {
 			prepareTexturedMesh(mesh);
-			List<Entity> batch = entities.get(mesh);
-			for(Entity entity:batch) {
+			List<MeshRenderer> batch = entities.get(mesh);
+			for(MeshRenderer entity:batch) {
 				prepareInstance(entity);
 				GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
@@ -76,14 +77,14 @@ public class Renderer {
 		GL30.glBindVertexArray(0);
 	}
 	
-	private void prepareInstance(Entity entity) {
-		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.transform.position, entity.transform.rotation, entity.transform.scale));
+	private void prepareInstance(MeshRenderer entity) {
+		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.gameObject.transform.position, entity.gameObject.transform.rotation, entity.gameObject.transform.scale));
 	}
 
-	public void Render(Entity entity) {
-		Mesh mesh = entity.getMesh().getMesh();
+	public void Render(MeshRenderer entity) {
+		Mesh mesh = entity.mesh.getMesh();
 		
-		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.transform.position, entity.transform.rotation, entity.transform.scale));
+		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.gameObject.transform.position, entity.gameObject.transform.rotation, entity.gameObject.transform.scale));
 		
 		GL30.glBindVertexArray(mesh.getVaoID());
 		
@@ -93,7 +94,7 @@ public class Renderer {
 		
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.getMesh().getTexture().getID());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.mesh.getTexture().getID());
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		

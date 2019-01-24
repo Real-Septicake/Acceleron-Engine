@@ -13,7 +13,7 @@ public class MasterRenderer {
 	private StaticShader shader = new StaticShader();
 	private Renderer renderer = new Renderer(shader);
 
-	private Map<TexturedMesh, List<Entity>> entities = new HashMap<TexturedMesh, List<Entity>>();
+	private Map<TexturedMesh, List<MeshRenderer>> entities = new HashMap<TexturedMesh, List<MeshRenderer>>();
 
 	public void render(Light sun, Camera cam) {
 		renderer.Clear();
@@ -40,28 +40,26 @@ public class MasterRenderer {
 	}*/
 	
 	public void addEntity(MeshRenderer rend) {
-		TexturedMesh entityMesh = entity.getMesh();
-		List<Entity> batch = entities.get(entityMesh);
+		TexturedMesh entityMesh = rend.mesh;
+		List<MeshRenderer> batch = entities.get(entityMesh);
 		if (batch != null) {
-			batch.add(entity);
+			batch.add(rend);
 		}
 		else {
-			List<Entity> newBatch = new ArrayList<Entity>();
-			newBatch.add(entity);
+			List<MeshRenderer> newBatch = new ArrayList<MeshRenderer>();
+			newBatch.add(rend);
 			entities.put(entityMesh, newBatch);
 		}
 	}
 	
 	public void removeEntity(MeshRenderer rend) {
-		TexturedMesh entityMesh = entity.getMesh();
-		List<Entity> batch = entities.get(entityMesh);
+		TexturedMesh entityMesh = rend.mesh;
+		List<MeshRenderer> batch = entities.get(entityMesh);
 		if (batch != null) {
-			batch.add(entity);
+			batch.remove(rend);
 		}
 		else {
-			List<Entity> newBatch = new ArrayList<Entity>();
-			newBatch.add(entity);
-			entities.put(entityMesh, newBatch);
+			System.out.print("ERROR: Tried to remove mesh rnederer that doesn't exist in master renderer!");
 		}
 	}
 

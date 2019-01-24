@@ -34,7 +34,9 @@ public class GameObject {
 		if(components.get(type) == null) {
 			
 			try {
-				return components.put((ComponentBase) type.getClass().cast(ComponentBase.class), (ComponentBase)type.getClass().newInstance());
+				ComponentBase comp = (ComponentBase)type.getClass().newInstance();
+				comp.gameObject = this;
+				return components.put((ComponentBase) type.getClass().cast(ComponentBase.class), comp);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
