@@ -6,13 +6,14 @@ import static org.lwjgl.glfw.GLFW.*;
 import org.joml.*;
 import org.lwjgl.opengl.GL;
 
-import game.common.ContentDatabase;
 import game.models.Mesh;
 import game.models.TexturedMesh;
-import game.objectTypes.*;
 import game.renderEngine.*;
 import game.shaders.StaticShader;
 import game.textures.ModelTexture;
+import gameEngine.components.Camera;
+import gameEngine.components.Entity;
+import gameEngine.components.Light;
 
 public class Game {
 
@@ -34,7 +35,6 @@ public class Game {
 
 		GL.createCapabilities();
 
-		ContentDatabase.LoadContent();
 		Loader loader = new Loader();
 		Camera camera = new Camera();
 		// At tutorial 12
@@ -43,13 +43,6 @@ public class Game {
 		ModelTexture texture = new ModelTexture(loader.loadTexture("Tree"));
 		TexturedMesh texturedMesh = new TexturedMesh(mesh, texture);
 		Entity block = new Entity(texturedMesh, new Vector3d(2, -1, -2), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
-
-		Chunk chunk = new Chunk();
-		chunk.GenerateMesh(loader);
-		ModelTexture chunkTexture = new ModelTexture(loader.loadTexture("TextureAtlisStatic"));
-		TexturedMesh chunkMeshTextured = new TexturedMesh(chunk.mesh, chunkTexture);
-		Entity chunkEntity = new Entity(chunkMeshTextured, new Vector3d(0, 0, -35), new Vector3d(0, 0, 0),
-				new Vector3d(1, 1, 1));
 
 		Mesh sphereMesh = OBJLoader.loadObjModel("Sphere", loader);
 		ModelTexture sphereTexture = new ModelTexture(loader.loadTexture("sphere_UV"));
@@ -102,33 +95,31 @@ public class Game {
 			shader.LoadViewMatrix(camera);
 			shader.LoadLight(light);
 
-			sphereEntity.SetPosition(new Vector3d(0, 0, -20));
+			sphereEntity.transform.position = new Vector3d(0, 0, -20);
 			render.Render(sphereEntity);
 
-			sphereEntity.SetPosition(new Vector3d(16, 0, -20));
+			sphereEntity.transform.position = new Vector3d(16, 0, -20);
 			render.Render(sphereEntity);
 
-			sphereEntity.SetPosition(new Vector3d(16, 0, -36));
+			sphereEntity.transform.position = new Vector3d(16, 0, -36);
 			render.Render(sphereEntity);
 
-			sphereEntity.SetPosition(new Vector3d(0, 0, -36));
+			sphereEntity.transform.position = new Vector3d(0, 0, -36);
 			render.Render(sphereEntity);
 
-			sphereEntity.SetPosition(new Vector3d(0, 256, -20));
+			sphereEntity.transform.position = new Vector3d(0, 256, -20);
 			render.Render(sphereEntity);
 
-			sphereEntity.SetPosition(new Vector3d(16, 256, -20));
+			sphereEntity.transform.position = new Vector3d(16, 256, -20);
 			render.Render(sphereEntity);
 
-			sphereEntity.SetPosition(new Vector3d(16, 256, -36));
+			sphereEntity.transform.position = new Vector3d(16, 256, -36);
 			render.Render(sphereEntity);
 
-			sphereEntity.SetPosition(new Vector3d(0, 256, -36));
+			sphereEntity.transform.position = new Vector3d(0, 256, -36);
 			render.Render(sphereEntity);
 
 			render.Render(block);
-
-			render.Render(chunkEntity);
 
 			shader.Stop();
 

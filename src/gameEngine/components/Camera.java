@@ -1,4 +1,4 @@
-package game.objectTypes;
+package gameEngine.components;
 
 import org.joml.*;
 

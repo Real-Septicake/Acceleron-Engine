@@ -2,9 +2,9 @@ package game.shaders;
 
 import org.joml.Matrix4f;
 
-import game.common.Maths;
-import game.objectTypes.Camera;
-import game.objectTypes.Light;
+import gameEngine.common.Maths;
+import gameEngine.components.Camera;
+import gameEngine.components.Light;
 
 public class StaticShader extends ShaderProgram {
 

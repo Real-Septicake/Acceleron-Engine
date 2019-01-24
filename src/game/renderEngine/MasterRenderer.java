@@ -3,8 +3,10 @@ package game.renderEngine;
 import java.util.*;
 
 import game.models.*;
-import game.objectTypes.*;
 import game.shaders.*;
+import gameEngine.components.Camera;
+import gameEngine.components.Entity;
+import gameEngine.components.Light;
 
 public class MasterRenderer {
 	private StaticShader shader = new StaticShader();

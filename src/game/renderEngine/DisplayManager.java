@@ -7,11 +7,11 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import game.models.*;
-import game.objectTypes.Camera;
-import game.objectTypes.Entity;
-import game.objectTypes.Light;
 import game.shaders.StaticShader;
 import game.textures.ModelTexture;
+import gameEngine.components.Camera;
+import gameEngine.components.Entity;
+import gameEngine.components.Light;
 
 import java.nio.*;
 
@@ -163,7 +163,7 @@ public class DisplayManager {
 			//mRenderer.processEntity(block);
 			//mRenderer.render(light, camera);
 			
-			block.SetPosition(new Vector3d(2,-1,-2));
+			block.transform.position = new Vector3d(2,-1,-2);
 			render.Clear();
 			shader.Start();
 			shader.LoadViewMatrix(camera);

@@ -1,9 +1,9 @@
-package game.common;
+package gameEngine.common;
 
 import org.joml.*;
 import org.joml.Math;
 
-import game.objectTypes.Camera;
+import gameEngine.components.Camera;
 
 public class Maths {
 	public static Matrix4f createTransformationMatrix(Vector3d translation, Vector3d rotation, Vector3d scale) {
