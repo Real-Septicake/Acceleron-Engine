@@ -1,23 +1,17 @@
 package gameEngine.common;
 
-import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
+import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 
-import java.util.Timer;
-
 import org.joml.*;
+import org.joml.Math;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
-import game.models.Mesh;
-import game.models.TexturedMesh;
+import game.models.*;
 import game.renderEngine.*;
-import gameEngine.rendering.shaders.*;
 import game.textures.ModelTexture;
-import gameEngine.components.Camera;
-import gameEngine.components.Entity;
-import gameEngine.components.Light;
-import gameEngine.components.MeshRenderer;
+import gameEngine.components.*;
 
 public class EngineCore {
 
@@ -40,24 +34,26 @@ public class EngineCore {
 
 		Loader loader = new Loader();
 		
-		Entity cameraGm = new Entity(new Vector3d(0, 0, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
+		Entity cameraGm = new Entity(new Vector3d(0, 2, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		Camera camera = (Camera) cameraGm.addComponent(Camera.class);
 		// At tutorial 12
 
 		Mesh mesh = OBJLoader.loadObjModel("Tree", loader);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("Tree"));
-		TexturedMesh texturedMesh = new TexturedMesh(mesh, texture);
-		Entity tree = new Entity(new Vector3d(0, 0, -3), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
-		MeshRenderer renderer = (MeshRenderer)tree.addComponent(MeshRenderer.class);
-		renderer.mesh = texturedMesh;
+		ModelTexture treeTexture = new ModelTexture(loader.loadTexture("Tree"));
+		TexturedMesh texturedTree = new TexturedMesh(mesh, treeTexture);
+		//Entity tree = new Entity(new Vector3d(0, 0, -3), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
+		//MeshRenderer renderer = (MeshRenderer)tree.addComponent(MeshRenderer.class);
+		//renderer.mesh = texturedMesh;
 		
 		Mesh sphereMesh = OBJLoader.loadObjModel("Sphere", loader);
 		ModelTexture sphereTexture = new ModelTexture(loader.loadTexture("sphere_UV"));
 		TexturedMesh sphereTextured = new TexturedMesh(sphereMesh, sphereTexture);
+		
+		Mesh floorMesh = OBJLoader.loadObjModel("Floor", loader);
+		ModelTexture floorTexture = new ModelTexture(loader.loadTexture("floor UV"));
+		TexturedMesh floorTextured = new TexturedMesh(floorMesh, floorTexture);
 
 		Light light = new Light(new Vector3f(-300, 300, 300), new Vector3f(0.5f, 0.5f, 0.5f));
-		//StaticShader shader = new StaticShader();
-		//Renderer render = new Renderer(shader);
 
 		long windowID = DisplayManager.manager.getWindowID();
 		
@@ -96,25 +92,28 @@ public class EngineCore {
 			if (glfwGetKey(windowID, 32) == GLFW_PRESS)
 				movement.y = 1;
 			
-			cameraGm.transform.position.add(movement.mul(0.2));
 			cameraGm.transform.rotation.add(rotation);
-
-			for (int i = 0; i < 4; i++) {
-				MasterRenderer.drawMesh(sphereTextured, new Vector3d(-5, i * 5, -10), new Vector3d(0, 0, 0), new Vector3d(2, 2, 2));
-				MasterRenderer.drawMesh(sphereTextured, new Vector3d(-5, i * 5, -20), new Vector3d(0, 0, 0), new Vector3d(2, 2, 2));
-				MasterRenderer.drawMesh(sphereTextured, new Vector3d(5, i * 5, -10), new Vector3d(0, 0, 0), new Vector3d(2, 2, 2));
-				MasterRenderer.drawMesh(sphereTextured, new Vector3d(5, i * 5, -20), new Vector3d(0, 0, 0), new Vector3d(2, 2, 2));
-			}
+			movement = Maths.fromEulerAngle(cameraGm.transform.rotation) * movement;
 			
-			for (float x = -5; x <= 5; x+= 0.25f) {
-				for (float y = -5; y <= 5; y+= 0.25f) {
-					for (float z = -5; z <= 5; z+= 0.25f) {
-						if(x * x + y * y + z * z <= 25.5 && x * x + y * y + z * z > 24) {
-							MasterRenderer.drawMesh(sphereTextured, new Vector3d(x, 5 + y, -15 + z), new Vector3d(0, 0, 0), new Vector3d(2, 2, 2));
+			cameraGm.transform.position.add(movement.mul(0.2));
+
+			for (float x = -10; x <= 10; x+= 0.25f) {
+				for (float y = -10; y <= 10; y+= 0.25f) {
+					for (float z = -10; z <= 10; z+= 0.25f) {
+						float distance = x * x + y * y + z * z;
+						if((distance <= 100 && distance > 98) || (distance <= 5 && distance > 3)) {
+							MasterRenderer.drawMesh(sphereTextured, new Vector3d(x, 10 + y, -15 + z), new Vector3d(0, 0, 0), new Vector3d(2, 2, 2));
 						}
 					}
 				}
 			}
+			
+			for (int i = 1; i <= 5; i++) {
+				MasterRenderer.drawMesh(texturedTree, new Vector3d(10 + (i * (i / 10f)) * 10, 0, -15), new Vector3d(0,0,0), new Vector3d(1,1,1).mul(i));
+			}
+			
+			MasterRenderer.drawMesh(floorTextured, new Vector3d(0, 0, 0), new Vector3d(0, 0, 0), new Vector3d(100, 0.01, 100));
+			
 			MasterRenderer.render(light, camera);
 
 			glfwSwapBuffers(windowID); // swap the color buffers

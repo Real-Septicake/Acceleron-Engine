@@ -1,0 +1,7 @@
+Model Exporting Guide:
+1) Enable smooth in the object properties
+2) Use Edge Split in the Mesh menu to make hard edges
+3) When exporting the model, make sure that the following options are enabled:
+-Triangulate Faces
+-Include UVs
+-Write Normals

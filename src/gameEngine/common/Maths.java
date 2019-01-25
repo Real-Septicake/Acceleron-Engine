@@ -31,4 +31,12 @@ public class Maths {
         matrix.translate(negativeCameraPos);
         return matrix;
     }
+	
+	public static Quaterniond fromEulerAngle(Vector3d rot) {
+		Quaterniond value = new Quaterniond();
+		value.rotateX(Math.toRadians(rot.x));
+		value.rotateX(Math.toRadians(rot.y));
+		value.rotateX(Math.toRadians(rot.z));
+		return value;
+	}
 }
