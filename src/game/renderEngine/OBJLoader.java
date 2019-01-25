@@ -9,7 +9,7 @@ import game.models.Mesh;
 
 public class OBJLoader {
 	
-	public static Mesh loadObjModel(String fileName, Loader loader) {
+	public static Mesh loadObjModel(String fileName, LowLevelLoader loader) {
 		FileReader fr = null;
 		try {
 			fr = new FileReader(new File("res/"+fileName+".obj"));

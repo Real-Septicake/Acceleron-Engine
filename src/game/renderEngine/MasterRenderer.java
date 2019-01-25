@@ -12,9 +12,9 @@ import gameEngine.components.MeshRenderer;
 
 public class MasterRenderer {
 	private static StaticShader shader = new StaticShader();
-	private static Renderer renderer = new Renderer(shader);
+	private static RendererHandler renderer = new RendererHandler(shader);
 
-	private static Map<TexturedMesh, List<RenderData>> entities = new HashMap<TexturedMesh, List<RenderData>>();
+	private static Map<TexturedMesh, List<RenderObjectInfo>> entities = new HashMap<TexturedMesh, List<RenderObjectInfo>>();
 	private static List<MeshRenderer> meshes = new LinkedList<MeshRenderer>();
 	
 	public static void render(Light sun, Camera cam) {
@@ -32,13 +32,13 @@ public class MasterRenderer {
 	
 	private static void addEntity(MeshRenderer rend) {
 		TexturedMesh entityMesh = rend.mesh;
-		List<RenderData> batch = entities.get(entityMesh);
+		List<RenderObjectInfo> batch = entities.get(entityMesh);
 		if (batch != null) {
-			batch.add(new RenderData(rend.gameObject.transform));
+			batch.add(new RenderObjectInfo(rend.gameObject.transform));
 		}
 		else {
-			batch = new ArrayList<RenderData>();
-			batch.add(new RenderData(rend.gameObject.transform));
+			batch = new ArrayList<RenderObjectInfo>();
+			batch.add(new RenderObjectInfo(rend.gameObject.transform));
 		}
 		
 		entities.put(entityMesh, batch);
@@ -53,13 +53,13 @@ public class MasterRenderer {
 	}
 	
 	public static void drawMesh(TexturedMesh entityMesh, Vector3d position, Vector3d rotation, Vector3d scale) {
-		List<RenderData> batch = entities.get(entityMesh);
+		List<RenderObjectInfo> batch = entities.get(entityMesh);
 		if (batch != null) {
-			batch.add(new RenderData(position, rotation, scale));
+			batch.add(new RenderObjectInfo(position, rotation, scale));
 		}
 		else {
-			batch = new ArrayList<RenderData>();
-			batch.add(new RenderData(position, rotation, scale));
+			batch = new ArrayList<RenderObjectInfo>();
+			batch.add(new RenderObjectInfo(position, rotation, scale));
 		}
 		
 		entities.put(entityMesh, batch);

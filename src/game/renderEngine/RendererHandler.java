@@ -15,15 +15,13 @@ import game.models.*;
 import gameEngine.rendering.shaders.*;
 import gameEngine.common.Maths;
 import gameEngine.components.Camera;
-import gameEngine.components.Entity;
-import gameEngine.components.MeshRenderer;
 
-public class Renderer {
+public class RendererHandler {
 	
 	private Matrix4f projectionMatrix;
 	private StaticShader shader;
 	
-	public Renderer(StaticShader shader) {
+	public RendererHandler(StaticShader shader) {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -37,14 +35,14 @@ public class Renderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
-	public void render(Map<TexturedMesh, List<RenderData>> entities, Camera camera) {
+	public void render(Map<TexturedMesh, List<RenderObjectInfo>> entities, Camera camera) {
 		createProjectionMatrix(camera);
 		shader.loadProjectionMatrix(projectionMatrix);
 		for(TexturedMesh mesh:entities.keySet()) {
 			if(mesh != null) {
 				prepareTexturedMesh(mesh);
-				List<RenderData> batch = entities.get(mesh);
-				for(RenderData entity:batch) {
+				List<RenderObjectInfo> batch = entities.get(mesh);
+				for(RenderObjectInfo entity:batch) {
 					prepareInstance(entity);
 					GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 				}
@@ -73,36 +71,12 @@ public class Renderer {
 		GL30.glBindVertexArray(0);
 	}
 	
-	private void prepareInstance(RenderData entity) {
+	private void prepareInstance(RenderObjectInfo entity) {
 		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.pos, entity.rot, entity.scale));
-	}
-
-	public void render(MeshRenderer entity) {
-		Mesh mesh = entity.mesh.getMesh();
-		
-		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.gameObject.transform.position, entity.gameObject.transform.rotation, entity.gameObject.transform.scale));
-		
-		GL30.glBindVertexArray(mesh.getVaoID());
-		
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		GL20.glEnableVertexAttribArray(2);
-		
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.mesh.getTexture().getID());
-		
-		GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-		
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-		GL20.glDisableVertexAttribArray(2);
-		
-		GL30.glBindVertexArray(0);
 	}
 	
 	private void createProjectionMatrix(Camera cam) {
-		float aspectRatio = (float) DisplayManager.manager.getCurrentWidth() / DisplayManager.manager.getCurrentHeight();
+		float aspectRatio = (float) WindowManager.manager.getCurrentWidth() / WindowManager.manager.getCurrentHeight();
 
 		projectionMatrix = new Matrix4f().perspective((float) Math.toRadians(cam.fov), aspectRatio, cam.nearPlane, cam.farPlane);
 	}

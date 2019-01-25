@@ -1,21 +1,19 @@
 package gameEngine.components;
 
-import org.joml.Vector3f;
+import org.joml.Vector3d;
 
-public class Light {
-	private Vector3f position;
-	private Vector3f color;
-	
-	public Light(Vector3f pos, Vector3f col) {
-		position = pos;
-		color = col;
+public class Light extends ComponentBase {
+	public Vector3d color;
+
+	@Override
+	public void setup() {
+		// TODO Auto-generated method stub
+		
 	}
-	
-	public Vector3f getPosition() {
-		return position;
-	}
-	
-	public Vector3f getColor() {
-		return color;
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
 	}
 }

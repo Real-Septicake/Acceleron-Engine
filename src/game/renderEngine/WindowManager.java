@@ -11,11 +11,11 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public class DisplayManager {
+public class WindowManager {
 
 	// The window handle
 	private long window;
-	public static DisplayManager manager;
+	public static WindowManager manager;
 
 	private final String windowName = "Acceleron Engine";
 	private final int WIDTH = 1280;

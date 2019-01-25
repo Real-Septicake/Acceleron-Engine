@@ -10,7 +10,7 @@ import org.newdawn.slick.opengl.PNGDecoder;
 
 import game.models.Mesh;
 
-public class Loader {
+public class LowLevelLoader {
 
 	private List<Integer> vaos = new ArrayList<Integer>();
 	private List<Integer> vbos = new ArrayList<Integer>();

@@ -34,9 +34,9 @@ public class Maths {
 	
 	public static Quaterniond fromEulerAngle(Vector3d rot) {
 		Quaterniond value = new Quaterniond();
-		value.rotateX(Math.toRadians(rot.x));
-		value.rotateX(Math.toRadians(rot.y));
-		value.rotateX(Math.toRadians(rot.z));
+		value.rotateY(-Math.toRadians(rot.y));
+		value.rotateX(-Math.toRadians(rot.x));
+		value.rotateZ(-Math.toRadians(rot.z));
 		return value;
 	}
 }

@@ -4,7 +4,6 @@ import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 import org.joml.*;
-import org.joml.Math;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
@@ -21,8 +20,8 @@ public class EngineCore {
 	}
 
 	private void startGame() {
-		DisplayManager.manager = new DisplayManager();
-		DisplayManager.manager.init();
+		WindowManager.manager = new WindowManager();
+		WindowManager.manager.init();
 		gameLoop();
 
 		closeGame();
@@ -32,10 +31,12 @@ public class EngineCore {
 
 		GL.createCapabilities();
 
-		Loader loader = new Loader();
+		LowLevelLoader loader = new LowLevelLoader();
 		
 		Entity cameraGm = new Entity(new Vector3d(0, 2, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		Camera camera = (Camera) cameraGm.addComponent(Camera.class);
+		Light light = (Light) cameraGm.addComponent(Light.class);
+		light.color = new Vector3d(1, 1, 1);
 		// At tutorial 12
 
 		Mesh mesh = OBJLoader.loadObjModel("Tree", loader);
@@ -53,9 +54,7 @@ public class EngineCore {
 		ModelTexture floorTexture = new ModelTexture(loader.loadTexture("floor UV"));
 		TexturedMesh floorTextured = new TexturedMesh(floorMesh, floorTexture);
 
-		Light light = new Light(new Vector3f(-300, 300, 300), new Vector3f(0.5f, 0.5f, 0.5f));
-
-		long windowID = DisplayManager.manager.getWindowID();
+		long windowID = WindowManager.manager.getWindowID();
 		
 		while (!glfwWindowShouldClose(windowID)) {
 
@@ -80,20 +79,20 @@ public class EngineCore {
 			if (glfwGetKey(windowID, GLFW_KEY_E) == GLFW_PRESS)
 				rotation.y = 1;
 			// Look up
-			if (glfwGetKey(windowID, 90) == GLFW_PRESS)
+			if (glfwGetKey(windowID, GLFW_KEY_Z) == GLFW_PRESS)
 				rotation.x = 1;
 			// Look down
-			if (glfwGetKey(windowID, 88) == GLFW_PRESS)
+			if (glfwGetKey(windowID, GLFW_KEY_X) == GLFW_PRESS)
 				rotation.x = -1;
 			// Down
-			if (glfwGetKey(windowID, 340) == GLFW_PRESS)
+			if (glfwGetKey(windowID, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 				movement.y = -1;
 			// Up
-			if (glfwGetKey(windowID, 32) == GLFW_PRESS)
+			if (glfwGetKey(windowID, GLFW_KEY_SPACE) == GLFW_PRESS)
 				movement.y = 1;
 			
 			cameraGm.transform.rotation.add(rotation);
-			movement = Maths.fromEulerAngle(cameraGm.transform.rotation) * movement;
+			movement.rotate(Maths.fromEulerAngle(cameraGm.transform.rotation));
 			
 			cameraGm.transform.position.add(movement.mul(0.2));
 
@@ -120,7 +119,7 @@ public class EngineCore {
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();
-			GL11.glViewport(0, 0, DisplayManager.manager.getCurrentWidth(), DisplayManager.manager.getCurrentHeight());
+			GL11.glViewport(0, 0, WindowManager.manager.getCurrentWidth(), WindowManager.manager.getCurrentHeight());
 		}
 		
 		MasterRenderer.clean();
@@ -128,8 +127,8 @@ public class EngineCore {
 	}
 
 	private void closeGame() {
-		glfwFreeCallbacks(DisplayManager.manager.getWindowID());
-		glfwDestroyWindow(DisplayManager.manager.getWindowID());
+		glfwFreeCallbacks(WindowManager.manager.getWindowID());
+		glfwDestroyWindow(WindowManager.manager.getWindowID());
 
 		// Terminate GLFW and free the error callback
 		glfwTerminate();

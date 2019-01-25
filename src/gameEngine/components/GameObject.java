@@ -1,9 +1,11 @@
 package gameEngine.components;
 
 import java.util.HashMap;
+
 import org.joml.Vector3d;
 
 public class GameObject {
+	
 	public Transform transform;
 	@SuppressWarnings("rawtypes")
 	private ComponentArray components = new ComponentArray<>();
