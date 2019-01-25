@@ -14,14 +14,11 @@ import org.lwjgl.opengl.GL30;
 import game.models.*;
 import gameEngine.rendering.shaders.*;
 import gameEngine.common.Maths;
+import gameEngine.components.Camera;
 import gameEngine.components.Entity;
 import gameEngine.components.MeshRenderer;
 
 public class Renderer {
-	
-	private static final float FOV = 60.0f;
-	private static final float NEAR_PLANE = 0.01f;
-	private static final float FAR_PLANE = 1000f;
 	
 	private Matrix4f projectionMatrix;
 	private StaticShader shader;
@@ -31,29 +28,28 @@ public class Renderer {
 		GL11.glCullFace(GL11.GL_BACK);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		createProjectionMatrix();
-		shader.Start();
-		shader.loadProjectionMatrix(projectionMatrix);
-		shader.Stop();
 		this.shader = shader;
 	}
 	
-	public void Clear() {
+	public void clear() {
 		GL11.glClearColor(.25f, 0, 0.5f, 1);
 		GL11.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
-	public void render(Map<TexturedMesh, List<MeshRenderer>> entities) {
-		
+	public void render(Map<TexturedMesh, List<RenderData>> entities, Camera camera) {
+		createProjectionMatrix(camera);
+		shader.loadProjectionMatrix(projectionMatrix);
 		for(TexturedMesh mesh:entities.keySet()) {
-			prepareTexturedMesh(mesh);
-			List<MeshRenderer> batch = entities.get(mesh);
-			for(MeshRenderer entity:batch) {
-				prepareInstance(entity);
-				GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			if(mesh != null) {
+				prepareTexturedMesh(mesh);
+				List<RenderData> batch = entities.get(mesh);
+				for(RenderData entity:batch) {
+					prepareInstance(entity);
+					GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+				}
+				unbindTexturedModel();
 			}
-			unbindTexturedModel();
 		}
 	}
 	
@@ -77,11 +73,11 @@ public class Renderer {
 		GL30.glBindVertexArray(0);
 	}
 	
-	private void prepareInstance(MeshRenderer entity) {
-		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.gameObject.transform.position, entity.gameObject.transform.rotation, entity.gameObject.transform.scale));
+	private void prepareInstance(RenderData entity) {
+		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.pos, entity.rot, entity.scale));
 	}
 
-	public void Render(MeshRenderer entity) {
+	public void render(MeshRenderer entity) {
 		Mesh mesh = entity.mesh.getMesh();
 		
 		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.gameObject.transform.position, entity.gameObject.transform.rotation, entity.gameObject.transform.scale));
@@ -105,9 +101,9 @@ public class Renderer {
 		GL30.glBindVertexArray(0);
 	}
 	
-	private void createProjectionMatrix() {
+	private void createProjectionMatrix(Camera cam) {
 		float aspectRatio = (float) DisplayManager.manager.getCurrentWidth() / DisplayManager.manager.getCurrentHeight();
 
-		projectionMatrix = new Matrix4f().perspective((float) Math.toRadians(FOV), aspectRatio, NEAR_PLANE, FAR_PLANE);
+		projectionMatrix = new Matrix4f().perspective((float) Math.toRadians(cam.fov), aspectRatio, cam.nearPlane, cam.farPlane);
 	}
 }

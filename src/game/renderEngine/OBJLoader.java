@@ -38,7 +38,7 @@ public class OBJLoader {
 					Vector3d vertex = new Vector3d(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]), Float.parseFloat(currentLine[3]));
 					vertices.add(vertex);
 				} else if(line.startsWith("vt ")) {
-					Vector2d textureCoord = new Vector2d(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]));
+					Vector2d textureCoord = new Vector2d(Float.parseFloat(currentLine[1]), 1 - Float.parseFloat(currentLine[2]));
 					textures.add(textureCoord);
 				} else if(line.startsWith("vn ")) {
 					Vector3d normal = new Vector3d(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]), Float.parseFloat(currentLine[3]));

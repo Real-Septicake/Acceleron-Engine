@@ -22,10 +22,11 @@ public class Maths {
         Matrix4f matrix = new Matrix4f();
         matrix.identity();
         
-        matrix.rotateX((float)Math.toRadians(camera.getRotation().x));
-        matrix.rotateY((float)Math.toRadians(camera.getRotation().y));
-        matrix.rotateZ((float)Math.toRadians(camera.getRotation().z));
-        Vector3d cameraPos = camera.getPosition();
+        Vector3d rot = camera.gameObject.transform.rotation;
+        matrix.rotateX((float)Math.toRadians(rot.x));
+        matrix.rotateY((float)Math.toRadians(rot.y));
+        matrix.rotateZ((float)Math.toRadians(rot.z));
+        Vector3d cameraPos = camera.gameObject.transform.position;
         Vector3f negativeCameraPos = new Vector3f((float)(-cameraPos.x),(float)(-cameraPos.y),(float)(-cameraPos.z));
         matrix.translate(negativeCameraPos);
         return matrix;

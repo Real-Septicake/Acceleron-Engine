@@ -1,42 +1,32 @@
 package gameEngine.components;
 
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Map;
-
 import org.joml.Vector3d;
 
 public class GameObject {
 	public Transform transform;
-	private HashMap<ComponentBase, ComponentBase> components;
+	@SuppressWarnings("rawtypes")
+	private ComponentArray components = new ComponentArray<>();
 	
 	public GameObject(Vector3d pos, Vector3d rot, Vector3d sca) {
 		transform = new Transform(pos, rot, sca);
-		components = new HashMap<ComponentBase, ComponentBase>();
 	}
 	
-	public <T> ComponentBase getComponent(T type) {
-		/*
-		if(type instanceof ComponentBase == false) {
-			throw new Exception("When getting a component, it must extend ComponentBase!");
-		}*/
-		return components.get(type);
+	public <T extends ComponentBase> ComponentBase getComponent(Class<T> type) {
+		return (ComponentBase) components.components.get(type);
 	}
 	
-	public <T> ComponentBase addComponent(T type) {
-		/*
-		if(type instanceof ComponentBase == false) {
-			throw new Exception("When adding a component, it must extend ComponentBase!");
-		}*/
+	@SuppressWarnings("unchecked")
+	public <T extends ComponentBase> ComponentBase addComponent(Class<T> type) {
 		
-		if(components.get(type) == null) {
+		if(components.components.get(type) == null) {
 			
 			try {
-				ComponentBase comp = (ComponentBase)type.getClass().newInstance();
+				ComponentBase comp = (ComponentBase) type.newInstance();
 				comp.gameObject = this;
-				return components.put((ComponentBase) type.getClass().cast(ComponentBase.class), comp);
+				comp.setup();
+				components.components.put(type, comp);
+				return getComponent(type);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -47,5 +37,16 @@ public class GameObject {
 		}
 		System.out.println("Tried to add component to GameObject which already had one! CHECK!");
 		return null;
+	}
+	
+	private class ComponentArray <T extends ComponentBase>{
+		public HashMap<Class<T>, ComponentBase> components = new HashMap<Class<T>, ComponentBase>();;
+	}
+	
+	public void destroy() {
+		ComponentBase[] comp = (ComponentBase[]) components.components.values().toArray();
+		for (ComponentBase component : comp) {
+			component.destroy();
+		}
 	}
 }

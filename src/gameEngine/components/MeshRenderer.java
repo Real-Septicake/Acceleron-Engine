@@ -1,6 +1,7 @@
 package gameEngine.components;
 
 import game.models.TexturedMesh;
+import game.renderEngine.MasterRenderer;
 
 public class MeshRenderer extends ComponentBase {
 	
@@ -11,7 +12,12 @@ public class MeshRenderer extends ComponentBase {
 	}
 
 	@Override
-	public void Destroy() {
-		
+	public void destroy() {
+		MasterRenderer.removeRenderer(this);
+	}
+
+	@Override
+	public void setup() {
+		MasterRenderer.addRenderer(this);
 	}
 }

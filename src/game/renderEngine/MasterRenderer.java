@@ -2,68 +2,71 @@ package game.renderEngine;
 
 import java.util.*;
 
+import org.joml.Vector3d;
+
 import game.models.*;
 import gameEngine.rendering.shaders.*;
 import gameEngine.components.Camera;
-import gameEngine.components.Entity;
 import gameEngine.components.Light;
 import gameEngine.components.MeshRenderer;
 
 public class MasterRenderer {
-	private StaticShader shader = new StaticShader();
-	private Renderer renderer = new Renderer(shader);
+	private static StaticShader shader = new StaticShader();
+	private static Renderer renderer = new Renderer(shader);
 
-	private Map<TexturedMesh, List<MeshRenderer>> entities = new HashMap<TexturedMesh, List<MeshRenderer>>();
-
-	public void render(Light sun, Camera cam) {
-		renderer.Clear();
+	private static Map<TexturedMesh, List<RenderData>> entities = new HashMap<TexturedMesh, List<RenderData>>();
+	private static List<MeshRenderer> meshes = new LinkedList<MeshRenderer>();
+	
+	public static void render(Light sun, Camera cam) {
+		renderer.clear();
 		shader.Start();
 		shader.LoadLight(sun);
 		shader.LoadViewMatrix(cam);
-		renderer.render(entities);
+		for (MeshRenderer meshRenderer : meshes) {
+			addEntity(meshRenderer);
+		}
+		renderer.render(entities, cam);
 		shader.Stop();
 		entities.clear();
 	}
-
-	/*
-	public void processEntity(Entity entity) {
-		TexturedMesh entityMesh = entity.getMesh();
-		List<Entity> batch = entities.get(entityMesh);
-		if (batch != null) {
-			batch.add(entity);
-		}
-		else {
-			List<Entity> newBatch = new ArrayList<Entity>();
-			newBatch.add(entity);
-			entities.put(entityMesh, newBatch);
-		}
-	}*/
 	
-	public void addEntity(MeshRenderer rend) {
+	private static void addEntity(MeshRenderer rend) {
 		TexturedMesh entityMesh = rend.mesh;
-		List<MeshRenderer> batch = entities.get(entityMesh);
+		List<RenderData> batch = entities.get(entityMesh);
 		if (batch != null) {
-			batch.add(rend);
+			batch.add(new RenderData(rend.gameObject.transform));
 		}
 		else {
-			List<MeshRenderer> newBatch = new ArrayList<MeshRenderer>();
-			newBatch.add(rend);
-			entities.put(entityMesh, newBatch);
+			batch = new ArrayList<RenderData>();
+			batch.add(new RenderData(rend.gameObject.transform));
 		}
+		
+		entities.put(entityMesh, batch);
 	}
 	
-	public void removeEntity(MeshRenderer rend) {
-		TexturedMesh entityMesh = rend.mesh;
-		List<MeshRenderer> batch = entities.get(entityMesh);
+	public static void addRenderer(MeshRenderer rend) {
+		meshes.add(rend);
+	}
+	
+	public static void removeRenderer(MeshRenderer rend) {
+		meshes.remove(rend);
+	}
+	
+	public static void drawMesh(TexturedMesh entityMesh, Vector3d position, Vector3d rotation, Vector3d scale) {
+		List<RenderData> batch = entities.get(entityMesh);
 		if (batch != null) {
-			batch.remove(rend);
+			batch.add(new RenderData(position, rotation, scale));
 		}
 		else {
-			System.out.print("ERROR: Tried to remove mesh rnederer that doesn't exist in master renderer!");
+			batch = new ArrayList<RenderData>();
+			batch.add(new RenderData(position, rotation, scale));
 		}
+		
+		entities.put(entityMesh, batch);
 	}
 
-	public void clean() {
+	public static void clean() {
+		entities.clear();
 		shader.Clean();
 	}
 
