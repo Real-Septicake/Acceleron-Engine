@@ -17,10 +17,12 @@ public class MasterRenderer {
 	private static Map<TexturedMesh, List<RenderObjectInfo>> entities = new HashMap<TexturedMesh, List<RenderObjectInfo>>();
 	private static List<MeshRenderer> meshes = new LinkedList<MeshRenderer>();
 	
-	public static void render(Light sun, Camera cam) {
+	private static List<Light> lights = new LinkedList<Light>();
+	
+	public static void render(Camera cam) {
 		renderer.clear();
 		shader.Start();
-		shader.LoadLight(sun);
+		shader.LoadLight(lights);
 		shader.LoadViewMatrix(cam);
 		for (MeshRenderer meshRenderer : meshes) {
 			addEntity(meshRenderer);
@@ -50,6 +52,14 @@ public class MasterRenderer {
 	
 	public static void removeRenderer(MeshRenderer rend) {
 		meshes.remove(rend);
+	}
+	
+	public static void addLight(Light light) {
+		lights.add(light);
+	}
+	
+	public static void removeLight(Light light) {
+		lights.remove(light);
 	}
 	
 	public static void drawMesh(TexturedMesh entityMesh, Vector3d position, Vector3d rotation, Vector3d scale) {

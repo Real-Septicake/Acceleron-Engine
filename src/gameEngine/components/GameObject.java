@@ -5,13 +5,25 @@ import java.util.HashMap;
 import org.joml.Vector3d;
 
 public class GameObject {
+	private static int nextID = 0;
 	
 	public Transform transform;
+	public String name = "New GameObject";
+	private int id;
+	
+	public int getId() { return id; }
+	
+	public Boolean equal(GameObject other) {
+		return (id == other.getId());
+	}
+	
 	@SuppressWarnings("rawtypes")
 	private ComponentArray components = new ComponentArray<>();
 	
 	public GameObject(Vector3d pos, Vector3d rot, Vector3d sca) {
 		transform = new Transform(pos, rot, sca);
+		id = nextID;
+		nextID++;
 	}
 	
 	public <T extends ComponentBase> ComponentBase getComponent(Class<T> type) {

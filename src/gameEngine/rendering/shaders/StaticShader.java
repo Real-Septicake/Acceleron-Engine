@@ -1,6 +1,9 @@
 package gameEngine.rendering.shaders;
 
+import java.util.List;
+
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
 
 import gameEngine.common.Maths;
 import gameEngine.components.Camera;
@@ -8,14 +11,15 @@ import gameEngine.components.Light;
 
 public class StaticShader extends ShaderProgram {
 
+	private static final int MAX_LIGHTS = 8;
 	private static final String VERTEX_FILE = "src/gameEngine/rendering/shaders/vertexShader.txt";
 	private static final String FRAGMENT_FILE = "src/gameEngine/rendering/shaders/fragmentShader.txt";
 
 	private int location_transformationMatrix;
 	private int location_projectionMatrix;
 	private int location_viewMatrix;
-	private int location_lightPosition;
-	private int location_lightColor;
+	private int location_lightPosition[];
+	private int location_lightColor[];
 	
 	public StaticShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -33,8 +37,15 @@ public class StaticShader extends ShaderProgram {
 		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
 		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
 		location_viewMatrix = super.getUniformLocation("viewMatrix");
-		location_lightPosition = super.getUniformLocation("lightPosition");
-		location_lightColor = super.getUniformLocation("lightColor");
+		
+		location_lightPosition = new int[MAX_LIGHTS];
+		location_lightColor = new int[MAX_LIGHTS];
+		
+		for (int i = 0; i < MAX_LIGHTS; i++) {
+			location_lightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
+			location_lightColor[i] = super.getUniformLocation("lightColor[" + i + "]");
+			
+		}
 	}
 
 	public void loadTransformationMatrix(Matrix4f matrix) {
@@ -49,8 +60,16 @@ public class StaticShader extends ShaderProgram {
 		super.loadMatrix4f(location_viewMatrix, Maths.createViewMatrix(camera));
 	}
 	
-	public void LoadLight(Light light) {
-		super.loadVector(location_lightPosition, light.gameObject.transform.position);
-		super.loadVector(location_lightColor, light.color);
+	public void LoadLight(List<Light> light) {
+		for (int i = 0; i < MAX_LIGHTS; i++) {
+			if(i < light.size()) {
+				super.loadVector(location_lightPosition[i], light.get(i).gameObject.transform.position);
+				super.loadVector(location_lightColor[i], light.get(i).color);
+			}
+			else {
+				super.loadVector(location_lightPosition[i], new Vector3d(0,0,0));
+				super.loadVector(location_lightColor[i], new Vector3d(0,0,0));
+			}
+		}
 	}
 }

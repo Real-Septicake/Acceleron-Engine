@@ -2,20 +2,27 @@
 
 in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
-in vec3 toLightVector;
+in vec3 toLightVector[8];
 
 out vec4 out_Color;
 
 uniform sampler2D textureSampler;
-uniform vec3 lightColor;
+uniform vec3 lightColor[8];
 
 void main()
 {
-	vec3 unitNormal = normalize(surfaceNormal);
-	vec3 unitLightVector = normalize(toLightVector);
+	vec3 totalDiffuse = vec3(0.0);
 	
-	float nDot1 = dot(unitNormal, unitLightVector);
-	float brightness = max(nDot1, 0.2);
-	vec3 diffuse = brightness * lightColor;
-	out_Color = vec4(diffuse, 1.0) * texture(textureSampler, pass_textureCoords);
+	for(int i=0; i<8; i++) {
+		vec3 unitNormal = normalize(surfaceNormal);
+		vec3 unitLightVector = normalize(toLightVector[i]);
+		
+		float nDot1 = dot(unitNormal, unitLightVector);
+		float brightness = max(nDot1, 0.0);
+		totalDiffuse = totalDiffuse + brightness * lightColor[i];
+	}
+	
+	totalDiffuse = max(totalDiffuse, 0.2);
+	
+	out_Color = vec4(totalDiffuse, 1.0) * texture(textureSampler, pass_textureCoords);
 }
