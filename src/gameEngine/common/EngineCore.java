@@ -33,18 +33,18 @@ public class EngineCore {
 
 		LowLevelLoader loader = new LowLevelLoader();
 		
-		Entity cameraGm = new Entity(new Vector3d(0, 2, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
+		GameObject cameraGm = new GameObject(new Vector3d(0, 2, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
+		cameraGm.name = "Camera / Player Object";
 		Camera camera = (Camera) cameraGm.addComponent(Camera.class);
-		Light light = (Light) cameraGm.addComponent(Light.class);
-		light.color = new Vector3d(1, 1, 1);
 		// At tutorial 12
+		
+		GameObject lightGm = new GameObject(new Vector3d(-100, 100, 100), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
+		Light light = (Light) lightGm.addComponent(Light.class);
+		light.color = new Vector3d(1, 1, 1);
 
 		Mesh mesh = OBJLoader.loadObjModel("Tree", loader);
 		ModelTexture treeTexture = new ModelTexture(loader.loadTexture("Tree"));
 		TexturedMesh texturedTree = new TexturedMesh(mesh, treeTexture);
-		//Entity tree = new Entity(new Vector3d(0, 0, -3), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
-		//MeshRenderer renderer = (MeshRenderer)tree.addComponent(MeshRenderer.class);
-		//renderer.mesh = texturedMesh;
 		
 		Mesh sphereMesh = OBJLoader.loadObjModel("Sphere", loader);
 		ModelTexture sphereTexture = new ModelTexture(loader.loadTexture("sphere_UV"));
@@ -108,10 +108,10 @@ public class EngineCore {
 			}
 			
 			for (int i = 1; i <= 5; i++) {
-				MasterRenderer.drawMesh(texturedTree, new Vector3d(10 + (i * (i / 10f)) * 10, 0, -15), new Vector3d(0,0,0), new Vector3d(1,1,1).mul(i));
+				MasterRenderer.drawMesh(texturedTree, new Vector3d(10 + (i * (i / 10f)) * 10, 0, -15), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1).mul(i));
 			}
 			
-			MasterRenderer.drawMesh(floorTextured, new Vector3d(0, 0, 0), new Vector3d(0, 0, 0), new Vector3d(100, 0.01, 100));
+			MasterRenderer.drawMesh(floorTextured, new Vector3d(0, 0, 0), new Vector3d(0, 0, 0), new Vector3d(100, 1, 100));
 			
 			MasterRenderer.render(light, camera);
 
