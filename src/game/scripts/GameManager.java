@@ -10,6 +10,7 @@ import gameEngine.common.*;
 import gameEngine.components.*;
 import gameEngine.components.essentials.GameObject;
 import gameEngine.components.scripts.StaticScript;
+import gameEngine.debug.Debug;
 import gameEngine.rendering.data.meshData.*;
 
 public class GameManager extends StaticScript {
@@ -21,27 +22,35 @@ public class GameManager extends StaticScript {
 	public static CompleteMesh texturedTree;
 	public static CompleteMesh carTextured;
 	
+	private int currentScene = 0;
+	
 	@Override
 	public void update() {
-		if(InputManager.keyDown(GLFW_KEY_1)) {
+		if(currentScene != 1 && InputManager.keyDown(GLFW_KEY_1)) {
 			GameObject.clearScene();
 			currentState.stop();
 			currentState = new RandomScene();
+			currentScene = 1;
 		}
-		else if (InputManager.keyDown(GLFW_KEY_2)) {
+		else if (currentScene != 2 && InputManager.keyDown(GLFW_KEY_2)) {
 			GameObject.clearScene();
 			currentState.stop();
 			currentState = new RacingScene();
+			currentScene = 2;
 		}
-		else if (InputManager.keyDown(GLFW_KEY_3)) {
+		else if (currentScene != 0 && InputManager.keyDown(GLFW_KEY_3)) {
 			GameObject.clearScene();
 			currentState.stop();
 			currentState = new MainMenuScene();
+			currentScene = 0;
 		}
 	}
 
 	@Override
 	public void start() {
+		
+		Debug.log("Loading assets...");
+		
 		LowLevelLoader loader = MainGame.gameEngine.getLoader();
 		
 		//Sphere loading
@@ -71,6 +80,8 @@ public class GameManager extends StaticScript {
 						new ModelTexture(loader.loadTexture("Car UV")
 								), true)
 				);
+		
+		Debug.log("Finished loading assets! Initializing scene...");
 		
 		currentState = new MainMenuScene();
 	}

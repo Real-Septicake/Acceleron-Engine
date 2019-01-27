@@ -11,6 +11,7 @@ import gameEngine.components.rendering.Camera;
 import gameEngine.components.rendering.Light;
 import gameEngine.components.rendering.MeshRenderer;
 import gameEngine.components.scripts.StaticScript;
+import gameEngine.debug.Debug;
 import gameEngine.rendering.MasterRenderer;
 
 public class RandomScene extends StaticScript {
@@ -41,6 +42,9 @@ public class RandomScene extends StaticScript {
 
 	@Override
 	public void start() {
+		
+		Debug.log("Random area started!");
+		
 		GameObject cameraGm = new GameObject(new Vector3d(0, 2, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";
 		cameraGm.addComponent(Camera.class);

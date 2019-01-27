@@ -32,7 +32,7 @@ public class GameObject {
 	
 	public static GameObject find(String name) {
 		for (GameObject gameObject : gameObjects) {
-			if(gameObject.name == name)
+			if(gameObject.name.equals(name))
 				return gameObject;
 		}
 		

@@ -12,6 +12,7 @@ import gameEngine.common.LowLevelLoader;
 import gameEngine.components.rendering.Camera;
 import gameEngine.components.rendering.Light;
 import gameEngine.components.rendering.MeshRenderer;
+import gameEngine.debug.Debug;
 
 public class MasterRenderer {
 	
@@ -34,6 +35,9 @@ public class MasterRenderer {
 	//The camera that is used to render
 	private static Camera cam;
 	
+	//Counter for frames that we haven't been able to render for
+	private static int framesWithoutCamera = 0;
+	
 	public MasterRenderer(LowLevelLoader loader) {
 		
 		guiRenderer = new GuiRendererHandler(loader);
@@ -44,19 +48,30 @@ public class MasterRenderer {
 	//Method called to start the rendering process
 	public static void render() {
 		if(cam != null) {
+			
+			framesWithoutCamera = 0;
+			
 			renderer.clear();
 			shader.Start();
 			shader.loadLight(lights);
 			shader.loadViewMatrix(cam);
+			
 			for (MeshRenderer meshRenderer : meshes) {
 				addEntity(meshRenderer);
 			}
+			
 			renderer.render(entities, cam);
 			shader.Stop();
 			entities.clear();
 		}
 		else {
-			System.out.println("No camera!");
+			
+			if(framesWithoutCamera > 5) {
+				Debug.log("Camera not set! Make sure there is a camera in the world.");
+			}
+			else {
+				framesWithoutCamera++;
+			}
 		}
 		
 		guiRenderer.renderUI();

@@ -10,6 +10,7 @@ import gameEngine.components.essentials.GameObject;
 import gameEngine.components.rendering.Camera;
 import gameEngine.components.rendering.Light;
 import gameEngine.components.scripts.StaticScript;
+import gameEngine.debug.Debug;
 import gameEngine.rendering.MasterRenderer;
 import gameEngine.rendering.WindowManager;
 import gameEngine.rendering.gui.GuiRendererHandler;
@@ -47,6 +48,8 @@ public class MainMenuScene extends StaticScript {
 
 	@Override
 	public void start() {
+		
+		Debug.log("Main menu started!");
 		
 		if(menuTexture == null) {
 			menuTexture = new GuiTexture(MainGame.gameEngine.getLoader().loadTexture("PoorMansFPS"));
