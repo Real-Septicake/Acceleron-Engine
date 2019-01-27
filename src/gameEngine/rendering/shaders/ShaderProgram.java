@@ -1,17 +1,11 @@
 package gameEngine.rendering.shaders;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.FloatBuffer;
 
-import org.joml.Matrix4f;
-import org.joml.Vector3d;
-import org.joml.Vector3f;
+import org.joml.*;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.*;
 
 public abstract class ShaderProgram {
 	private int programID;
@@ -71,6 +65,10 @@ public abstract class ShaderProgram {
 	
 	protected void loadVector(int location, Vector3d vector) {
 		GL20.glUniform3f(location, (float)vector.x, (float)vector.y, (float)vector.z);
+	}
+	
+	protected void loadVector(int location, Vector2d vector) {
+		GL20.glUniform2f(location, (float)vector.x, (float)vector.y);
 	}
 	
 	protected void loadBoolean(int location, boolean value) {

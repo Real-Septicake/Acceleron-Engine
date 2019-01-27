@@ -3,6 +3,7 @@ package gameEngine.rendering.shaders;
 import java.util.List;
 
 import org.joml.Matrix4f;
+import org.joml.Vector2d;
 import org.joml.Vector3d;
 
 import gameEngine.common.Maths;
@@ -18,6 +19,9 @@ public class StaticShader extends ShaderProgram {
 	private int location_transformationMatrix;
 	private int location_projectionMatrix;
 	private int location_viewMatrix;
+	private int location_numOfRows;
+	private int location_atlasOffset;
+	
 	private int location_lightPosition[];
 	private int location_lightColor[];
 	
@@ -37,6 +41,8 @@ public class StaticShader extends ShaderProgram {
 		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
 		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
 		location_viewMatrix = super.getUniformLocation("viewMatrix");
+		location_numOfRows = super.getUniformLocation("numOfRows");
+		location_atlasOffset = super.getUniformLocation("atlasOffset");
 		
 		location_lightPosition = new int[MAX_LIGHTS];
 		location_lightColor = new int[MAX_LIGHTS];
@@ -56,11 +62,19 @@ public class StaticShader extends ShaderProgram {
 		super.loadMatrix4f(location_projectionMatrix, projection);
 	}
 	
-	public void LoadViewMatrix(Camera camera) {
+	public void loadViewMatrix(Camera camera) {
 		super.loadMatrix4f(location_viewMatrix, Maths.createViewMatrix(camera));
 	}
 	
-	public void LoadLight(List<Light> light) {
+	public void loadAtlasRows(int rows) {
+		super.loadFloat(location_numOfRows, rows);
+	}
+	
+	public void loadAtlasOffset(Vector2d offset) {
+		super.loadVector(location_atlasOffset, offset);
+	}
+	
+	public void loadLight(List<Light> light) {
 		for (int i = 0; i < MAX_LIGHTS; i++) {
 			if(i < light.size()) {
 				super.loadVector(location_lightPosition[i], light.get(i).gameObject.transform.position);

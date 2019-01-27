@@ -5,17 +5,16 @@ import static org.lwjgl.glfw.GLFW.*;
 import game.textures.ModelTexture;
 import gameEngine.common.*;
 import gameEngine.components.*;
-import gameEngine.rendering.meshData.MeshLowLevel;
-import gameEngine.rendering.meshData.TexturedMeshLowLevel;
+import gameEngine.rendering.meshData.*;
 
 public class GameManager extends StaticScript {
 
 	private StaticScript currentState;
 	
-	public static TexturedMeshLowLevel sphereTextured;
-	public static TexturedMeshLowLevel floorTextured;
-	public static TexturedMeshLowLevel texturedTree;
-	public static TexturedMeshLowLevel carTextured;
+	public static CompleteMesh sphereTextured;
+	public static CompleteMesh floorTextured;
+	public static CompleteMesh texturedTree;
+	public static CompleteMesh carTextured;
 	
 	@Override
 	public void update() {
@@ -41,21 +40,32 @@ public class GameManager extends StaticScript {
 		LowLevelLoader loader = MainGame.gameEngine.getLoader();
 		
 		//Sphere loading
-		MeshLowLevel sphereMesh = OBJLoader.loadObjModel("Sphere", loader);
-		ModelTexture sphereTexture = new ModelTexture(loader.loadTexture("sphere_UV"));
-		sphereTextured = new TexturedMeshLowLevel(sphereMesh, sphereTexture, false);
+		sphereTextured = new CompleteMesh(
+				new TexturedMeshLowLevel(
+						OBJLoader.loadObjModel("Sphere", loader), 
+						new ModelTexture(loader.loadTexture("sphere_UV")))
+				);
 		
 		//Tree Loading
-		MeshLowLevel mesh = OBJLoader.loadObjModel("Tree", loader);
-		ModelTexture treeTexture = new ModelTexture(loader.loadTexture("Tree"));
-		texturedTree = new TexturedMeshLowLevel(mesh, treeTexture, false);
+		texturedTree = new CompleteMesh(
+				new TexturedMeshLowLevel(
+						OBJLoader.loadObjModel("Tree", loader), 
+						new ModelTexture(loader.loadTexture("Tree")))
+				);
 		
 		//Floor loading
-		MeshLowLevel floorMesh = OBJLoader.loadObjModel("Floor", loader);
-		ModelTexture floorTexture = new ModelTexture(loader.loadTexture("floor UV"));
-		floorTextured = new TexturedMeshLowLevel(floorMesh, floorTexture, false);
+		floorTextured = new CompleteMesh(
+				new TexturedMeshLowLevel(
+						OBJLoader.loadObjModel("Floor", loader), 
+						new ModelTexture(loader.loadTexture("floor UV")))
+				);
 		
-		carTextured = new TexturedMeshLowLevel(OBJLoader.loadObjModel("Car", loader), new ModelTexture(loader.loadTexture("Car UV")), true);
+		carTextured = new CompleteMesh(
+				new TexturedMeshLowLevel(
+						OBJLoader.loadObjModel("Car", loader), 
+						new ModelTexture(loader.loadTexture("Car UV")
+								), true)
+				);
 		
 		currentState = new MainMenuScene();
 	}

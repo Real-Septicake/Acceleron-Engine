@@ -19,6 +19,7 @@ public class MainMenuScene extends StaticScript {
 		currentRotation += 0.25;
 		
 		Quaterniond rot = Maths.fromEulerAngle(new Vector3d(0,currentRotation,0));
+		
 		for (float x = -10; x <= 10; x+= 0.25f) {
 			for (float y = -10; y <= 10; y+= 0.25f) {
 				for (float z = -10; z <= 10; z+= 0.25f) {
@@ -34,7 +35,6 @@ public class MainMenuScene extends StaticScript {
 		int width = WindowManager.manager.getCurrentWidth(), height = WindowManager.manager.getCurrentHeight();
 		double aspectRatio = (double)width / height;
 		menuTexture.transform.size = new Vector2d(300f * aspectRatio / width, 150f * aspectRatio / height);
-		menuTexture.transform.rotation = new Vector3d(0, 0, currentRotation);
 		
 		GuiRendererHandler.addUIElement(menuTexture);
 	}

@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import java.util.*;
 
 import org.joml.Matrix4f;
+import org.joml.Vector2d;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -36,20 +37,32 @@ public class RendererHandler {
 	}
 	
 	public void render(Map<TexturedMeshLowLevel, List<RenderObjectInfo>> entities, Camera camera) {
+		
 		createProjectionMatrix(camera);
+		
 		shader.loadProjectionMatrix(projectionMatrix);
-		for(TexturedMeshLowLevel mesh:entities.keySet()) {
+		
+		for(TexturedMeshLowLevel mesh : entities.keySet()) {
+			
 			if(mesh != null) {
+				
 				if(mesh.isDoubleSided()) {
 					GL11.glDisable(GL11.GL_CULL_FACE);
 				}
+				
 				prepareTexturedMesh(mesh);
+				
 				List<RenderObjectInfo> batch = entities.get(mesh);
-				for(RenderObjectInfo entity:batch) {
-					prepareInstance(entity);
+				
+				for(RenderObjectInfo entity : batch) {
+					
+					prepareInstance(entity, mesh.getTextureAtlasRows());
+					
 					GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 				}
+				
 				unbindTexturedModel();
+				
 				if(mesh.isDoubleSided()) {
 					GL11.glEnable(GL11.GL_CULL_FACE);
 				}
@@ -64,6 +77,8 @@ public class RendererHandler {
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
 		
+		shader.loadAtlasRows(mesh.getTextureAtlasRows());
+		
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mesh.getTexture().getID());
@@ -77,8 +92,17 @@ public class RendererHandler {
 		GL30.glBindVertexArray(0);
 	}
 	
-	private void prepareInstance(RenderObjectInfo entity) {
+	private void prepareInstance(RenderObjectInfo entity, int textureAtlasRows) {
+		
 		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.pos, entity.rot, entity.scale));
+		
+		shader.loadAtlasOffset(getAtlasOffset(textureAtlasRows, entity.textureAtlasLocation));
+	}
+	
+	private Vector2d getAtlasOffset(int rows, int location) {
+		int row = location / rows, collumn = location % rows;
+		
+		return new Vector2d(row / (float)rows, collumn / (float)rows);
 	}
 	
 	private void createProjectionMatrix(Camera cam) {
