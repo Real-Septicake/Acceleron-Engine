@@ -5,6 +5,7 @@ import org.joml.*;
 import gameEngine.common.*;
 import gameEngine.components.*;
 import gameEngine.rendering.MasterRenderer;
+import gameEngine.rendering.WindowManager;
 import gameEngine.rendering.gui.GuiRendererHandler;
 import gameEngine.rendering.gui.GuiTexture;
 
@@ -30,6 +31,11 @@ public class MainMenuScene extends StaticScript {
 			}
 		}
 		
+		int width = WindowManager.manager.getCurrentWidth(), height = WindowManager.manager.getCurrentHeight();
+		double aspectRatio = (double)width / height;
+		menuTexture.transform.size = new Vector2d(300f * aspectRatio / width, 150f * aspectRatio / height);
+		menuTexture.transform.rotation = new Vector3d(0, 0, currentRotation);
+		
 		GuiRendererHandler.addUIElement(menuTexture);
 	}
 
@@ -40,6 +46,7 @@ public class MainMenuScene extends StaticScript {
 			menuTexture = new GuiTexture(MainGame.gameEngine.getLoader().loadTexture("PoorMansFPS"));
 		}
 		
+		menuTexture.transform.position = new Vector3d(-.75, 0, 0);
 		
 		GameObject cameraGm = new GameObject(new Vector3d(0, 10, 10), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";

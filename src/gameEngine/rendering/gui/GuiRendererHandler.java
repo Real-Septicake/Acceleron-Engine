@@ -16,17 +16,19 @@ public class GuiRendererHandler {
 	private static HashSet<GuiTexture> guiElements = new HashSet<GuiTexture>();
 	
 	public GuiRendererHandler(LowLevelLoader loader) {
-		double[] quadVertPositions = new double[] { -1, 1, -1, -1, 1, 1, 1, -1 };
+		double[] quadVertPositions = new double[] { -1, 1, 0, -1, -1, 0, 1, 1, 0, 1, -1, 0 };
 		
 		guiQuad = loader.loadToVAO(quadVertPositions);
 		shader = new GuiShader();
 	}
 	
 	public void renderUI() {
+		shader.Start();
+		
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL30.glBindVertexArray(guiQuad.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		
-		shader.Start();
 		for (GuiTexture guiTexture : guiElements) {
 			
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -36,6 +38,8 @@ public class GuiRendererHandler {
 			
 			GL20.glDrawArrays(GL20.GL_TRIANGLE_STRIP, 0, guiQuad.getVertexCount());
 		}
+		
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		guiElements.clear();
 		

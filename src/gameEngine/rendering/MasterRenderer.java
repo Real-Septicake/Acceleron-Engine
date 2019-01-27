@@ -41,7 +41,7 @@ public class MasterRenderer {
 			entities.clear();
 		}
 		else {
-			//System.out.println("No camera!");
+			System.out.println("No camera!");
 		}
 		
 		guiRenderer.renderUI();

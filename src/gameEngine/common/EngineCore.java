@@ -46,6 +46,8 @@ public class EngineCore {
 			UpdateHandler.RunUpdate();
 				
 			MasterRenderer.render();
+			
+			GameObject.clearOld();
 	        
 	        glfwSwapBuffers(windowID); // swap the color buffers
 	        
@@ -64,7 +66,6 @@ public class EngineCore {
 	            frames = 0;
 	            timer += 1000;
 	        }
-	        GameObject.clearOld();
 		}
 		
 		MasterRenderer.clean();
