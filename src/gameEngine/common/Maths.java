@@ -3,7 +3,7 @@ package gameEngine.common;
 import org.joml.*;
 import org.joml.Math;
 
-import gameEngine.components.Camera;
+import gameEngine.components.rendering.Camera;
 
 public class Maths {
 	public static Matrix4f createTransformationMatrix(Vector3d translation, Vector3d rotation, Vector3d scale) {

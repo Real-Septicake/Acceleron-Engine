@@ -1,4 +1,4 @@
-package gameEngine.components;
+package gameEngine.components.essentials;
 
 import org.joml.*;
 

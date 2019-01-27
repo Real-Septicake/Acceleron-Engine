@@ -1,6 +1,6 @@
-package game.scripts;
+package game.scenes;
 
-import gameEngine.components.StaticScript;
+import gameEngine.components.scripts.StaticScript;
 
 public class RacingScene extends StaticScript {
 

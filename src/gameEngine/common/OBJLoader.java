@@ -5,7 +5,7 @@ import java.util.*;
 
 import org.joml.*;
 
-import gameEngine.rendering.meshData.MeshLowLevel;
+import gameEngine.rendering.data.meshData.MeshLowLevel;
 
 public class OBJLoader {
 	

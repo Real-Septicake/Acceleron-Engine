@@ -2,10 +2,15 @@ package game.scripts;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import game.scenes.MainMenuScene;
+import game.scenes.RacingScene;
+import game.scenes.RandomScene;
 import game.textures.ModelTexture;
 import gameEngine.common.*;
 import gameEngine.components.*;
-import gameEngine.rendering.meshData.*;
+import gameEngine.components.essentials.GameObject;
+import gameEngine.components.scripts.StaticScript;
+import gameEngine.rendering.data.meshData.*;
 
 public class GameManager extends StaticScript {
 

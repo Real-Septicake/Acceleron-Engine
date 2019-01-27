@@ -5,8 +5,8 @@ import java.util.HashSet;
 import org.lwjgl.opengl.*;
 
 import gameEngine.common.*;
+import gameEngine.rendering.data.meshData.MeshLowLevel;
 import gameEngine.rendering.gui.shaders.GuiShader;
-import gameEngine.rendering.meshData.MeshLowLevel;
 
 public class GuiRendererHandler {
 	

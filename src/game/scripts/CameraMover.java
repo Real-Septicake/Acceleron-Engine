@@ -6,7 +6,7 @@ import org.joml.Vector3d;
 
 import gameEngine.common.InputManager;
 import gameEngine.common.Maths;
-import gameEngine.components.Script;
+import gameEngine.components.scripts.Script;
 
 public class CameraMover extends Script {
 

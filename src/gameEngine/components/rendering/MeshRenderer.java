@@ -1,7 +1,8 @@
-package gameEngine.components;
+package gameEngine.components.rendering;
 
+import gameEngine.components.ComponentBase;
 import gameEngine.rendering.MasterRenderer;
-import gameEngine.rendering.meshData.CompleteMesh;
+import gameEngine.rendering.data.meshData.CompleteMesh;
 
 public class MeshRenderer extends ComponentBase {
 	

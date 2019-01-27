@@ -12,10 +12,11 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import gameEngine.rendering.meshData.*;
+import gameEngine.rendering.data.RenderObjectInfo;
+import gameEngine.rendering.data.meshData.*;
 import gameEngine.rendering.shaders.*;
 import gameEngine.common.Maths;
-import gameEngine.components.Camera;
+import gameEngine.components.rendering.Camera;
 
 public class RendererHandler {
 	

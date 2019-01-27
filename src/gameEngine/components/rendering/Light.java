@@ -1,7 +1,8 @@
-package gameEngine.components;
+package gameEngine.components.rendering;
 
 import org.joml.Vector3d;
 
+import gameEngine.components.ComponentBase;
 import gameEngine.rendering.MasterRenderer;
 
 public class Light extends ComponentBase {

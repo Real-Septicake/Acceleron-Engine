@@ -4,13 +4,14 @@ import java.util.*;
 
 import org.joml.Vector3d;
 
+import gameEngine.rendering.data.RenderObjectInfo;
+import gameEngine.rendering.data.meshData.*;
 import gameEngine.rendering.gui.GuiRendererHandler;
-import gameEngine.rendering.meshData.*;
 import gameEngine.rendering.shaders.*;
 import gameEngine.common.LowLevelLoader;
-import gameEngine.components.Camera;
-import gameEngine.components.Light;
-import gameEngine.components.MeshRenderer;
+import gameEngine.components.rendering.Camera;
+import gameEngine.components.rendering.Light;
+import gameEngine.components.rendering.MeshRenderer;
 
 public class MasterRenderer {
 	

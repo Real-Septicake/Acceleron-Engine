@@ -7,8 +7,8 @@ import org.joml.Vector2d;
 import org.joml.Vector3d;
 
 import gameEngine.common.Maths;
-import gameEngine.components.Camera;
-import gameEngine.components.Light;
+import gameEngine.components.rendering.Camera;
+import gameEngine.components.rendering.Light;
 
 public class StaticShader extends ShaderProgram {
 

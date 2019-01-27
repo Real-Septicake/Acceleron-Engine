@@ -1,8 +1,8 @@
-package gameEngine.rendering;
+package gameEngine.rendering.data;
 
 import org.joml.Vector3d;
 
-import gameEngine.components.Transform;
+import gameEngine.components.essentials.Transform;
 
 public class RenderObjectInfo {
 	

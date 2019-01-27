@@ -1,4 +1,4 @@
-package gameEngine.rendering.meshData;
+package gameEngine.rendering.data.meshData;
 
 public class MeshLowLevel {
 	private int vaoID;

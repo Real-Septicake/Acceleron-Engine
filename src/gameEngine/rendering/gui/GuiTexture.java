@@ -3,7 +3,7 @@ package gameEngine.rendering.gui;
 import org.joml.Vector2d;
 import org.joml.Vector3d;
 
-import gameEngine.components.RectTransform;
+import gameEngine.components.essentials.RectTransform;
 
 public class GuiTexture {
 	

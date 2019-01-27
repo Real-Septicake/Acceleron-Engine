@@ -1,8 +1,10 @@
-package gameEngine.components;
+package gameEngine.components.essentials;
 
 import java.util.*;
 
 import org.joml.Vector3d;
+
+import gameEngine.components.ComponentBase;
 
 public class GameObject {
 	

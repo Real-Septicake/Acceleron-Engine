@@ -1,4 +1,4 @@
-package gameEngine.components;
+package gameEngine.components.scripts;
 
 import gameEngine.common.UpdateHandler;
 

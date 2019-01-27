@@ -1,5 +1,6 @@
-package gameEngine.components;
+package gameEngine.components.rendering;
 
+import gameEngine.components.ComponentBase;
 import gameEngine.rendering.MasterRenderer;
 
 public class Camera extends ComponentBase {

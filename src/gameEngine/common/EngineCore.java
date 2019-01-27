@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import game.scripts.MainGame;
-import gameEngine.components.GameObject;
+import gameEngine.components.essentials.GameObject;
 import gameEngine.rendering.*;
 
 public class EngineCore {
