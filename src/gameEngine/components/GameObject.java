@@ -1,5 +1,7 @@
 package gameEngine.components;
 
+import java.awt.List;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -8,6 +10,7 @@ import org.joml.Vector3d;
 public class GameObject {
 	
 	private static HashSet<GameObject> gameObjects = new HashSet<GameObject>();
+	private static HashSet<GameObject> gmsToRemove = new HashSet<GameObject>();
 	private static int nextID = 0;
 	
 	public Transform transform;
@@ -39,9 +42,11 @@ public class GameObject {
 	}
 	
 	public static void clearScene() {
-		for (GameObject gameObject : gameObjects) {
+		Collection<GameObject> gms = gameObjects;
+		for (GameObject gameObject : gms) {
 			gameObject.destroy();
 		}
+		clearOld();
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -86,10 +91,19 @@ public class GameObject {
 	}
 	
 	public void destroy() {
-		ComponentBase[] comp = (ComponentBase[]) components.components.values().toArray();
+		@SuppressWarnings("unchecked")
+		Collection<ComponentBase> comp = components.components.values();
 		for (ComponentBase component : comp) {
 			component.destroy();
 		}
-		gameObjects.remove(this);
+		gmsToRemove.add(this);
+	}
+	
+	public static void clearOld() {
+		for (GameObject gameObject : gmsToRemove) {
+			gameObjects.remove(gameObject);
+			
+		}
+		gmsToRemove.clear();
 	}
 }

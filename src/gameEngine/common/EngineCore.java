@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import game.scripts.MainGame;
+import gameEngine.components.GameObject;
 import gameEngine.rendering.*;
 
 public class EngineCore {
@@ -61,6 +62,7 @@ public class EngineCore {
 	            frames = 0;
 	            timer += 1000;
 	        }
+	        GameObject.clearOld();
 		}
 		
 		MasterRenderer.clean();

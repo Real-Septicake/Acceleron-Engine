@@ -40,6 +40,9 @@ public class RendererHandler {
 		shader.loadProjectionMatrix(projectionMatrix);
 		for(TexturedMeshLowLevel mesh:entities.keySet()) {
 			if(mesh != null) {
+				if(mesh.isDoubleSided()) {
+					GL11.glDisable(GL11.GL_CULL_FACE);
+				}
 				prepareTexturedMesh(mesh);
 				List<RenderObjectInfo> batch = entities.get(mesh);
 				for(RenderObjectInfo entity:batch) {
@@ -47,6 +50,9 @@ public class RendererHandler {
 					GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 				}
 				unbindTexturedModel();
+				if(mesh.isDoubleSided()) {
+					GL11.glEnable(GL11.GL_CULL_FACE);
+				}
 			}
 		}
 	}
