@@ -4,8 +4,10 @@ import java.util.*;
 
 import org.joml.Vector3d;
 
+import gameEngine.rendering.gui.GuiRendererHandler;
 import gameEngine.rendering.meshData.*;
 import gameEngine.rendering.shaders.*;
+import gameEngine.common.LowLevelLoader;
 import gameEngine.components.Camera;
 import gameEngine.components.Light;
 import gameEngine.components.MeshRenderer;
@@ -13,12 +15,17 @@ import gameEngine.components.MeshRenderer;
 public class MasterRenderer {
 	private static StaticShader shader = new StaticShader();
 	private static RendererHandler renderer = new RendererHandler(shader);
+	private static GuiRendererHandler guiRenderer;
 
 	private static Map<TexturedMeshLowLevel, List<RenderObjectInfo>> entities = new HashMap<TexturedMeshLowLevel, List<RenderObjectInfo>>();
 	private static List<MeshRenderer> meshes = new LinkedList<MeshRenderer>();
 	
 	private static List<Light> lights = new LinkedList<Light>();
 	private static Camera cam;
+	
+	public MasterRenderer(LowLevelLoader loader) {
+		guiRenderer = new GuiRendererHandler(loader);
+	}
 	
 	public static void render() {
 		if(cam != null) {
@@ -36,6 +43,8 @@ public class MasterRenderer {
 		else {
 			//System.out.println("No camera!");
 		}
+		
+		guiRenderer.renderUI();
 	}
 	
 	private static void addEntity(MeshRenderer rend) {
@@ -91,7 +100,8 @@ public class MasterRenderer {
 
 	public static void clean() {
 		entities.clear();
-		shader.Clean();
+		shader.clean();
+		guiRenderer.cleanUp();
 	}
 
 }

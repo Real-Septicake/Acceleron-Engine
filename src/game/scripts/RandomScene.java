@@ -2,11 +2,9 @@ package game.scripts;
 
 import org.joml.*;
 
-import game.textures.ModelTexture;
 import gameEngine.common.*;
 import gameEngine.components.*;
 import gameEngine.rendering.MasterRenderer;
-import gameEngine.rendering.meshData.*;
 
 public class RandomScene extends StaticScript {
 	
@@ -36,7 +34,6 @@ public class RandomScene extends StaticScript {
 
 	@Override
 	public void start() {
-		LowLevelLoader loader = MainGame.gameEngine.getLoader();
 		GameObject cameraGm = new GameObject(new Vector3d(0, 2, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";
 		cameraGm.addComponent(Camera.class);

@@ -5,10 +5,13 @@ import org.joml.*;
 import gameEngine.common.*;
 import gameEngine.components.*;
 import gameEngine.rendering.MasterRenderer;
+import gameEngine.rendering.gui.GuiRendererHandler;
+import gameEngine.rendering.gui.GuiTexture;
 
 public class MainMenuScene extends StaticScript {
 
 	private double currentRotation;
+	private static GuiTexture menuTexture;
 	
 	@Override
 	public void update() {
@@ -26,10 +29,18 @@ public class MainMenuScene extends StaticScript {
 				}
 			}
 		}
+		
+		GuiRendererHandler.addUIElement(menuTexture);
 	}
 
 	@Override
 	public void start() {
+		
+		if(menuTexture == null) {
+			menuTexture = new GuiTexture(MainGame.gameEngine.getLoader().loadTexture("PoorMansFPS"));
+		}
+		
+		
 		GameObject cameraGm = new GameObject(new Vector3d(0, 10, 10), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";
 		cameraGm.addComponent(Camera.class);

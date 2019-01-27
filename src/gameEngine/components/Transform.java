@@ -4,6 +4,10 @@ import org.joml.Vector3d;
 
 public class Transform {
 	
+	public Vector3d position;
+	public Vector3d rotation;
+	public Vector3d scale;
+	
 	public Transform() {
 		position = new Vector3d(0,0,0);
 		rotation = new Vector3d(0,0,0);
@@ -15,10 +19,6 @@ public class Transform {
 		this.rotation = rot;
 		this.scale = scal;
 	}
-	
-	public Vector3d position;
-	public Vector3d rotation;
-	public Vector3d scale;
 	
 
 	public void move(Vector3d pos) {

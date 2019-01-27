@@ -1,9 +1,6 @@
 package gameEngine.components;
 
-import java.awt.List;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 import org.joml.Vector3d;
 
@@ -28,7 +25,6 @@ public class GameObject {
 			if(gameObject.id == id)
 				return gameObject;
 		}
-		
 		return null;
 	}
 	

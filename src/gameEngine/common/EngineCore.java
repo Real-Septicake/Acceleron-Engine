@@ -29,11 +29,13 @@ public class EngineCore {
 	}
 	
 	private void gameLoop(Game game) {
-        
+		
 		GL.createCapabilities();
 
 		loader = new LowLevelLoader();
-
+		
+		new MasterRenderer(loader);
+		
 		long windowID = WindowManager.manager.getWindowID();
 		
 		InputManager.setup(windowID);
