@@ -1,11 +1,11 @@
 package gameEngine.components;
 
-import game.models.TexturedMesh;
-import game.renderEngine.MasterRenderer;
+import gameEngine.rendering.MasterRenderer;
+import gameEngine.rendering.meshData.TexturedMeshLowLevel;
 
 public class MeshRenderer extends ComponentBase {
 	
-	public TexturedMesh mesh;
+	public TexturedMeshLowLevel mesh;
 	
 	public MeshRenderer() {
 		

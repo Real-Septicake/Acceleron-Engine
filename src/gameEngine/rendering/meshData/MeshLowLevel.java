@@ -1,10 +1,10 @@
-package game.models;
+package gameEngine.rendering.meshData;
 
-public class Mesh {
+public class MeshLowLevel {
 	private int vaoID;
 	private int vertexCount;
 	
-	public Mesh(int vaoID, int vertexCount) {
+	public MeshLowLevel(int vaoID, int vertexCount) {
 		this.vaoID = vaoID;
 		this.vertexCount = vertexCount;
 	}

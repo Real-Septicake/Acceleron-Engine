@@ -1,4 +1,4 @@
-package game.renderEngine;
+package gameEngine.common;
 
 import java.io.*;
 import java.nio.*;
@@ -8,7 +8,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.PNGDecoder;
 
-import game.models.Mesh;
+import gameEngine.rendering.meshData.MeshLowLevel;
 
 public class LowLevelLoader {
 
@@ -17,24 +17,24 @@ public class LowLevelLoader {
 
 	private List<Integer> textures = new ArrayList<Integer>();
 
-	public Mesh loadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals) {
+	public MeshLowLevel loadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals) {
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		storeDataInAttributeList(0, 3, positions);
 		storeDataInAttributeList(1, 2, textureCoords);
 		storeDataInAttributeList(2, 3, normals);
 		unbindVAO();
-		return new Mesh(vaoID, indices.length);
+		return new MeshLowLevel(vaoID, indices.length);
 	}
 	
-	public Mesh reloadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals, int meshID) {
+	public MeshLowLevel reloadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals, int meshID) {
 		loadVAO(meshID);
 		bindIndicesBuffer(indices);
 		storeDataInAttributeList(0, 3, positions);
 		storeDataInAttributeList(1, 2, textureCoords);
 		storeDataInAttributeList(2, 3, normals);
 		unbindVAO();
-		return new Mesh(meshID, indices.length);
+		return new MeshLowLevel(meshID, indices.length);
 	}
 
 	public int loadTexture(String filepath) {

@@ -1,10 +1,13 @@
 package gameEngine.components;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.joml.Vector3d;
 
 public class GameObject {
+	
+	private static HashSet<GameObject> gameObjects = new HashSet<GameObject>();
 	private static int nextID = 0;
 	
 	public Transform transform;
@@ -17,6 +20,30 @@ public class GameObject {
 		return (id == other.getId());
 	}
 	
+	public static GameObject find(int id) {
+		for (GameObject gameObject : gameObjects) {
+			if(gameObject.id == id)
+				return gameObject;
+		}
+		
+		return null;
+	}
+	
+	public static GameObject find(String name) {
+		for (GameObject gameObject : gameObjects) {
+			if(gameObject.name == name)
+				return gameObject;
+		}
+		
+		return null;
+	}
+	
+	public static void clearScene() {
+		for (GameObject gameObject : gameObjects) {
+			gameObject.destroy();
+		}
+	}
+	
 	@SuppressWarnings("rawtypes")
 	private ComponentArray components = new ComponentArray<>();
 	
@@ -24,6 +51,7 @@ public class GameObject {
 		transform = new Transform(pos, rot, sca);
 		id = nextID;
 		nextID++;
+		gameObjects.add(this);
 	}
 	
 	public <T extends ComponentBase> ComponentBase getComponent(Class<T> type) {
@@ -62,5 +90,6 @@ public class GameObject {
 		for (ComponentBase component : comp) {
 			component.destroy();
 		}
+		gameObjects.remove(this);
 	}
 }

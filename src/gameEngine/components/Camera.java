@@ -1,5 +1,7 @@
 package gameEngine.components;
 
+import gameEngine.rendering.MasterRenderer;
+
 public class Camera extends ComponentBase {
 	
 	public float fov = 60.0f;
@@ -8,11 +10,11 @@ public class Camera extends ComponentBase {
 	
 	@Override
 	public void setup() {
-		
+		MasterRenderer.setCamera(this);
 	}
 
 	@Override
 	public void destroy() {
-		
+		MasterRenderer.removeCamera();
 	}
 }

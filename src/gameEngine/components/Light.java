@@ -2,7 +2,7 @@ package gameEngine.components;
 
 import org.joml.Vector3d;
 
-import game.renderEngine.MasterRenderer;
+import gameEngine.rendering.MasterRenderer;
 
 public class Light extends ComponentBase {
 	public Vector3d color;

@@ -1,4 +1,4 @@
-package game.renderEngine;
+package gameEngine.rendering;
 
 import org.joml.Vector3d;
 

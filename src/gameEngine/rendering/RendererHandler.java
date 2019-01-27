@@ -1,4 +1,4 @@
-package game.renderEngine;
+package gameEngine.rendering;
 
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import game.models.*;
+import gameEngine.rendering.meshData.*;
 import gameEngine.rendering.shaders.*;
 import gameEngine.common.Maths;
 import gameEngine.components.Camera;
@@ -35,10 +35,10 @@ public class RendererHandler {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
-	public void render(Map<TexturedMesh, List<RenderObjectInfo>> entities, Camera camera) {
+	public void render(Map<TexturedMeshLowLevel, List<RenderObjectInfo>> entities, Camera camera) {
 		createProjectionMatrix(camera);
 		shader.loadProjectionMatrix(projectionMatrix);
-		for(TexturedMesh mesh:entities.keySet()) {
+		for(TexturedMeshLowLevel mesh:entities.keySet()) {
 			if(mesh != null) {
 				prepareTexturedMesh(mesh);
 				List<RenderObjectInfo> batch = entities.get(mesh);
@@ -51,7 +51,7 @@ public class RendererHandler {
 		}
 	}
 	
-	private void prepareTexturedMesh(TexturedMesh mesh) {
+	private void prepareTexturedMesh(TexturedMeshLowLevel mesh) {
 		GL30.glBindVertexArray(mesh.getMesh().getVaoID());
 		
 		GL20.glEnableVertexAttribArray(0);

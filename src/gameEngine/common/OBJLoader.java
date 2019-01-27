@@ -1,15 +1,15 @@
-package game.renderEngine;
+package gameEngine.common;
 
 import java.io.*;
 import java.util.*;
 
 import org.joml.*;
 
-import game.models.Mesh;
+import gameEngine.rendering.meshData.MeshLowLevel;
 
 public class OBJLoader {
 	
-	public static Mesh loadObjModel(String fileName, LowLevelLoader loader) {
+	public static MeshLowLevel loadObjModel(String fileName, LowLevelLoader loader) {
 		FileReader fr = null;
 		try {
 			fr = new FileReader(new File("res/"+fileName+".obj"));

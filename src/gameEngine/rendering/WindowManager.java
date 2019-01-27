@@ -1,4 +1,4 @@
-package game.renderEngine;
+package gameEngine.rendering;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
@@ -17,7 +17,7 @@ public class WindowManager {
 	private long window;
 	public static WindowManager manager;
 
-	private final String windowName = "Acceleron Engine";
+	public final String windowName = "Acceleron Engine";
 	private final int WIDTH = 1280;
 	private final int HEIGHT = 720;
 	
