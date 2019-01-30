@@ -2,19 +2,14 @@ package game.scenes;
 
 import org.joml.*;
 
-import game.scripts.GameManager;
-import game.scripts.MainGame;
+import game.scripts.*;
 import gameEngine.common.*;
-import gameEngine.components.*;
-import gameEngine.components.essentials.GameObject;
-import gameEngine.components.rendering.Camera;
-import gameEngine.components.rendering.Light;
-import gameEngine.components.scripts.StaticScript;
-import gameEngine.debug.Debug;
-import gameEngine.rendering.MasterRenderer;
-import gameEngine.rendering.WindowManager;
-import gameEngine.rendering.gui.GuiRendererHandler;
-import gameEngine.rendering.gui.GuiTexture;
+import gameEngine.components.essentials.*;
+import gameEngine.components.rendering.*;
+import gameEngine.components.scripts.*;
+import gameEngine.debug.*;
+import gameEngine.rendering.*;
+import gameEngine.rendering.gui.*;
 
 public class MainMenuScene extends StaticScript {
 
@@ -39,9 +34,10 @@ public class MainMenuScene extends StaticScript {
 			}
 		}
 		
-		int width = WindowManager.manager.getCurrentWidth(), height = WindowManager.manager.getCurrentHeight();
-		double aspectRatio = (double)width / height;
-		menuTexture.transform.size = new Vector2d(300f * aspectRatio / width, 150f * aspectRatio / height);
+		double width = WindowManager.manager.getCurrentWidth();
+		
+		menuTexture.transform.size = new Vector2d(300 * (width / 1920), 150 * (width / 1920));
+		menuTexture.transform.position = new Vector3d(-720 * (width / 1920), 0, 0);
 		
 		GuiRendererHandler.addUIElement(menuTexture);
 	}
@@ -54,8 +50,6 @@ public class MainMenuScene extends StaticScript {
 		if(menuTexture == null) {
 			menuTexture = new GuiTexture(MainGame.gameEngine.getLoader().loadTexture("PoorMansFPS"));
 		}
-		
-		menuTexture.transform.position = new Vector3d(-.75, 0, 0);
 		
 		GameObject cameraGm = new GameObject(new Vector3d(0, 10, 10), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";

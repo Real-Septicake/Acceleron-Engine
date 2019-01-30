@@ -2,15 +2,11 @@ package game.scenes;
 
 import org.joml.*;
 
-import game.scripts.CameraMover;
-import game.scripts.GameManager;
+import game.scripts.*;
 import gameEngine.common.*;
-import gameEngine.components.*;
 import gameEngine.components.essentials.GameObject;
-import gameEngine.components.rendering.Camera;
-import gameEngine.components.rendering.Light;
-import gameEngine.components.rendering.MeshRenderer;
-import gameEngine.components.scripts.StaticScript;
+import gameEngine.components.rendering.*;
+import gameEngine.components.scripts.*;
 import gameEngine.debug.Debug;
 import gameEngine.rendering.MasterRenderer;
 

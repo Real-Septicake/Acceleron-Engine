@@ -18,15 +18,15 @@ public class Maths {
 		return matrix;
 	}
 	
-	public static Matrix4f createTransformationMatrix(Vector3d translation, Vector3d rotation, Vector2d size) {
+	public static Matrix4f createTransformationMatrixGui(Vector3d translation, Vector3d rotation, Vector2d size, Double width, Double height) {
 		Matrix4f matrix = new Matrix4f();
 		matrix.identity();
 		
-		matrix.translate((float)translation.x, (float)translation.y, (float)translation.z);
+		matrix.translate((float)(translation.x / width), (float)(translation.y / height), (float)translation.z);
 		matrix.rotateX((float)Math.toRadians(rotation.x));
 		matrix.rotateY((float)Math.toRadians(rotation.y));
 		matrix.rotateZ((float)Math.toRadians(rotation.z));
-		matrix.scale((float)size.x, (float)size.y, 1);
+		matrix.scale((float)(size.x / width), (float)(size.y / height), 1);
 		return matrix;
 	}
 	

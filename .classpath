@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/lwjgl-assimp-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-assimp.jar"/>
@@ -76,5 +80,30 @@
 	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
 	<classpathentry kind="lib" path="lib/joml-1.9.12.jar"/>
 	<classpathentry kind="lib" path="lib/slick-util.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-zstd-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-yoga-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-xxhash-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-vma-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-tootle-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-tinyfd-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-tinyexr-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-stb-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-sse-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-rpmalloc-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-opengl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-nuklear-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-nfd-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-nanovg-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-meow-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-lz4-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-lmdb-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-llvm-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-libdivide-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-jemalloc-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-glfw-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-bgfx-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-assimp-natives-linux.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

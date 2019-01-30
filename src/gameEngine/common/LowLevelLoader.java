@@ -34,6 +34,12 @@ public class LowLevelLoader {
 		return new MeshLowLevel(vaoID, positions.length/3);
 	}
 	
+	public MeshLowLevel reloadToVAO(double[] positions, int meshID) {
+		storeDataInAttributeList(0, 3, positions);
+		unbindVAO();
+		return new MeshLowLevel(meshID, positions.length/3);
+	}
+	
 	public MeshLowLevel reloadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals, int meshID) {
 		loadVAO(meshID);
 		bindIndicesBuffer(indices);

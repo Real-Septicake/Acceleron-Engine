@@ -2,9 +2,7 @@ package gameEngine.common;
 
 import java.util.HashSet;
 
-import gameEngine.components.*;
-import gameEngine.components.scripts.Script;
-import gameEngine.components.scripts.StaticScript;
+import gameEngine.components.scripts.*;
 
 public class UpdateHandler {
 	private static HashSet<Script> scripts = new HashSet<Script>();
