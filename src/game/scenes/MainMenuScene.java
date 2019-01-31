@@ -15,6 +15,7 @@ public class MainMenuScene extends StaticScript {
 
 	private double currentRotation;
 	private static GuiTexture menuTexture;
+	private static TextBox textBox;
 	
 	@Override
 	public void update() {
@@ -36,8 +37,10 @@ public class MainMenuScene extends StaticScript {
 		
 		double width = WindowManager.manager.getCurrentWidth();
 		
-		menuTexture.transform.size = new Vector2d(300 * (width / 1920), 150 * (width / 1920));
-		menuTexture.transform.position = new Vector3d(-720 * (width / 1920), 0, 0);
+		menuTexture.transform.size = new Vector2d(300, 150);
+		menuTexture.transform.position = new Vector3d(-720, 0, 0);
+		textBox.transform.size = new Vector2d(400, 200);
+		textBox.transform.position = new Vector3d(0);
 		
 		GuiRendererHandler.addUIElement(menuTexture);
 	}
@@ -49,6 +52,8 @@ public class MainMenuScene extends StaticScript {
 		
 		if(menuTexture == null) {
 			menuTexture = new GuiTexture(MainGame.gameEngine.getLoader().loadTexture("PoorMansFPS"));
+			textBox = new TextBox();
+			textBox.setText("Hello world!");
 		}
 		
 		GameObject cameraGm = new GameObject(new Vector3d(0, 10, 10), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));

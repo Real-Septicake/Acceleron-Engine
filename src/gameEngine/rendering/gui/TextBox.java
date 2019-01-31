@@ -3,6 +3,7 @@ package gameEngine.rendering.gui;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.joml.Vector2d;
 import org.joml.Vector3d;
 
 import gameEngine.common.LowLevelLoader;
@@ -18,6 +19,10 @@ public class TextBox {
 	
 	private MeshLowLevel lowLevel;
 	
+	public boolean autoScale = true;
+	public Vector2d baseScaleResolution = new Vector2d(1920, 1080);
+	public double heightWidthRatio = 0.5;
+	
 	public void setText(String text) {
 		this.textBoxText = text;
 		dirty = true;
@@ -29,7 +34,7 @@ public class TextBox {
 	
 	public int getMesh(FontHandler handler, LowLevelLoader loader) {
 		if(!dirty) {
-			return meshId;
+			return lowLevel.getVaoID();
 		}
 		else {
 			Queue<Vector3d> characters = new LinkedList<Vector3d>();
@@ -59,5 +64,19 @@ public class TextBox {
 			}
 			return lowLevel.getVaoID();
 		}
+	}
+	
+	public int vertexCount() {
+		return lowLevel.getVertexCount();
+	}
+	
+	public Vector2d getScaledSize(double width, double height) {
+		double scale = (1-heightWidthRatio) * (width / baseScaleResolution.x) + (heightWidthRatio) * (height / baseScaleResolution.y);
+		return transform.size.mul(scale);
+	}
+	
+	public Vector3d getScaledPosition(double width, double height) {
+		double scale = (1-heightWidthRatio) * (width / baseScaleResolution.x) + (heightWidthRatio) * (height / baseScaleResolution.y);
+		return transform.position.mul(scale);
 	}
 }

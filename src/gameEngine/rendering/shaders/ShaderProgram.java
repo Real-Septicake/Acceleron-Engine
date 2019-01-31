@@ -7,6 +7,8 @@ import org.joml.*;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 
+import gameEngine.debug.Debug;
+
 public abstract class ShaderProgram {
 	private int programID;
 	private int vertexShaderID;
@@ -87,6 +89,7 @@ public abstract class ShaderProgram {
 	{
 		StringBuilder shaderSource = new StringBuilder();
 		try {
+			Debug.log(file);
 			InputStream inputStream = Class.class.getResourceAsStream(file);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			String line;
@@ -95,9 +98,8 @@ public abstract class ShaderProgram {
 			}
 			reader.close();
 		}
-		catch (IOException e) {
-			//System.err.println("Cannot read shader file!");
-			e.printStackTrace();
+		catch (Exception e) {
+			Debug.logError(e.toString());
 			System.exit(-1);
 		}
 		int shaderID = GL20.glCreateShader(type);
