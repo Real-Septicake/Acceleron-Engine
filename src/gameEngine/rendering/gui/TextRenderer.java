@@ -2,20 +2,18 @@ package gameEngine.rendering.gui;
 
 import java.util.HashSet;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.*;
 
 import gameEngine.common.LowLevelLoader;
 import gameEngine.common.Maths;
+import gameEngine.debug.Debug;
 import gameEngine.rendering.WindowManager;
 import gameEngine.rendering.gui.shaders.TextShader;
 
 public class TextRenderer {
 	
 	private static final TextShader shader = new TextShader();
-	private static final FontHandler handler = new FontHandler("basic_sans_serif_7.ttf");
+	private static final FontHandler handler = new FontHandler("res/basic_sans_serif_7.ttf");
 	private static LowLevelLoader loader;
 	
 	private static HashSet<TextBox> textElements = new HashSet<TextBox>();
@@ -33,10 +31,7 @@ public class TextRenderer {
 		double width = WindowManager.manager.getCurrentWidth(), height = WindowManager.manager.getCurrentHeight();
 		
 		for (TextBox textBox : textElements) {
-			
 			GL30.glBindVertexArray(textBox.getMesh(handler, loader));
-			//GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			//GL11.glBindTexture(GL11.GL_TEXTURE_2D, guiTexture.getTexture());
 			
 			shader.loadTransformation(Maths.createTransformationMatrixGui(textBox.getScaledPosition(width, height), textBox.transform.rotation, textBox.getScaledSize(width, height), width, height));
 			

@@ -23,6 +23,18 @@ public class TextBox {
 	public Vector2d baseScaleResolution = new Vector2d(1920, 1080);
 	public double heightWidthRatio = 0.5;
 	
+	public TextBox() {
+		this.transform = new RectTransform();
+	}
+	
+	public TextBox(RectTransform transform) {
+		this.transform = transform;
+	}
+	
+	public TextBox(Vector3d position, Vector2d size, Vector3d rotation) {
+		this.transform = new RectTransform(position, size, rotation);
+	}
+	
 	public void setText(String text) {
 		this.textBoxText = text;
 		dirty = true;
@@ -39,7 +51,7 @@ public class TextBox {
 		else {
 			Queue<Vector3d> characters = new LinkedList<Vector3d>();
 			for (char character : textBoxText.toCharArray()) {
-				Vector3d[] vectors = handler.getCharacterMesh(character);
+				Vector3d[] vectors = handler.getCharacterMesh("" + character);
 				for (Vector3d vector3d : vectors) {
 					characters.add(vector3d);
 				}

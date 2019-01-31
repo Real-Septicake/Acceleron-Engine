@@ -15,17 +15,17 @@ public class FontHandler {
 	public Font loadedFont;
 	
 	public FontHandler(String filePath) {
-		InputStream myStream;
+		InputStream inputStream;
 		
 		try {
-			myStream = new BufferedInputStream(new FileInputStream("font.ttf"));
-		} catch (FileNotFoundException e1) {
-			Debug.logError(e1.toString());
+			inputStream = new FileInputStream(filePath);
+		} catch (Exception e) {
+			Debug.logError(e);
 			return;
 		}
 		
 		try {
-			loadedFont = Font.createFont(Font.TRUETYPE_FONT, myStream);
+			loadedFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 		} catch (FontFormatException e) {
 			Debug.logError(e.toString());
 		} catch (IOException e) {
@@ -33,13 +33,13 @@ public class FontHandler {
 		}
 	}
 	
-	public Vector3d[] getCharacterMesh(char character) {
+	public Vector3d[] getCharacterMesh(String character) {
 		
-		GlyphVector vector = loadedFont.createGlyphVector(new FontRenderContext(null, null, null), "a");
+		GlyphVector vector = loadedFont.createGlyphVector(new FontRenderContext(null, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF, RenderingHints.VALUE_FRACTIONALMETRICS_OFF), character);
 		
 		PathIterator iterator = vector.getGlyphOutline(0).getPathIterator(null);
 		
-		Queue<Vector3d> pointsQueue = new LinkedList<Vector3d>();
+		LinkedList<Vector3d> pointsQueue = new LinkedList<Vector3d>();
 		
 		
 		while (!iterator.isDone()) {
@@ -52,6 +52,13 @@ public class FontHandler {
 			iterator.next();
 		}
 		
-		return (Vector3d[]) pointsQueue.toArray();
+		int id = 0;
+		Vector3d[] dataVector3ds = new Vector3d[pointsQueue.size()];
+		for (Vector3d vector3d : pointsQueue) {
+			dataVector3ds[id] = vector3d;
+			id++;
+		}
+		
+		return dataVector3ds;
 	}
 }

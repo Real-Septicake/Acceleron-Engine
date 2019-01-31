@@ -7,6 +7,7 @@ import org.joml.Vector3d;
 import gameEngine.rendering.data.RenderObjectInfo;
 import gameEngine.rendering.data.meshData.*;
 import gameEngine.rendering.gui.GuiRendererHandler;
+import gameEngine.rendering.gui.TextRenderer;
 import gameEngine.rendering.shaders.*;
 import gameEngine.common.LowLevelLoader;
 import gameEngine.components.rendering.Camera;
@@ -20,6 +21,7 @@ public class MasterRenderer {
 	private static StaticShader shader = new StaticShader();
 	private static RendererHandler renderer = new RendererHandler(shader);
 	private static GuiRendererHandler guiRenderer;
+	private static TextRenderer textRenderer;
 
 	
 	//Objects to render
@@ -41,7 +43,7 @@ public class MasterRenderer {
 	public MasterRenderer(LowLevelLoader loader) {
 		
 		guiRenderer = new GuiRendererHandler(loader);
-		
+		textRenderer = new TextRenderer(loader);
 	}
 	
 	
@@ -75,6 +77,7 @@ public class MasterRenderer {
 		}
 		
 		guiRenderer.renderUI();
+		textRenderer.renderText();
 	}
 	
 	//Method called to prepare the known mesh renderers for rendering

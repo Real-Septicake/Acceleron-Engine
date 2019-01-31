@@ -35,14 +35,13 @@ public class MainMenuScene extends StaticScript {
 			}
 		}
 		
-		double width = WindowManager.manager.getCurrentWidth();
-		
 		menuTexture.transform.size = new Vector2d(300, 150);
 		menuTexture.transform.position = new Vector3d(-720, 0, 0);
 		textBox.transform.size = new Vector2d(400, 200);
 		textBox.transform.position = new Vector3d(0);
 		
 		GuiRendererHandler.addUIElement(menuTexture);
+		TextRenderer.addTextBox(textBox);
 	}
 
 	@Override
