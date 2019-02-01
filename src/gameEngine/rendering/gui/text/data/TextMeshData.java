@@ -1,4 +1,4 @@
-package gameEngine.rendering.gui.text;
+package gameEngine.rendering.gui.text.data;
 
 /**
  * Stores the vertex data for all the quads on which a text will be rendered.

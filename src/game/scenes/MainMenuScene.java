@@ -1,5 +1,7 @@
 package game.scenes;
 
+import java.io.File;
+
 import org.joml.*;
 
 import game.scripts.*;
@@ -10,12 +12,15 @@ import gameEngine.components.scripts.*;
 import gameEngine.debug.*;
 import gameEngine.rendering.*;
 import gameEngine.rendering.gui.*;
+import gameEngine.rendering.gui.text.FontRenderer;
+import gameEngine.rendering.gui.text.data.FontType;
+import gameEngine.rendering.gui.text.data.GUIText;
 
 public class MainMenuScene extends StaticScript {
 
 	private double currentRotation;
 	private static GuiTexture menuTexture;
-	private static TextBox textBox;
+	private static GUIText textBox;
 	
 	@Override
 	public void update() {
@@ -41,7 +46,7 @@ public class MainMenuScene extends StaticScript {
 		textBox.transform.position = new Vector3d(0);
 		
 		GuiRendererHandler.addUIElement(menuTexture);
-		TextRenderer.addTextBox(textBox);
+		FontRenderer.addUIElement(textBox);
 	}
 
 	@Override
@@ -51,7 +56,10 @@ public class MainMenuScene extends StaticScript {
 		
 		if(menuTexture == null) {
 			menuTexture = new GuiTexture(MainGame.gameEngine.getLoader().loadTexture("PoorMansFPS"));
-			textBox = new TextBox();
+			textBox = new GUIText(2, new FontType(
+					MainGame.gameEngine.getLoader().loadTexture("fonts/sans.png"), 
+					new File("fonts/sans.fnt")),
+					1, true);
 			textBox.setText("Hello world!");
 		}
 		

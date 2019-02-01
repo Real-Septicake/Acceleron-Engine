@@ -1,4 +1,4 @@
-package gameEngine.rendering.gui.text;
+package gameEngine.rendering.gui.text.data;
 
 import java.util.ArrayList;
 import java.util.List;

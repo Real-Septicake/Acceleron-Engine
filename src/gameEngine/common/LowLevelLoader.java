@@ -27,6 +27,32 @@ public class LowLevelLoader {
 		return new MeshLowLevel(vaoID, indices.length);
 	}
 	
+	public MeshLowLevel reloadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals, int meshID) {
+		loadVAO(meshID);
+		bindIndicesBuffer(indices);
+		storeDataInAttributeList(0, 3, positions);
+		storeDataInAttributeList(1, 2, textureCoords);
+		storeDataInAttributeList(2, 3, normals);
+		unbindVAO();
+		return new MeshLowLevel(meshID, indices.length);
+	}
+	
+	public MeshLowLevel loadToVAO(double[] positions, double[] textureCoords) {
+		int vaoID = createVAO();
+		storeDataInAttributeList(0, 3, positions);
+		storeDataInAttributeList(1, 2, textureCoords);
+		unbindVAO();
+		return new MeshLowLevel(vaoID, positions.length/3);
+	}
+	
+	public MeshLowLevel reloadToVAO(double[] positions, double[] textureCoords, int meshID) {
+		loadVAO(meshID);
+		storeDataInAttributeList(0, 3, positions);
+		storeDataInAttributeList(1, 2, textureCoords);
+		unbindVAO();
+		return new MeshLowLevel(meshID, positions.length/3);
+	}
+	
 	public MeshLowLevel loadToVAO(double[] positions) {
 		int vaoID = createVAO();
 		storeDataInAttributeList(0, 3, positions);
@@ -38,16 +64,6 @@ public class LowLevelLoader {
 		storeDataInAttributeList(0, 3, positions);
 		unbindVAO();
 		return new MeshLowLevel(meshID, positions.length/3);
-	}
-	
-	public MeshLowLevel reloadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals, int meshID) {
-		loadVAO(meshID);
-		bindIndicesBuffer(indices);
-		storeDataInAttributeList(0, 3, positions);
-		storeDataInAttributeList(1, 2, textureCoords);
-		storeDataInAttributeList(2, 3, normals);
-		unbindVAO();
-		return new MeshLowLevel(meshID, indices.length);
 	}
 
 	public int loadTexture(String filepath) {

@@ -1,6 +1,8 @@
-package gameEngine.rendering.gui.text;
+package gameEngine.rendering.gui.text.data;
 
 import org.joml.*;
+
+import gameEngine.components.essentials.RectTransform;
 
 /**
  * Represents a piece of text in the game.
@@ -15,15 +17,16 @@ public class GUIText {
 
 	private int textMeshVao;
 	private int vertexCount;
-	private Vector3d colour = new Vector3d(0f, 0f, 0f);
+	public Vector3d colour = new Vector3d(1f, 1f, 1f);
 
-	private Vector2d position;
 	private float lineMaxSize;
 	private int numberOfLines;
 
 	private FontType font;
 
 	private boolean centerText = false;
+	
+	public RectTransform transform;
 
 	/**
 	 * Creates a new text, loads the text's quads into a VAO, and adds the text
@@ -50,22 +53,19 @@ public class GUIText {
 	 * @param centered
 	 *            - whether the text should be centered or not.
 	 */
-	public GUIText(String text, float fontSize, FontType font, Vector2d position, float maxLineLength,
+	public GUIText(float fontSize, FontType font, float maxLineLength,
 			boolean centered) {
-		this.textString = text;
+		this.textString = "";
 		this.fontSize = fontSize;
 		this.font = font;
-		this.position = position;
+		this.transform = new RectTransform(new Vector3d(0), new Vector2d(1), new Vector3d(0));
 		this.lineMaxSize = maxLineLength;
 		this.centerText = centered;
 		// load text
 	}
-
-	/**
-	 * Remove the text from the screen.
-	 */
-	public void remove() {
-		// remove text
+	
+	public void setText(String text) {
+		this.textString = text;
 	}
 
 	/**
@@ -76,42 +76,12 @@ public class GUIText {
 	}
 
 	/**
-	 * Set the colour of the text.
-	 * 
-	 * @param r
-	 *            - red value, between 0 and 1.
-	 * @param g
-	 *            - green value, between 0 and 1.
-	 * @param b
-	 *            - blue value, between 0 and 1.
-	 */
-	public void setColour(float r, float g, float b) {
-		colour.set(r, g, b);
-	}
-
-	/**
-	 * @return the colour of the text.
-	 */
-	public Vector3d getColour() {
-		return colour;
-	}
-
-	/**
 	 * @return The number of lines of text. This is determined when the text is
 	 *         loaded, based on the length of the text and the max line length
 	 *         that is set.
 	 */
 	public int getNumberOfLines() {
 		return numberOfLines;
-	}
-
-	/**
-	 * @return The position of the top-left corner of the text in screen-space.
-	 *         (0, 0) is the top left corner of the screen, (1, 1) is the bottom
-	 *         right.
-	 */
-	public Vector2d getPosition() {
-		return position;
 	}
 
 	/**

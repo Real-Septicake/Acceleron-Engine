@@ -1,4 +1,4 @@
-package gameEngine.rendering.gui.text;
+package gameEngine.rendering.gui.text.data;
 
 /**
  * Simple data structure class holding information about a certain glyph in the

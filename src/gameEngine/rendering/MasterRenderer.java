@@ -7,12 +7,10 @@ import org.joml.Vector3d;
 import gameEngine.rendering.data.RenderObjectInfo;
 import gameEngine.rendering.data.meshData.*;
 import gameEngine.rendering.gui.GuiRendererHandler;
-import gameEngine.rendering.gui.TextRenderer;
+import gameEngine.rendering.gui.text.FontRenderer;
 import gameEngine.rendering.shaders.*;
 import gameEngine.common.LowLevelLoader;
-import gameEngine.components.rendering.Camera;
-import gameEngine.components.rendering.Light;
-import gameEngine.components.rendering.MeshRenderer;
+import gameEngine.components.rendering.*;
 import gameEngine.debug.Debug;
 
 public class MasterRenderer {
@@ -21,7 +19,7 @@ public class MasterRenderer {
 	private static StaticShader shader = new StaticShader();
 	private static RendererHandler renderer = new RendererHandler(shader);
 	private static GuiRendererHandler guiRenderer;
-	private static TextRenderer textRenderer;
+	private static FontRenderer textRenderer;
 
 	
 	//Objects to render
@@ -43,7 +41,7 @@ public class MasterRenderer {
 	public MasterRenderer(LowLevelLoader loader) {
 		
 		guiRenderer = new GuiRendererHandler(loader);
-		textRenderer = new TextRenderer(loader);
+		textRenderer = new FontRenderer(loader);
 	}
 	
 	

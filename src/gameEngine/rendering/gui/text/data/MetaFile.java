@@ -1,4 +1,4 @@
-package gameEngine.rendering.gui.text;
+package gameEngine.rendering.gui.text.data;
 
 import java.io.BufferedReader;
 import java.io.File;
