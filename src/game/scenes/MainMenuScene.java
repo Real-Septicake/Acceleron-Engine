@@ -1,7 +1,5 @@
 package game.scenes;
 
-import java.io.File;
-
 import org.joml.*;
 
 import game.scripts.*;
@@ -12,15 +10,10 @@ import gameEngine.components.scripts.*;
 import gameEngine.debug.*;
 import gameEngine.rendering.*;
 import gameEngine.rendering.gui.*;
-import gameEngine.rendering.gui.text.FontRenderer;
-import gameEngine.rendering.gui.text.data.FontType;
-import gameEngine.rendering.gui.text.data.GUIText;
 
 public class MainMenuScene extends StaticScript {
 
 	private double currentRotation;
-	private static GuiTexture menuTexture;
-	private static GUIText textBox;
 	
 	@Override
 	public void update() {
@@ -40,28 +33,16 @@ public class MainMenuScene extends StaticScript {
 			}
 		}
 		
-		menuTexture.transform.size = new Vector2d(300, 150);
-		menuTexture.transform.position = new Vector3d(-720, 0, 0);
-		textBox.transform.size = new Vector2d(400, 200);
-		textBox.transform.position = new Vector3d(0);
+		GameManager.menuTexture.transform.size = new Vector2d(300, 150);
+		GameManager.menuTexture.transform.position = new Vector3d(-720, 0, 0);
 		
-		GuiRendererHandler.addUIElement(menuTexture);
-		FontRenderer.addUIElement(textBox);
+		GuiRendererHandler.addUIElement(GameManager.menuTexture);
 	}
 
 	@Override
 	public void start() {
 		
 		Debug.log("Main menu started!");
-		
-		if(menuTexture == null) {
-			menuTexture = new GuiTexture(MainGame.gameEngine.getLoader().loadTexture("PoorMansFPS"));
-			textBox = new GUIText(2, new FontType(
-					MainGame.gameEngine.getLoader().loadTexture("fonts/sans.png"), 
-					new File("fonts/sans.fnt")),
-					1, true);
-			textBox.setText("Hello world!");
-		}
 		
 		GameObject cameraGm = new GameObject(new Vector3d(0, 10, 10), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";

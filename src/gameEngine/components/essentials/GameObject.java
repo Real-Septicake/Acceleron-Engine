@@ -5,6 +5,7 @@ import java.util.*;
 import org.joml.Vector3d;
 
 import gameEngine.components.ComponentBase;
+import gameEngine.debug.Debug;
 
 public class GameObject {
 	
@@ -72,12 +73,8 @@ public class GameObject {
 				comp.setup();
 				components.components.put(type, comp);
 				return getComponent(type);
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				Debug.logError(e);
 			}
 		}
 		System.out.println("Tried to add component to GameObject which already had one! CHECK!");

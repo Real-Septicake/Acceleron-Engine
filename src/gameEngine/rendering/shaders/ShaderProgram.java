@@ -99,15 +99,14 @@ public abstract class ShaderProgram {
 			reader.close();
 		}
 		catch (Exception e) {
-			Debug.logError(e.toString());
+			Debug.logError(e.toString() + " when loading " + file);
 			System.exit(-1);
 		}
 		int shaderID = GL20.glCreateShader(type);
 		GL20.glShaderSource(shaderID, shaderSource);
 		GL20.glCompileShader(shaderID);
 		if(GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
-			System.out.println(GL20.glGetShaderInfoLog(shaderID, 500));
-			System.err.println("Cannot compile shader!");
+			Debug.logError("Couldn't compile shader at location " + file + ". Error: " + GL20.glGetShaderInfoLog(shaderID, 500));
 			System.exit(-1);
 		}
 		return shaderID;

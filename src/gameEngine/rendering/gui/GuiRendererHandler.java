@@ -2,9 +2,11 @@ package gameEngine.rendering.gui;
 
 import java.util.HashSet;
 
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.*;
 
 import gameEngine.common.*;
+import gameEngine.components.rendering.Camera;
 import gameEngine.rendering.WindowManager;
 import gameEngine.rendering.data.meshData.MeshLowLevel;
 import gameEngine.rendering.gui.shaders.GuiShader;
@@ -23,12 +25,14 @@ public class GuiRendererHandler {
 		shader = new GuiShader();
 	}
 	
-	public void renderUI() {
+	public void renderUI(Camera cam) {
 		shader.Start();
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL30.glBindVertexArray(guiQuad.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
+		
+		createProjectionMatrix(cam);
 		
 		double width = WindowManager.manager.getCurrentWidth(), height = WindowManager.manager.getCurrentHeight();
 		
@@ -37,7 +41,9 @@ public class GuiRendererHandler {
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, guiTexture.getTexture());
 			
-			shader.loadTransformation(Maths.createTransformationMatrixGui(guiTexture.getScaledPosition(width, height), guiTexture.transform.rotation, guiTexture.getScaledSize(width, height), width, height));
+			Matrix4f matrix4f = Maths.createTransformationMatrixGui(guiTexture.getScaledPosition(width, height), guiTexture.transform.rotation, guiTexture.getScaledSize(width, height), width, height);
+			
+			shader.loadTransformation(matrix4f);
 			
 			GL20.glDrawArrays(GL20.GL_TRIANGLE_STRIP, 0, guiQuad.getVertexCount());
 		}

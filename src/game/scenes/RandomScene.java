@@ -9,6 +9,7 @@ import gameEngine.components.rendering.*;
 import gameEngine.components.scripts.*;
 import gameEngine.debug.Debug;
 import gameEngine.rendering.MasterRenderer;
+import gameEngine.rendering.gui.GuiRendererHandler;
 
 public class RandomScene extends StaticScript {
 	
@@ -34,6 +35,11 @@ public class RandomScene extends StaticScript {
 		for (int i = 1; i <= 5; i++) {
 			MasterRenderer.drawMesh(GameManager.texturedTree, new Vector3d(10 + (i * (i / 10f)) * 10, 0, -15), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1).mul(i));
 		}
+		
+		GameManager.menuTexture.transform.size = new Vector2d(300, 150);
+		GameManager.menuTexture.transform.position = new Vector3d(-720, 0, 0);
+		
+		GuiRendererHandler.addUIElement(GameManager.menuTexture);
 	}
 
 	@Override

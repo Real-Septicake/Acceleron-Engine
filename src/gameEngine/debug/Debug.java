@@ -13,7 +13,7 @@ public class Debug {
 		sBuilder.append(elements[1].getMethodName());
 		sBuilder.append("() : ");
 		sBuilder.append(toLog);
-		System.out.println("Debug " + sBuilder);
+		System.out.println("| Debug | " + sBuilder);
 	}
 	
 	public static void logWarning(Object toLog) {

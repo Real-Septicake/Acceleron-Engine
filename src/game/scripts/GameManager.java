@@ -9,6 +9,7 @@ import gameEngine.components.essentials.*;
 import gameEngine.components.scripts.*;
 import gameEngine.debug.*;
 import gameEngine.rendering.data.meshData.*;
+import gameEngine.rendering.gui.GuiTexture;
 
 public class GameManager extends StaticScript {
 
@@ -18,6 +19,7 @@ public class GameManager extends StaticScript {
 	public static CompleteMesh floorTextured;
 	public static CompleteMesh texturedTree;
 	public static CompleteMesh carTextured;
+	public static GuiTexture menuTexture;
 	
 	private int currentScene = 0;
 	
@@ -49,6 +51,8 @@ public class GameManager extends StaticScript {
 		Debug.log("Loading assets...");
 		
 		LowLevelLoader loader = MainGame.gameEngine.getLoader();
+		
+		menuTexture = new GuiTexture(loader.loadTexture("PoorMansFPS"));
 		
 		//Sphere loading
 		sphereTextured = new CompleteMesh(

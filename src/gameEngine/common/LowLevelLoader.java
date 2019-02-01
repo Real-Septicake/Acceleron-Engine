@@ -7,7 +7,6 @@ import java.util.*;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.PNGDecoder;
-
 import gameEngine.rendering.data.meshData.MeshLowLevel;
 
 public class LowLevelLoader {
