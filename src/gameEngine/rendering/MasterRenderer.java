@@ -61,7 +61,7 @@ public class MasterRenderer {
 			shader.Stop();
 			entities.clear();
 			
-			guiRenderer.renderUI(cam);
+			guiRenderer.renderUI();
 		}
 		else {
 			

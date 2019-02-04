@@ -25,14 +25,12 @@ public class GuiRendererHandler {
 		shader = new GuiShader();
 	}
 	
-	public void renderUI(Camera cam) {
+	public void renderUI() {
 		shader.Start();
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL30.glBindVertexArray(guiQuad.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
-		
-		createProjectionMatrix(cam);
 		
 		double width = WindowManager.manager.getCurrentWidth(), height = WindowManager.manager.getCurrentHeight();
 		
