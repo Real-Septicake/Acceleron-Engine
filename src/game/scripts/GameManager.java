@@ -2,6 +2,9 @@ package game.scripts;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import org.joml.Vector2d;
+import org.joml.Vector3d;
+
 import game.scenes.*;
 import game.textures.*;
 import gameEngine.common.*;
@@ -9,6 +12,7 @@ import gameEngine.components.essentials.*;
 import gameEngine.components.scripts.*;
 import gameEngine.debug.*;
 import gameEngine.rendering.data.meshData.*;
+import gameEngine.rendering.gui.GuiRendererHandler;
 import gameEngine.rendering.gui.GuiTexture;
 
 public class GameManager extends StaticScript {
@@ -20,6 +24,7 @@ public class GameManager extends StaticScript {
 	public static CompleteMesh texturedTree;
 	public static CompleteMesh carTextured;
 	public static GuiTexture menuTexture;
+	public static TexturedMeshLowLevel gridTile;
 	
 	private int currentScene = 0;
 	
@@ -34,7 +39,7 @@ public class GameManager extends StaticScript {
 		else if (currentScene != 2 && InputManager.keyDown(GLFW_KEY_2)) {
 			GameObject.clearScene();
 			currentState.stop();
-			currentState = new RacingScene();
+			currentState = new Fighting2D();
 			currentScene = 2;
 		}
 		else if (currentScene != 0 && InputManager.keyDown(GLFW_KEY_3)) {
@@ -43,6 +48,11 @@ public class GameManager extends StaticScript {
 			currentState = new MainMenuScene();
 			currentScene = 0;
 		}
+		
+		GameManager.menuTexture.transform.size = new Vector2d(379, 74);
+		GameManager.menuTexture.transform.position = new Vector3d(200, 1000, 0);
+		
+		GuiRendererHandler.addUIElement(GameManager.menuTexture);
 	}
 
 	@Override
@@ -50,37 +60,42 @@ public class GameManager extends StaticScript {
 		
 		Debug.log("Loading assets...");
 		
-		LowLevelLoader loader = MainGame.gameEngine.getLoader();
-		
-		menuTexture = new GuiTexture(loader.loadTexture("PoorMansFPS"));
+		menuTexture = new GuiTexture(LowLevelLoader.loadTexture("UI/Acceleron"));
 		
 		//Sphere loading
 		sphereTextured = new CompleteMesh(
 				new TexturedMeshLowLevel(
-						OBJLoader.loadObjModel("Sphere", loader), 
-						new ModelTexture(loader.loadTexture("sphere_UV")))
+						OBJLoader.loadObjModel("Models/Sphere"), 
+						new ModelTexture(LowLevelLoader.loadTexture("Textures/Sphere Texture")))
 				);
 		
 		//Tree Loading
 		texturedTree = new CompleteMesh(
 				new TexturedMeshLowLevel(
-						OBJLoader.loadObjModel("Tree", loader), 
-						new ModelTexture(loader.loadTexture("Tree")))
+						OBJLoader.loadObjModel("Models/Tree"), 
+						new ModelTexture(LowLevelLoader.loadTexture("Textures/Tree Texture")))
 				);
 		
 		//Floor loading
 		floorTextured = new CompleteMesh(
 				new TexturedMeshLowLevel(
-						OBJLoader.loadObjModel("Floor", loader), 
-						new ModelTexture(loader.loadTexture("floor UV")))
+						OBJLoader.loadObjModel("Models/Floor"), 
+						new ModelTexture(LowLevelLoader.loadTexture("Textures/Floor Texture")))
 				);
 		
 		carTextured = new CompleteMesh(
 				new TexturedMeshLowLevel(
-						OBJLoader.loadObjModel("Car", loader), 
-						new ModelTexture(loader.loadTexture("Car UV")
-								), true)
+						OBJLoader.loadObjModel("Models/Car"), 
+						new ModelTexture(LowLevelLoader.loadTexture("Textures/Car Texture")), true)
 				);
+		
+		gridTile = new TexturedMeshLowLevel(
+			LowLevelLoader.loadToVAO(
+				new double[] { 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0 }, 
+				new int[] { 0, 1, 2, 2, 1, 3}, 
+				new double[] {0, 0, 0, 1, 1, 0, 1, 1 }, 
+				new double[] { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1}), 
+			new ModelTexture(LowLevelLoader.loadTexture("Tile Sets/Original")), 2);
 		
 		Debug.log("Finished loading assets! Initializing scene...");
 		

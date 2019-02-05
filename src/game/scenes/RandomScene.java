@@ -9,7 +9,6 @@ import gameEngine.components.rendering.*;
 import gameEngine.components.scripts.*;
 import gameEngine.debug.Debug;
 import gameEngine.rendering.MasterRenderer;
-import gameEngine.rendering.gui.GuiRendererHandler;
 
 public class RandomScene extends StaticScript {
 	
@@ -39,7 +38,7 @@ public class RandomScene extends StaticScript {
 		GameManager.menuTexture.transform.size = new Vector2d(300, 150);
 		GameManager.menuTexture.transform.position = new Vector3d(-720, 0, 0);
 		
-		GuiRendererHandler.addUIElement(GameManager.menuTexture);
+		//GuiRendererHandler.addUIElement(GameManager.menuTexture);
 	}
 
 	@Override
@@ -49,7 +48,8 @@ public class RandomScene extends StaticScript {
 		
 		GameObject cameraGm = new GameObject(new Vector3d(0, 2, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";
-		cameraGm.addComponent(Camera.class);
+		Camera camera = (Camera) cameraGm.addComponent(Camera.class);
+		camera.orthographic = false;
 		cameraGm.addComponent(CameraMover.class);
 		// At tutorial 12
 		

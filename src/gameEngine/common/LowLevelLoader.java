@@ -1,22 +1,27 @@
 package gameEngine.common;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.*;
 import java.util.*;
 
+import javax.imageio.ImageIO;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.PNGDecoder;
+
+import gameEngine.debug.Debug;
 import gameEngine.rendering.data.meshData.MeshLowLevel;
 
 public class LowLevelLoader {
 
-	private List<Integer> vaos = new ArrayList<Integer>();
-	private List<Integer> vbos = new ArrayList<Integer>();
+	private static List<Integer> vaos = new ArrayList<Integer>();
+	private static List<Integer> vbos = new ArrayList<Integer>();
 
-	private List<Integer> textures = new ArrayList<Integer>();
+	private static List<Integer> textures = new ArrayList<Integer>();
 
-	public MeshLowLevel loadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals) {
+	public static MeshLowLevel loadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals) {
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		storeDataInAttributeList(0, 3, positions);
@@ -26,7 +31,7 @@ public class LowLevelLoader {
 		return new MeshLowLevel(vaoID, indices.length);
 	}
 	
-	public MeshLowLevel reloadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals, int meshID) {
+	public static MeshLowLevel reloadToVAO(double[] positions, int[] indices, double[] textureCoords, double[] normals, int meshID) {
 		loadVAO(meshID);
 		bindIndicesBuffer(indices);
 		storeDataInAttributeList(0, 3, positions);
@@ -36,7 +41,7 @@ public class LowLevelLoader {
 		return new MeshLowLevel(meshID, indices.length);
 	}
 	
-	public MeshLowLevel loadToVAO(double[] positions, double[] textureCoords) {
+	public static MeshLowLevel loadToVAO(double[] positions, double[] textureCoords) {
 		int vaoID = createVAO();
 		storeDataInAttributeList(0, 3, positions);
 		storeDataInAttributeList(1, 2, textureCoords);
@@ -44,7 +49,7 @@ public class LowLevelLoader {
 		return new MeshLowLevel(vaoID, positions.length/3);
 	}
 	
-	public MeshLowLevel reloadToVAO(double[] positions, double[] textureCoords, int meshID) {
+	public static MeshLowLevel reloadToVAO(double[] positions, double[] textureCoords, int meshID) {
 		loadVAO(meshID);
 		storeDataInAttributeList(0, 3, positions);
 		storeDataInAttributeList(1, 2, textureCoords);
@@ -52,20 +57,20 @@ public class LowLevelLoader {
 		return new MeshLowLevel(meshID, positions.length/3);
 	}
 	
-	public MeshLowLevel loadToVAO(double[] positions) {
+	public static MeshLowLevel loadToVAO(double[] positions) {
 		int vaoID = createVAO();
 		storeDataInAttributeList(0, 3, positions);
 		unbindVAO();
 		return new MeshLowLevel(vaoID, positions.length/3);
 	}
 	
-	public MeshLowLevel reloadToVAO(double[] positions, int meshID) {
+	public static MeshLowLevel reloadToVAO(double[] positions, int meshID) {
 		storeDataInAttributeList(0, 3, positions);
 		unbindVAO();
 		return new MeshLowLevel(meshID, positions.length/3);
 	}
 
-	public int loadTexture(String filepath) {
+	public static int loadTexture(String filepath) {
 		try {
 		  File file = new File("res/"+filepath+".png");
 		  InputStream in = new FileInputStream(file);
@@ -98,7 +103,17 @@ public class LowLevelLoader {
 		}
 	}
 	
-	public void clean() {
+	public static BufferedImage getImageContents(String filePath) {
+		File file = new File("res/"+filePath+".png");
+		try {
+			return ImageIO.read(file);
+		} catch (IOException e) {
+			Debug.logError(e);
+			return null;
+		}
+	}
+	
+	public static void clean() {
 		for (int vao : vaos) {
 			GL30.glDeleteVertexArrays(vao);
 		}
@@ -112,18 +127,18 @@ public class LowLevelLoader {
 		}
 	}
 
-	private int createVAO() {
+	private static int createVAO() {
 		int vaoID = GL30.glGenVertexArrays();
 		vaos.add(vaoID);
 		GL30.glBindVertexArray(vaoID);
 		return vaoID;
 	}
 	
-	private void loadVAO(int vaoID) {
+	private static void loadVAO(int vaoID) {
 		GL30.glBindVertexArray(vaoID);
 	}
 
-	private void storeDataInAttributeList(int attributeNumber, int size, double[] data) {
+	private static void storeDataInAttributeList(int attributeNumber, int size, double[] data) {
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
@@ -133,11 +148,11 @@ public class LowLevelLoader {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
 
-	private void unbindVAO() {
+	private static void unbindVAO() {
 		GL30.glBindVertexArray(0);
 	}
 
-	private void bindIndicesBuffer(int[] indices) {
+	private static void bindIndicesBuffer(int[] indices) {
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
@@ -145,14 +160,14 @@ public class LowLevelLoader {
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 	}
 
-	private IntBuffer storeDataInIntBuffer(int[] data) {
+	private static IntBuffer storeDataInIntBuffer(int[] data) {
 		IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
 		buffer.put(data);
 		buffer.flip();
 		return buffer;
 	}
 
-	private DoubleBuffer storeDataInDoubleBuffer(double[] data) {
+	private static DoubleBuffer storeDataInDoubleBuffer(double[] data) {
 		DoubleBuffer buffer = BufferUtils.createDoubleBuffer(data.length);
 		buffer.put(data);
 		buffer.flip();

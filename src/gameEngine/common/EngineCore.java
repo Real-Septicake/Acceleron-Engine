@@ -22,19 +22,10 @@ public class EngineCore {
 	
 	int frames = 0;
 	long timer = System.currentTimeMillis();
-	LowLevelLoader loader;
-	
-	public LowLevelLoader getLoader() {
-		return loader;
-	}
 	
 	private void gameLoop(Game game) {
 		
 		GL.createCapabilities();
-
-		loader = new LowLevelLoader();
-		
-		new MasterRenderer(loader);
 		
 		long windowID = WindowManager.manager.getWindowID();
 		
@@ -51,9 +42,9 @@ public class EngineCore {
 	        
 	        glfwSwapBuffers(windowID); // swap the color buffers
 	        
-	        // Poll for window events. The key callback above will only be
-	        // invoked during this call.
+	        //Get all of the glfw events
 	        glfwPollEvents();
+			
 			GL11.glViewport(0, 0, WindowManager.manager.getCurrentWidth(), WindowManager.manager.getCurrentHeight());
 			
 			frames++;

@@ -5,18 +5,19 @@ import java.util.*;
 
 import org.joml.*;
 
+import gameEngine.debug.Debug;
 import gameEngine.rendering.data.meshData.MeshLowLevel;
 
 public class OBJLoader {
 	
-	public static MeshLowLevel loadObjModel(String fileName, LowLevelLoader loader) {
+	public static MeshLowLevel loadObjModel(String fileName) {
 		FileReader fr = null;
 		try {
 			fr = new FileReader(new File("res/"+fileName+".obj"));
 		}
 		catch(FileNotFoundException e) {
 			System.err.println("Couldn't find model file!");
-			e.printStackTrace();
+			Debug.logError(e);
 		}
 		
 		BufferedReader reader = new BufferedReader(fr);
@@ -83,7 +84,7 @@ public class OBJLoader {
 		for(int i=0; i<indices.size(); i++) {
 			indicesArray[i] = indices.get(i);
 		}
-		return loader.loadToVAO(verticesArray, indicesArray, textureArray, normalsArray);
+		return LowLevelLoader.loadToVAO(verticesArray, indicesArray, textureArray, normalsArray);
 	}
 	
 	private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2d> textures, List<Vector3d> normals, double[] textureArray, double[] normalsArray)

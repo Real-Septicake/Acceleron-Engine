@@ -32,11 +32,6 @@ public class MainMenuScene extends StaticScript {
 				}
 			}
 		}
-		
-		GameManager.menuTexture.transform.size = new Vector2d(300, 150);
-		GameManager.menuTexture.transform.position = new Vector3d(-720, 0, 0);
-		
-		GuiRendererHandler.addUIElement(GameManager.menuTexture);
 	}
 
 	@Override

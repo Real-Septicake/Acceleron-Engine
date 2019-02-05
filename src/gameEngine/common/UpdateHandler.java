@@ -3,6 +3,7 @@ package gameEngine.common;
 import java.util.HashSet;
 
 import gameEngine.components.scripts.*;
+import gameEngine.debug.Debug;
 
 public class UpdateHandler {
 	private static HashSet<Script> scripts = new HashSet<Script>();
@@ -22,7 +23,7 @@ public class UpdateHandler {
 			try {
 				script.start();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Debug.logError(e);
 			}
 		}
 		
@@ -34,7 +35,7 @@ public class UpdateHandler {
 			try {
 				script.start();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Debug.logError(e);
 			}
 		}
 		
@@ -46,7 +47,7 @@ public class UpdateHandler {
 			try {
 				script.update();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Debug.logError(e);
 			}
 		}
 		
@@ -56,7 +57,7 @@ public class UpdateHandler {
 			try {
 				script.update();	
 			} catch (Exception e) {
-				e.printStackTrace();
+				Debug.logError(e);
 			}
 		}
 		

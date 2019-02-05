@@ -2,13 +2,10 @@ package gameEngine.rendering.shaders;
 
 import java.util.List;
 
-import org.joml.Matrix4f;
-import org.joml.Vector2d;
-import org.joml.Vector3d;
+import org.joml.*;
 
 import gameEngine.common.Maths;
-import gameEngine.components.rendering.Camera;
-import gameEngine.components.rendering.Light;
+import gameEngine.components.rendering.*;
 
 public class StaticShader extends ShaderProgram {
 

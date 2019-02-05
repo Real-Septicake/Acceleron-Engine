@@ -22,7 +22,7 @@ public class Maths {
 		Matrix4f matrix = new Matrix4f();
 		matrix.identity();
 		
-		matrix.translate((float)(translation.x / width), (float)(translation.y / height), (float)translation.z);
+		matrix.translate((float)((translation.x * 2 - width)/ width), (float)((-translation.y * 2 + height) / height), (float)translation.z);
 		matrix.rotateX((float)Math.toRadians(rotation.x));
 		matrix.rotateY((float)Math.toRadians(rotation.y));
 		matrix.rotateZ((float)Math.toRadians(rotation.z));

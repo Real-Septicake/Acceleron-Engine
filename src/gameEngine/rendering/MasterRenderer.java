@@ -8,7 +8,6 @@ import gameEngine.rendering.data.RenderObjectInfo;
 import gameEngine.rendering.data.meshData.*;
 import gameEngine.rendering.gui.GuiRendererHandler;
 import gameEngine.rendering.shaders.*;
-import gameEngine.common.*;
 import gameEngine.components.rendering.*;
 import gameEngine.debug.Debug;
 
@@ -17,7 +16,7 @@ public class MasterRenderer {
 	//Rendering information
 	private static StaticShader shader = new StaticShader();
 	private static RendererHandler renderer = new RendererHandler(shader);
-	private static GuiRendererHandler guiRenderer;
+	private static GuiRendererHandler guiRenderer = new GuiRendererHandler();
 
 	
 	//Objects to render
@@ -35,12 +34,6 @@ public class MasterRenderer {
 	
 	//Counter for frames that we haven't been able to render for
 	private static int framesWithoutCamera = 0;
-	
-	public MasterRenderer(LowLevelLoader loader) {
-		
-		guiRenderer = new GuiRendererHandler(loader);
-	}
-	
 	
 	//Method called to start the rendering process
 	public static void render() {
@@ -183,7 +176,7 @@ public class MasterRenderer {
 			
 			batch = new ArrayList<RenderObjectInfo>();
 			
-			batch.add(new RenderObjectInfo(position, rotation, scale));
+			batch.add(new RenderObjectInfo(position, rotation, scale, textureAtlasLocation));
 		}
 		
 		entities.put(entityMesh, batch);

@@ -54,6 +54,7 @@ public class WindowManager {
 		//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+		//glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); // the window will not have a title bar
 
 		// Create the window
 		window = glfwCreateWindow(WIDTH, HEIGHT, windowName, NULL, NULL);
@@ -90,6 +91,8 @@ public class WindowManager {
 		// Make the window visible
 		glfwShowWindow(window);
 		glfwFocusWindow(window);
+	
+		
 	}
 	
 	public void close() {

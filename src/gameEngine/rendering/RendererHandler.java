@@ -1,16 +1,12 @@
 package gameEngine.rendering;
 
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.*;
 
 import java.util.*;
 
-import org.joml.Matrix4f;
-import org.joml.Vector2d;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import org.joml.*;
+import org.joml.Math;
+import org.lwjgl.opengl.*;
 
 import gameEngine.rendering.data.RenderObjectInfo;
 import gameEngine.rendering.data.meshData.*;
@@ -103,12 +99,16 @@ public class RendererHandler {
 	private Vector2d getAtlasOffset(int rows, int location) {
 		int row = location / rows, collumn = location % rows;
 		
-		return new Vector2d(row / (float)rows, collumn / (float)rows);
+		return new Vector2d(collumn / (float)rows, row / (float)rows);
 	}
 	
 	private void createProjectionMatrix(Camera cam) {
-		float aspectRatio = (float) WindowManager.manager.getCurrentWidth() / WindowManager.manager.getCurrentHeight();
-
-		projectionMatrix = new Matrix4f().perspective((float) Math.toRadians(cam.fov), aspectRatio, cam.nearPlane, cam.farPlane);
+		float width = (float) WindowManager.manager.getCurrentWidth(), height = (float) WindowManager.manager.getCurrentHeight();
+		if(cam.orthographic == false) {
+			projectionMatrix = new Matrix4f().perspective((float) Math.toRadians((float)cam.fov), width/height, (float)cam.nearPlane, (float)cam.farPlane);
+		}
+		else {
+			projectionMatrix = new Matrix4f().ortho((float)-cam.orthographicSize, (float)cam.orthographicSize, (float)-cam.orthographicSize * height / width, (float) cam.orthographicSize * height / width, (float) cam.nearPlane, (float) cam.farPlane);
+		}
 	}
 }

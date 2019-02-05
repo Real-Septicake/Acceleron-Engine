@@ -6,7 +6,6 @@ import org.joml.Matrix4f;
 import org.lwjgl.opengl.*;
 
 import gameEngine.common.*;
-import gameEngine.components.rendering.Camera;
 import gameEngine.rendering.WindowManager;
 import gameEngine.rendering.data.meshData.MeshLowLevel;
 import gameEngine.rendering.gui.shaders.GuiShader;
@@ -18,10 +17,10 @@ public class GuiRendererHandler {
 	
 	private static HashSet<GuiTexture> guiElements = new HashSet<GuiTexture>();
 	
-	public GuiRendererHandler(LowLevelLoader loader) {
+	public GuiRendererHandler() {
 		double[] quadVertPositions = new double[] { -1, 1, 0, -1, -1, 0, 1, 1, 0, 1, -1, 0 };
 		
-		guiQuad = loader.loadToVAO(quadVertPositions);
+		guiQuad = LowLevelLoader.loadToVAO(quadVertPositions);
 		shader = new GuiShader();
 	}
 	

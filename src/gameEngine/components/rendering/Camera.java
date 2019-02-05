@@ -5,9 +5,11 @@ import gameEngine.rendering.MasterRenderer;
 
 public class Camera extends ComponentBase {
 	
-	public float fov = 60.0f;
-	public float nearPlane = 0.01f;
-	public float farPlane = 1000f;
+	public double fov = 60.0f;
+	public double orthographicSize = 5;
+	public double nearPlane = 0.01f;
+	public double farPlane = 1000f;
+	public boolean orthographic = false;
 	
 	@Override
 	public void setup() {
