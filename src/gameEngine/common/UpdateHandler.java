@@ -61,6 +61,24 @@ public class UpdateHandler {
 			}
 		}
 		
+		//Run late update on component scripts
+		for (Script script : scripts) {
+			try {
+				script.lateUpdate();
+			} catch (Exception e) {
+				Debug.logError(e);
+			}
+		}
+		
+		
+		//Run update on static scripts
+		for (StaticScript script : staticScripts) {
+			try {
+				script.lateUpdate();	
+			} catch (Exception e) {
+				Debug.logError(e);
+			}
+		}
 		
 		//Remove component scripts
 		for (Script script : scriptsToRemove) {

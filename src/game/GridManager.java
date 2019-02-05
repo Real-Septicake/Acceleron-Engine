@@ -10,11 +10,13 @@ import org.joml.Vector3d;
 import game.scripts.GameManager;
 import gameEngine.common.LowLevelLoader;
 import gameEngine.components.scripts.Script;
+import gameEngine.debug.Debug;
 import gameEngine.rendering.MasterRenderer;
 
 public class GridManager extends Script {
 
 	private Grid grid;
+	private GridPhysicsEngine physicsEngine;
 	private HashSet<Vector2d> whiteSpawns = new HashSet<Vector2d>();
 	private HashSet<Vector2d> blackSpawns = new HashSet<Vector2d>();
 	
@@ -31,12 +33,10 @@ public class GridManager extends Script {
 	@Override
 	public void start() {}
 	
-	public Vector2d getWhiteSpawn() {
-		return (Vector2d) whiteSpawns.toArray()[new Random(1).nextInt(whiteSpawns.size())];
-	}
-	
-	public Vector2d getBlackSpawn() {
-		return (Vector2d) whiteSpawns.toArray()[new Random(1).nextInt(blackSpawns.size())];
+	@Override
+	public void lateUpdate() {
+		
+		physicsEngine.runUpdate();
 	}
 	
 	public void setup(String mapLocation) {
@@ -81,9 +81,29 @@ public class GridManager extends Script {
 		}
 		
 		grid = new Grid(width, height, tileData);
+		
+		physicsEngine = new GridPhysicsEngine();
+		physicsEngine.setup(grid);
 	}
 	
 	public int largestDimension() {
 		return (grid.getHeight() > grid.getWidth()) ? grid.getHeight() : grid.getWidth();
+	}
+	
+	public Vector2d getWhiteSpawn() {
+		return (Vector2d) whiteSpawns.toArray()[new Random(1).nextInt(whiteSpawns.size())];
+	}
+	
+	public Vector2d getBlackSpawn() {
+		return (Vector2d) whiteSpawns.toArray()[new Random(1).nextInt(blackSpawns.size())];
+	}
+	
+	public void updateTile(int index, TileState state) {
+		if(index >= grid.getWidth() * grid.getHeight()) {
+			Debug.logError("INDEX OUT OF RANGE!");
+		}
+		else {
+			grid.modifyGrid(index, state);
+		}
 	}
 }

@@ -102,4 +102,10 @@ public class GameManager extends StaticScript {
 		currentState = new MainMenuScene();
 	}
 
+	@Override
+	public void lateUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

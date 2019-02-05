@@ -7,6 +7,7 @@ public abstract class Script extends ComponentBase {
 	
 	public abstract void update();
 	public abstract void start();
+	public abstract void lateUpdate();
 	
 	@Override
 	public void setup() {

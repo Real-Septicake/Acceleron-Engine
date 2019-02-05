@@ -82,4 +82,10 @@ public class RandomScene extends StaticScript {
 		MeshRenderer floorRend = (MeshRenderer) floor.addComponent(MeshRenderer.class);
 		floorRend.mesh = GameManager.floorTextured;
 	}
+
+	@Override
+	public void lateUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

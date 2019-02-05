@@ -10,6 +10,7 @@ public abstract class StaticScript {
 	
 	public abstract void update();
 	public abstract void start();
+	public abstract void lateUpdate();
 	
 	private void setup() {
 		UpdateHandler.RegisterScript(this);

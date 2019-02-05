@@ -59,4 +59,10 @@ public class Fighting2D extends StaticScript {
 		Debug.log("Fighting area started!");
 	}
 
+	@Override
+	public void lateUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

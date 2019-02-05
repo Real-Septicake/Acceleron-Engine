@@ -64,4 +64,10 @@ public class MainMenuScene extends StaticScript {
 		lightGm4.name = "Light Object #4";
 	}
 
+	@Override
+	public void lateUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
