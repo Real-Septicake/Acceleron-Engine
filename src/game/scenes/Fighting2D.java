@@ -40,7 +40,6 @@ public class Fighting2D extends StaticScript {
 		cameraGm.name = "Camera / Player Object";
 		camera = (Camera) cameraGm.addComponent(Camera.class);
 		camera.orthographic = true;
-		cameraGm.addComponent(CameraMover.class);
 		
 		GameObject lightGm1 = new GameObject(new Vector3d(-100, -50, 100), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		Light light = (Light) lightGm1.addComponent(Light.class);

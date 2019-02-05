@@ -5,6 +5,8 @@ import java.util.HashSet;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.*;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import gameEngine.common.*;
 import gameEngine.rendering.WindowManager;
 import gameEngine.rendering.data.meshData.MeshLowLevel;
@@ -25,6 +27,8 @@ public class GuiRendererHandler {
 	}
 	
 	public void renderUI() {
+		
+		glClear(GL_DEPTH_BUFFER_BIT);
 		shader.Start();
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
