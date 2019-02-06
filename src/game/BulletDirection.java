@@ -9,9 +9,9 @@ public enum BulletDirection {
 	Left(new Vector3d(-1, 0, 0)),
 	Right(new Vector3d(1, 0, 0));
 	
-	private Vector3d direction;
+	private final Vector3d direction;
 	
-	public Vector3d getDirection() { return direction; }
+	public Vector3d getDirection() { return new Vector3d(direction.x, direction.y, direction.z); }
 	
 	
 	private BulletDirection(Vector3d direction) {

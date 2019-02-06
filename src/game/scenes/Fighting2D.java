@@ -31,6 +31,8 @@ public class Fighting2D extends StaticScript {
 		}
 		
 		camera.orthographicSize = (manager.largestDimension() / 2.0) * scaler;
+		
+		manager.update();
 	}
 
 	@Override
@@ -51,9 +53,7 @@ public class Fighting2D extends StaticScript {
 		light.color = new Vector3d(.5, .5, .5);
 		lightGm2.name = "Light Object #2";
 		
-		GameObject _SCRIPTS_ = new GameObject(new Vector3d(0), new Vector3d(0), new Vector3d(1));
-		_SCRIPTS_.name = "_SCRIPTS_";
-		manager = (GridManager) _SCRIPTS_.addComponent(GridManager.class);
+		manager = new GridManager();
 		manager.setup("Tile Maps/Deception");
 		
 		Debug.log("Fighting area started!");
@@ -61,8 +61,7 @@ public class Fighting2D extends StaticScript {
 
 	@Override
 	public void lateUpdate() {
-		// TODO Auto-generated method stub
-		
+		manager.lateUpdate();
 	}
 
 }

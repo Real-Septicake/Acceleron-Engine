@@ -31,22 +31,22 @@ public class GameManager extends StaticScript {
 	@Override
 	public void update() {
 		if(currentScene != 1 && InputManager.keyDown(GLFW_KEY_1)) {
-			GameObject.clearScene();
 			currentState.stop();
 			currentState = new RandomScene();
 			currentScene = 1;
+			GameObject.clearScene();
 		}
 		else if (currentScene != 2 && InputManager.keyDown(GLFW_KEY_2)) {
-			GameObject.clearScene();
 			currentState.stop();
 			currentState = new Fighting2D();
 			currentScene = 2;
+			GameObject.clearScene();
 		}
 		else if (currentScene != 0 && InputManager.keyDown(GLFW_KEY_3)) {
-			GameObject.clearScene();
 			currentState.stop();
 			currentState = new MainMenuScene();
 			currentScene = 0;
+			GameObject.clearScene();
 		}
 		
 		GameManager.menuTexture.transform.size = new Vector2d(379, 74);

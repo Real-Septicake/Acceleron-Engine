@@ -5,6 +5,7 @@ public class Grid {
 	private TileState[] tileStates;
 	private int width;
 	private int height;
+	public boolean isDirty = false;
 	
 	public Grid(int width, int height, TileState[] gridData) {
 		this.tileStates = gridData;

@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 import org.joml.Vector3d;
 
-import gameEngine.components.scripts.Script;
+import gameEngine.debug.Debug;
 
 public class GridPhysicsEngine {
 
@@ -32,12 +32,17 @@ foreach player
 				Resolve Collision
      */
 	
-    private static Player[] playerArray;
-    private static Bullet[] bulletArray;
+    public Player[] playerArray;
+    public Bullet[] bulletArray;
     public void runUpdate() {
-    	for (Bullet bullet : bullets) {
-			bullet.position = bullet.position.add(bullet.direction.getDirection().mul(bullet.movementSpeed));
-		}
+    	
+    	for (Player player : players) {
+    		player.update();
+    		if(player.fireBullet) {
+    			player.fireBullet = false;
+    			addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y, player.position.z), player.teamId));
+    		}
+    	}
     	
     	playerArray = new Player[players.size()];
     	bulletArray = new Bullet[bullets.size()];
@@ -50,39 +55,71 @@ foreach player
     	
     	index = 0;
     	for (Bullet bullet : bullets) {
+    		bullet.update();
 			bulletArray[index] = bullet;
+			index++;
 		}
     	
-    	
+    	TileState currentTile;
+        Player currentPlayer;
+        Bullet currentBullet;
+        for (int x = 0; x < grid.getHeight() * grid.getWidth(); x++)
+        {
+            currentTile = grid.getTileAtLocation(x);
+            Vector3d tilePos = new Vector3d(x % grid.getWidth() - grid.getWidth() / 2f, x / grid.getHeight() - grid.getHeight() / 2f, 0);
+            for (int y = 0; y < playerArray.length; y++)
+            {
+                currentPlayer = playerArray[y];
+                if (currentTile == TileState.Wall || currentTile == TileState.Empty || ((currentPlayer.teamId == 0 && currentTile == TileState.White) || currentPlayer.teamId == 1 && currentTile == TileState.Black))
+                {
+                    if (overlapPlayerTile(currentPlayer, tilePos))
+                    {
+                        double currentX = currentPlayer.position.x;
+                        double currentY = currentPlayer.position.y;
+
+                        currentPlayer.position.x = currentX;
+                        currentPlayer.position.y = currentPlayer.lastPosition.y;
+                        double xPos = resolveX(currentPlayer, tilePos);
+                        currentPlayer.position.x -= xPos;
+
+                        currentPlayer.position.y = currentY;
+                        double yPos = resolveY(currentPlayer, tilePos);
+                        currentPlayer.position.y -= yPos;
+                        playerArray[y].position = currentPlayer.position;
+                        playerArray[y].lastPosition = currentPlayer.position;
+                    }
+                }
+            }
+
+            for (int y = 0; y < bulletArray.length; y++)
+            {
+                currentBullet = bulletArray[y];
+                if ( ((currentBullet.teamId == 0 && currentTile == TileState.White) || currentBullet.teamId == 1 && currentTile == TileState.Black))
+                {
+                    if (overlapTileBullet(tilePos, currentBullet.position))
+                    {
+                    	grid.modifyGrid(x, (currentTile == TileState.Black) ? TileState.White : TileState.Black);
+                    	grid.isDirty = true;
+                    }
+                }
+                else if (currentTile == TileState.Empty || currentTile == TileState.Wall)
+                {
+                    if (overlapTileBullet(tilePos, currentBullet.position))
+                    {
+                        removeBullet(currentBullet);
+                    }
+                }
+            }
+        }
     }
-    
-	public void addPlayer(Player player) {
-		players.add(player);
-	}
-	
-	public void removePlayer(Player player) {
-		players.remove(player);
-	}
-	
-	public void addBullet(Bullet bullet) {
-		bullets.add(bullet);
-	}
-	
-	public void removeBullet(Bullet bullet) {
-		bullets.remove(bullet);
-	}
-	
-	public void setup(Grid grid) {
-		this.grid = grid;
-	}
 	
 	//Is a player and a tile overlapping?
     private static boolean overlapPlayerTile(Player player, Vector3d tile)
     {
-        if (player.position.x + 0.25 < tile.x - 0.5) return false;
-        if (player.position.x - 0.25 > tile.x + 0.5) return false;
-        if (player.position.y + 0.25 < tile.y - 0.5) return false;
-        if (player.position.y - 0.25 > tile.y + 0.5) return false;
+        if (player.position.x + 0.25 < tile.x - .5) return false;
+        if (player.position.x - 0.25 > tile.x + .5) return false;
+        if (player.position.y + 0.25 < tile.y - .5) return false;
+        if (player.position.y - 0.25 > tile.y + .5) return false;
 
         return true;
     }
@@ -101,10 +138,10 @@ foreach player
     //Is a tile and a bullet overlapping?
 	private static boolean overlapTileBullet(Vector3d tile, Vector3d bullet)
     {
-        if (bullet.x > tile.x + 0.5) return false;
-        if (bullet.x < tile.x - 0.5) return false;
-        if (bullet.y > tile.y + 0.5) return false;
-        if (bullet.y < tile.y - 0.5) return false;
+        if (bullet.x > tile.x + .5) return false;
+        if (bullet.x < tile.x - .5) return false;
+        if (bullet.y > tile.y + .5) return false;
+        if (bullet.y < tile.y - .5) return false;
 
         return true;
     }
@@ -138,4 +175,24 @@ foreach player
 
         return Math.abs(xOverlap) > Math.abs(yOverlap) ? yOverlap : 0;
     }
+    
+	public void addPlayer(Player player) {
+		players.add(player);
+	}
+	
+	public void removePlayer(Player player) {
+		players.remove(player);
+	}
+	
+	public void addBullet(Bullet bullet) {
+		bullets.add(bullet);
+	}
+	
+	public void removeBullet(Bullet bullet) {
+		bullets.remove(bullet);
+	}
+	
+	public void setup(Grid grid) {
+		this.grid = grid;
+	}
 }

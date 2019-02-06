@@ -13,14 +13,13 @@ import gameEngine.components.scripts.Script;
 import gameEngine.debug.Debug;
 import gameEngine.rendering.MasterRenderer;
 
-public class GridManager extends Script {
+public class GridManager {
 
 	private Grid grid;
 	private GridPhysicsEngine physicsEngine;
 	private HashSet<Vector2d> whiteSpawns = new HashSet<Vector2d>();
 	private HashSet<Vector2d> blackSpawns = new HashSet<Vector2d>();
 	
-	@Override
 	public void update() {
 		int width = grid.getWidth(), height = grid.getHeight();
 		for (int x = 0; x < width; x++) {
@@ -30,13 +29,17 @@ public class GridManager extends Script {
 		}
 	}
 
-	@Override
-	public void start() {}
-	
-	@Override
 	public void lateUpdate() {
 		
 		physicsEngine.runUpdate();
+		
+		for (Bullet bullet : physicsEngine.bulletArray) {
+			MasterRenderer.drawMesh(GameManager.gridTile, new Vector3d(0.4 + bullet.position.x, 0.4 + bullet.position.y, bullet.position.z), new Vector3d(0), new Vector3d(.1));	
+		}
+		
+		for (Player player : physicsEngine.playerArray) {
+			MasterRenderer.drawMesh(GameManager.gridTile, new Vector3d(0.25 + player.position.x, 0.25 + player.position.y, player.position.z), new Vector3d(0), new Vector3d(.5));
+		}
 	}
 	
 	public void setup(String mapLocation) {
@@ -84,6 +87,9 @@ public class GridManager extends Script {
 		
 		physicsEngine = new GridPhysicsEngine();
 		physicsEngine.setup(grid);
+		
+		physicsEngine.addBullet(new Bullet(BulletDirection.Right, new Vector3d(-10, 1, 1), 0));
+		physicsEngine.addPlayer(new Player(new Vector3d(-2, 1, .5), 0));
 	}
 	
 	public int largestDimension() {
