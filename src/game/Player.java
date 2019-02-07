@@ -5,6 +5,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import org.joml.Vector3d;
 
 import gameEngine.common.InputManager;
+import gameEngine.debug.Debug;
 
 public class Player {
 
@@ -53,7 +54,7 @@ public class Player {
 			fireBullet = true;
 			hasStoppedFiring = false;
 		}
-		else {
+		else if (!InputManager.keyDown(GLFW_KEY_SPACE)) {
 			hasStoppedFiring = true;
 		}
 		
