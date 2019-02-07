@@ -6,6 +6,7 @@ import org.joml.Vector3d;
 
 import gameEngine.common.InputManager;
 import gameEngine.common.Maths;
+import gameEngine.common.UpdateHandler;
 import gameEngine.components.scripts.Script;
 
 public class CameraMover extends Script {
@@ -48,7 +49,7 @@ public class CameraMover extends Script {
 		gameObject.transform.rotation.add(rotation);
 		movement.rotate(Maths.fromEulerAngle(gameObject.transform.rotation));
 			
-		gameObject.transform.position.add(movement.mul(0.2));
+		gameObject.transform.position.add(movement.mul(12 * UpdateHandler.timeDelta));
 	}
 
 	@Override

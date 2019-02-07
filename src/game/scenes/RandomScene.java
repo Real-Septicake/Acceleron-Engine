@@ -16,7 +16,7 @@ public class RandomScene extends StaticScript {
 	
 	@Override
 	public void update() {
-		currentRotation += 0.25;
+		currentRotation += 15 * UpdateHandler.timeDelta;
 		
 		Quaterniond rot = Maths.fromEulerAngle(new Vector3d(0,currentRotation,0));
 		for (float x = -10; x <= 10; x+= 0.25f) {

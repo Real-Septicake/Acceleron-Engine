@@ -3,11 +3,14 @@ package gameEngine.common;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 
+import java.sql.Time;
+
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import game.scripts.MainGame;
 import gameEngine.components.essentials.GameObject;
+import gameEngine.debug.Debug;
 import gameEngine.rendering.*;
 
 public class EngineCore {
@@ -22,6 +25,8 @@ public class EngineCore {
 	
 	int frames = 0;
 	long timer = System.currentTimeMillis();
+	long lastFrameTime = 0;
+	double timeDelta;
 	
 	private void gameLoop(Game game) {
 		
@@ -34,19 +39,21 @@ public class EngineCore {
 		
 		while (!glfwWindowShouldClose(windowID)) {
 			
-			UpdateHandler.RunUpdate();
+			if(lastFrameTime == 0) {
+				timeDelta = 0;
+				lastFrameTime = System.currentTimeMillis();
+			}
+			else {
+				timeDelta = (System.currentTimeMillis() - lastFrameTime) / 1000d;
+				lastFrameTime = System.currentTimeMillis();
+			}
+			
+			UpdateHandler.RunUpdate(timeDelta);
 				
 			MasterRenderer.render();
 			
 			GameObject.clearOld();
 	        
-	        glfwSwapBuffers(windowID); // swap the color buffers
-	        
-	        //Get all of the glfw events
-	        glfwPollEvents();
-			
-			GL11.glViewport(0, 0, WindowManager.manager.getCurrentWidth(), WindowManager.manager.getCurrentHeight());
-			
 			frames++;
 			
 	        if (System.currentTimeMillis() - timer > 1000) {
@@ -57,6 +64,13 @@ public class EngineCore {
 	            frames = 0;
 	            timer += 1000;
 	        }
+			
+	        glfwSwapBuffers(windowID); // swap the color buffers
+	        
+	        //Get all of the glfw events
+	        glfwPollEvents();
+			
+			GL11.glViewport(0, 0, WindowManager.manager.getCurrentWidth(), WindowManager.manager.getCurrentHeight());
 		}
 		
 		MasterRenderer.clean();

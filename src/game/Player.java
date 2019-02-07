@@ -5,6 +5,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import org.joml.Vector3d;
 
 import gameEngine.common.InputManager;
+import gameEngine.common.UpdateHandler;
 import gameEngine.debug.Debug;
 
 public class Player {
@@ -12,7 +13,7 @@ public class Player {
 	public Vector3d position;
 	public Vector3d lastPosition;
 	
-	public final double movementSpeed = .1f;
+	public final double movementSpeed = 6;
 	public int teamId;
 	
 	public BulletDirection direction = BulletDirection.Right;
@@ -71,6 +72,7 @@ public class Player {
 			hasStoppedFiring = true;
 		}
 		
-		position.add(movement.mul(movementSpeed));
+		if(movement.x != 0 || movement.y != 0)
+			position.add(movement.normalize(1).mul(movementSpeed * UpdateHandler.timeDelta));
 	}
 }

@@ -98,25 +98,43 @@ foreach player
                     }
                 }
             }
-
-            for (int y = 0; y < bulletArray.length; y++)
-            {
-                currentBullet = bulletArray[y];
-                if ( ((currentBullet.teamId == 0 && currentTile == TileState.White) || currentBullet.teamId == 1 && currentTile == TileState.Black))
-                {
-                    if (overlapTileBullet(tilePos, currentBullet.position))
-                    {
-                    	grid.modifyGrid(x, (currentTile == TileState.Black) ? TileState.White : TileState.Black);
-                    	grid.isDirty = true;
-                    }
-                }
-                else if (currentTile == TileState.Empty || currentTile == TileState.Wall)
-                {
-                    if (overlapTileBullet(tilePos, currentBullet.position))
-                    {
-                        removeBullet(currentBullet);
-                    }
-                }
+        }
+        
+        Vector3d tilePos;
+        TileState tileState;
+        for (int y = 0; y < bulletArray.length; y++)
+        {
+        	
+            currentBullet = bulletArray[y];
+            tilePos = new Vector3d(currentBullet.position.x + grid.getWidth() / 2f, currentBullet.position.y + grid.getHeight() / 2f, 0);
+            
+            tilePos.x = Math.round(tilePos.x);
+            tilePos.y = Math.round(tilePos.y);
+            
+            if(tilePos.x < 0 || tilePos.x >= grid.getWidth() ||
+            		tilePos.y < 0 || tilePos.y >= grid.getHeight()) {
+            }
+            else {
+            	int location = (int)tilePos.x + (int)tilePos.y * grid.getWidth();
+            	tileState = grid.getTileAtLocation(location);
+            	tilePos = new Vector3d(location % grid.getWidth() - grid.getWidth() / 2f, location / grid.getHeight() - grid.getHeight() / 2f, 0);
+            	
+	            if ( ((currentBullet.teamId == 0 && tileState == TileState.White) || currentBullet.teamId == 1 && tileState == TileState.Black))
+	            {
+	                if (overlapTileBullet(tilePos, currentBullet.position))
+	                {
+	                	grid.modifyGrid(location, (tileState == TileState.Black) ? TileState.White : TileState.Black);
+	                	grid.isDirty = true;
+	                }
+	            }
+	            else if (tileState == TileState.Empty || tileState == TileState.Wall)
+	            {
+	                if (overlapTileBullet(tilePos, currentBullet.position))
+	                {
+	                    removeBullet(currentBullet);
+	                }
+	            }
+	            
             }
         }
     }

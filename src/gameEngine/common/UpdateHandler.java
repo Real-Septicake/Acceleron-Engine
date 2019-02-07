@@ -16,7 +16,11 @@ public class UpdateHandler {
 	private static HashSet<StaticScript> staticScriptsToRemove = new HashSet<StaticScript>();
 	private static HashSet<StaticScript> staticScriptsToAdd = new HashSet<StaticScript>();
 	
-	public static void RunUpdate() {
+	public static double timeDelta;
+	
+	public static void RunUpdate(double timeD) {
+		
+		timeDelta = timeD;
 		
 		//Run start on component scripts
 		for (Script script : scriptsToStart) {
