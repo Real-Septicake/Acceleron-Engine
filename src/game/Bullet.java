@@ -9,7 +9,7 @@ public class Bullet {
 	
 	public BulletDirection direction;
 	public Vector3d position;
-	public final double movementSpeed = .05f;
+	public final double movementSpeed = .125f;
 	public int teamId;
 	
 	public void update() {

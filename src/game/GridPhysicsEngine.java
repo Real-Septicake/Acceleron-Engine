@@ -8,9 +8,9 @@ import gameEngine.debug.Debug;
 
 public class GridPhysicsEngine {
 
-    private HashSet<Player> players = new HashSet<Player>();
+    public HashSet<Player> players = new HashSet<Player>();
     private Grid grid;
-    private HashSet<Bullet> bullets = new HashSet<Bullet>();
+    public HashSet<Bullet> bullets = new HashSet<Bullet>();
     
     /* TODO LIST:
      * Remove above variables, replace with arrays
@@ -32,8 +32,8 @@ foreach player
 				Resolve Collision
      */
 	
-    public Player[] playerArray;
-    public Bullet[] bulletArray;
+    private Player[] playerArray;
+    private Bullet[] bulletArray;
     public void runUpdate() {
     	
     	for (Player player : players) {
@@ -41,6 +41,14 @@ foreach player
     		if(player.fireBullet) {
     			player.fireBullet = false;
     			addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y, player.position.z), player.teamId));
+    			if(player.direction == BulletDirection.Left || player.direction == BulletDirection.Right) {
+    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y + 1, player.position.z), player.teamId));
+    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y - 1, player.position.z), player.teamId));
+    			}
+    			else if(player.direction == BulletDirection.Up || player.direction == BulletDirection.Down) {
+    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x + 1, player.position.y, player.position.z), player.teamId));
+    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x - 1, player.position.y, player.position.z), player.teamId));
+    			}
     		}
     	}
     	

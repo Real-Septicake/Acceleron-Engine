@@ -32,29 +32,42 @@ public class Player {
 		// Forward
 		if (InputManager.keyDown(GLFW_KEY_W)) {
 			movement.y = 1;
-			direction = BulletDirection.Up;
 		}
 		// Backward
 		if (InputManager.keyDown(GLFW_KEY_S)) {
 			movement.y = -1;
-			direction = BulletDirection.Down;
 		}
 		// Left
 		if (InputManager.keyDown(GLFW_KEY_A)) {
 			movement.x = -1;
-			direction = BulletDirection.Left;
 		}
 		// Right
 		if (InputManager.keyDown(GLFW_KEY_D)) {
 			movement.x = 1;
-			direction = BulletDirection.Right;
 		}
 		
-		if(InputManager.keyDown(GLFW_KEY_SPACE) && hasStoppedFiring) {
+		if(InputManager.keyDown(GLFW_KEY_UP) && hasStoppedFiring) {
+			direction = BulletDirection.Up;
 			fireBullet = true;
 			hasStoppedFiring = false;
 		}
-		else if (!InputManager.keyDown(GLFW_KEY_SPACE)) {
+		else if(InputManager.keyDown(GLFW_KEY_DOWN) && hasStoppedFiring) {
+			direction = BulletDirection.Down;
+			fireBullet = true;
+			hasStoppedFiring = false;
+		}
+		else if(InputManager.keyDown(GLFW_KEY_LEFT) && hasStoppedFiring) {
+			direction = BulletDirection.Left;
+			fireBullet = true;
+			hasStoppedFiring = false;
+		}
+		else if(InputManager.keyDown(GLFW_KEY_RIGHT) && hasStoppedFiring) {
+			direction = BulletDirection.Right;
+			fireBullet = true;
+			hasStoppedFiring = false;
+		}
+		else if (!InputManager.keyDown(GLFW_KEY_UP) && !InputManager.keyDown(GLFW_KEY_DOWN) &&
+				 !InputManager.keyDown(GLFW_KEY_LEFT) && !InputManager.keyDown(GLFW_KEY_RIGHT)){
 			hasStoppedFiring = true;
 		}
 		

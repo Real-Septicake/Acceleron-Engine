@@ -33,11 +33,11 @@ public class GridManager {
 		
 		physicsEngine.runUpdate();
 		
-		for (Bullet bullet : physicsEngine.bulletArray) {
+		for (Bullet bullet : physicsEngine.bullets) {
 			MasterRenderer.drawMesh(GameManager.gridTile, new Vector3d(0.4 + bullet.position.x, 0.4 + bullet.position.y, bullet.position.z), new Vector3d(0), new Vector3d(.1));	
 		}
 		
-		for (Player player : physicsEngine.playerArray) {
+		for (Player player : physicsEngine.players) {
 			MasterRenderer.drawMesh(GameManager.gridTile, new Vector3d(0.25 + player.position.x, 0.25 + player.position.y, player.position.z), new Vector3d(0), new Vector3d(.5));
 		}
 	}
