@@ -4,8 +4,6 @@ import java.util.HashSet;
 
 import org.joml.Vector3d;
 
-import gameEngine.debug.Debug;
-
 public class GridPhysicsEngine {
 
     public HashSet<Player> players = new HashSet<Player>();
@@ -40,14 +38,14 @@ foreach player
     		player.update();
     		if(player.fireBullet) {
     			player.fireBullet = false;
-    			addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y, player.position.z), player.teamId));
+    			addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y, player.position.z), player.teamId, player.shotIsFastShot));
     			if(player.direction == BulletDirection.Left || player.direction == BulletDirection.Right) {
-    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y + 1, player.position.z), player.teamId));
-    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y - 1, player.position.z), player.teamId));
+    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y + 1, player.position.z), player.teamId, player.shotIsFastShot));
+    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x, player.position.y - 1, player.position.z), player.teamId, player.shotIsFastShot));
     			}
     			else if(player.direction == BulletDirection.Up || player.direction == BulletDirection.Down) {
-    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x + 1, player.position.y, player.position.z), player.teamId));
-    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x - 1, player.position.y, player.position.z), player.teamId));
+    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x + 1, player.position.y, player.position.z), player.teamId, player.shotIsFastShot));
+    				addBullet(new Bullet(player.direction, new Vector3d(player.position.x - 1, player.position.y, player.position.z), player.teamId, player.shotIsFastShot));
     			}
     		}
     	}

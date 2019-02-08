@@ -3,14 +3,11 @@ package gameEngine.common;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 
-import java.sql.Time;
-
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import game.scripts.MainGame;
 import gameEngine.components.essentials.GameObject;
-import gameEngine.debug.Debug;
 import gameEngine.rendering.*;
 
 public class EngineCore {

@@ -2,11 +2,12 @@ package game;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import java.util.Random;
+
 import org.joml.Vector3d;
 
 import gameEngine.common.InputManager;
 import gameEngine.common.UpdateHandler;
-import gameEngine.debug.Debug;
 
 public class Player {
 
@@ -15,6 +16,7 @@ public class Player {
 	
 	public final double movementSpeed = 6;
 	public int teamId;
+	public boolean shotIsFastShot = false;
 	
 	public BulletDirection direction = BulletDirection.Right;
 	public boolean fireBullet = false;
@@ -71,6 +73,8 @@ public class Player {
 				 !InputManager.keyDown(GLFW_KEY_LEFT) && !InputManager.keyDown(GLFW_KEY_RIGHT)){
 			hasStoppedFiring = true;
 		}
+		
+		shotIsFastShot = new Random().nextBoolean();
 		
 		if(movement.x != 0 || movement.y != 0)
 			position.add(movement.normalize(1).mul(movementSpeed * UpdateHandler.timeDelta));

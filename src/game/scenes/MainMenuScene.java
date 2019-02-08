@@ -9,7 +9,6 @@ import gameEngine.components.rendering.*;
 import gameEngine.components.scripts.*;
 import gameEngine.debug.*;
 import gameEngine.rendering.*;
-import gameEngine.rendering.gui.*;
 
 public class MainMenuScene extends StaticScript {
 

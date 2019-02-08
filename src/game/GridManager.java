@@ -9,7 +9,6 @@ import org.joml.Vector3d;
 
 import game.scripts.GameManager;
 import gameEngine.common.LowLevelLoader;
-import gameEngine.components.scripts.Script;
 import gameEngine.debug.Debug;
 import gameEngine.rendering.MasterRenderer;
 
@@ -34,7 +33,7 @@ public class GridManager {
 		physicsEngine.runUpdate();
 		
 		for (Bullet bullet : physicsEngine.bullets) {
-			MasterRenderer.drawMesh(GameManager.gridTile, new Vector3d(0.4 + bullet.position.x, 0.4 + bullet.position.y, bullet.position.z), new Vector3d(0), new Vector3d(.1));	
+			MasterRenderer.drawMesh(GameManager.bulletTextured, new Vector3d(0.4 + bullet.position.x, 0.4 + bullet.position.y, bullet.position.z), new Vector3d(0), new Vector3d(.25), bullet.fastShot ? 1 : 0);	
 		}
 		
 		for (Player player : physicsEngine.players) {
@@ -88,7 +87,6 @@ public class GridManager {
 		physicsEngine = new GridPhysicsEngine();
 		physicsEngine.setup(grid);
 		
-		physicsEngine.addBullet(new Bullet(BulletDirection.Right, new Vector3d(-10, 1, 1), 0));
 		physicsEngine.addPlayer(new Player(new Vector3d(-2, 1, .5), 0));
 	}
 	

@@ -3,12 +3,10 @@ package game.scenes;
 import org.joml.Vector3d;
 
 import game.GridManager;
-import game.scripts.*;
 import gameEngine.components.essentials.GameObject;
 import gameEngine.components.rendering.*;
 import gameEngine.components.scripts.StaticScript;
 import gameEngine.debug.Debug;
-import gameEngine.rendering.MasterRenderer;
 import gameEngine.rendering.WindowManager;
 
 public class Fighting2D extends StaticScript {

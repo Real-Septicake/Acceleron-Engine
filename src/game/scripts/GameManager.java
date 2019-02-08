@@ -25,6 +25,7 @@ public class GameManager extends StaticScript {
 	public static CompleteMesh carTextured;
 	public static GuiTexture menuTexture;
 	public static TexturedMeshLowLevel gridTile;
+	public static TexturedMeshLowLevel bulletTextured;
 	
 	private int currentScene = 0;
 	
@@ -96,6 +97,14 @@ public class GameManager extends StaticScript {
 				new double[] {0, 0, 0, 1, 1, 0, 1, 1 }, 
 				new double[] { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1}), 
 			new ModelTexture(LowLevelLoader.loadTexture("Tile Sets/Original")), 2);
+		
+		bulletTextured = new TexturedMeshLowLevel(
+				LowLevelLoader.loadToVAO(
+					new double[] { 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0 }, 
+					new int[] { 0, 1, 2, 2, 1, 3}, 
+					new double[] {0, 0, 0, 1, 1, 0, 1, 1 }, 
+					new double[] { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1}), 
+				new ModelTexture(LowLevelLoader.loadTexture("Textures/BulletAtlas")), 2);
 		
 		Debug.log("Finished loading assets! Initializing scene...");
 		
