@@ -7,10 +7,6 @@ import gameEngine.rendering.data.meshData.CompleteMesh;
 public class MeshRenderer extends ComponentBase {
 	
 	public CompleteMesh mesh;
-	
-	public MeshRenderer() {
-		
-	}
 
 	@Override
 	public void destroy() {

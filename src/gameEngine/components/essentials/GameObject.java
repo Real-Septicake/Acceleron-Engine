@@ -48,8 +48,13 @@ public class GameObject {
 		clearOld();
 	}
 	
-	@SuppressWarnings("rawtypes")
-	private ComponentArray components = new ComponentArray<>();
+	public static void clearOld() {
+		for (GameObject gameObject : gmsToRemove) {
+			gameObjects.remove(gameObject);
+			
+		}
+		gmsToRemove.clear();
+	}
 	
 	public GameObject(Vector3d pos, Vector3d rot, Vector3d sca) {
 		transform = new Transform(pos, rot, sca);
@@ -57,6 +62,13 @@ public class GameObject {
 		nextID++;
 		gameObjects.add(this);
 	}
+	
+	private class ComponentArray <T extends ComponentBase>{
+		public HashMap<Class<T>, ComponentBase> components = new HashMap<Class<T>, ComponentBase>();;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private ComponentArray components = new ComponentArray<>();
 	
 	public <T extends ComponentBase> ComponentBase getComponent(Class<T> type) {
 		return (ComponentBase) components.components.get(type);
@@ -81,10 +93,6 @@ public class GameObject {
 		return null;
 	}
 	
-	private class ComponentArray <T extends ComponentBase>{
-		public HashMap<Class<T>, ComponentBase> components = new HashMap<Class<T>, ComponentBase>();;
-	}
-	
 	public void destroy() {
 		@SuppressWarnings("unchecked")
 		Collection<ComponentBase> comp = components.components.values();
@@ -92,13 +100,5 @@ public class GameObject {
 			component.destroy();
 		}
 		gmsToRemove.add(this);
-	}
-	
-	public static void clearOld() {
-		for (GameObject gameObject : gmsToRemove) {
-			gameObjects.remove(gameObject);
-			
-		}
-		gmsToRemove.clear();
 	}
 }
