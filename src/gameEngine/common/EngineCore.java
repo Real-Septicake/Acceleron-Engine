@@ -15,9 +15,8 @@ public class EngineCore {
 	public void initializeEngine(MainGame game) {
 		WindowManager.manager = new WindowManager();
 		WindowManager.manager.init();
-		gameLoop(game);
 		
-		closeGame();
+		gameLoop(game);
 	}
 	
 	int frames = 0;
@@ -70,10 +69,16 @@ public class EngineCore {
 			GL11.glViewport(0, 0, WindowManager.manager.getCurrentWidth(), WindowManager.manager.getCurrentHeight());
 		}
 		
+		closeGame();
+	}
+	
+	private void clean() {
 		MasterRenderer.clean();
+		LowLevelLoader.clean();
 	}
 
-	private void closeGame() {
+	public void closeGame() {
+		clean();
 		glfwFreeCallbacks(WindowManager.manager.getWindowID());
 		glfwDestroyWindow(WindowManager.manager.getWindowID());
 

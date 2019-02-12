@@ -11,6 +11,7 @@ import gameEngine.common.*;
 import gameEngine.components.essentials.*;
 import gameEngine.components.scripts.*;
 import gameEngine.debug.*;
+import gameEngine.rendering.WindowManager;
 import gameEngine.rendering.data.meshData.*;
 import gameEngine.rendering.gui.GuiRendererHandler;
 import gameEngine.rendering.gui.GuiTexture;
@@ -54,6 +55,11 @@ public class GameManager extends StaticScript {
 		GameManager.menuTexture.transform.position = new Vector3d(200, 1000, 0);
 		
 		GuiRendererHandler.addUIElement(GameManager.menuTexture);
+		
+		if(InputManager.keyDown(GLFW_KEY_F5)) {
+			MainGame.reloadGame();
+			glfwSetWindowShouldClose(WindowManager.manager.getWindowID(), true);
+		}
 	}
 
 	@Override

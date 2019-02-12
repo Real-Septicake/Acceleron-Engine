@@ -20,10 +20,6 @@ public class RendererHandler {
 	private StaticShader shader;
 	
 	public RendererHandler(StaticShader shader) {
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_BACK);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		this.shader = shader;
 	}
 	
@@ -35,6 +31,11 @@ public class RendererHandler {
 	
 	public void render(Map<TexturedMeshLowLevel, List<RenderObjectInfo>> entities, Camera camera) {
 		
+		
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		createProjectionMatrix(camera);
 		
 		shader.loadProjectionMatrix(projectionMatrix);

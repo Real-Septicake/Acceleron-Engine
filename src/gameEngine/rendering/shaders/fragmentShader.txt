@@ -11,6 +11,12 @@ uniform vec3 lightColor[8];
 
 void main()
 {
+	vec4 textureSample = texture(textureSampler, pass_textureCoords);
+	
+	if(textureSample.a < 0.5){
+		discard;
+	}
+	
 	vec3 totalDiffuse = vec3(0.0);
 	
 	for(int i=0; i<8; i++) {
@@ -24,5 +30,5 @@ void main()
 	
 	totalDiffuse = max(totalDiffuse, 0.2);
 	
-	out_Color = vec4(totalDiffuse, 1.0) * texture(textureSampler, pass_textureCoords);
+	out_Color = vec4(totalDiffuse, 1.0) * textureSample;
 }
