@@ -1,4 +1,4 @@
-package game;
+package game.topDownFighter.scripts;
 
 public enum TileState {
 	White(0, "White"),

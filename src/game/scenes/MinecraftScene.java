@@ -1,63 +1,41 @@
 package game.scenes;
 
-import org.joml.*;
+import org.joml.Vector2i;
+import org.joml.Vector3d;
 
-import game.scripts.*;
+import game.minecraft.data.Chunk;
+import game.scripts.GameManager;
 import game.topDownFighter.scripts.CameraMover;
-import gameEngine.common.*;
 import gameEngine.components.essentials.GameObject;
-import gameEngine.components.rendering.*;
-import gameEngine.components.scripts.*;
-import gameEngine.debug.Debug;
+import gameEngine.components.rendering.Camera;
+import gameEngine.components.rendering.Light;
+import gameEngine.components.rendering.MeshRenderer;
+import gameEngine.components.scripts.StaticScript;
 import gameEngine.rendering.MasterRenderer;
 
-public class RandomScene extends StaticScript {
-	
-	private double currentRotation;
+public class MinecraftScene extends StaticScript {
+
+	Chunk chunk;
 	
 	@Override
 	public void update() {
-		currentRotation += 15 * UpdateHandler.timeDelta;
+		chunk.updateChunks();
 		
-		Quaterniond rot = Maths.fromEulerAngle(new Vector3d(0,currentRotation,0));
-		for (float x = -10; x <= 10; x+= 0.25f) {
-			for (float y = -10; y <= 10; y+= 0.25f) {
-				for (float z = -10; z <= 10; z+= 0.25f) {
-					float distance = x * x + y * y + z * z;
-					if((distance <= 100 && distance > 98) || (distance <= 5 && distance > 3)) {
-						//count++;
-						MasterRenderer.drawMesh(GameManager.sphereTextured, new Vector3d(x, y, z).rotate(rot).add(new Vector3d(0, 10, -15)), new Vector3d(0, 0, 0), new Vector3d(2, 2, 2));
-					}
-				}
-			}
+		MasterRenderer.drawMesh(chunk.meshes[0], new Vector3d(0), new Vector3d(0), new Vector3d(.2));
+		for (int i = 0; i < chunk.meshes.length; i++) {
+			//MasterRenderer.drawMesh(chunk.meshes[i], new Vector3d(chunk.position.x, i * 16, chunk.position.y), new Vector3d(0), new Vector3d(0.2));
 		}
-			
-		for (int i = 1; i <= 5; i++) {
-			MasterRenderer.drawMesh(GameManager.texturedTree, new Vector3d(10 + (i * (i / 10f)) * 10, 0, -15), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1).mul(i));
-		}
-		
-		GameManager.menuTexture.transform.size = new Vector2d(300, 150);
-		GameManager.menuTexture.transform.position = new Vector3d(-720, 0, 0);
-		
-		//GuiRendererHandler.addUIElement(GameManager.menuTexture);
 	}
 
 	@Override
 	public void start() {
-		
-		Debug.log("Random area started!");
+		chunk = new Chunk(new Vector2i(0));
 		
 		GameObject cameraGm = new GameObject(new Vector3d(0, 2, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";
 		Camera camera = (Camera) cameraGm.addComponent(Camera.class);
 		camera.orthographic = false;
 		cameraGm.addComponent(CameraMover.class);
-		// At tutorial 12
-		
-		GameObject car = new GameObject(new Vector3d(-11, 1.25, 0), new Vector3d(0), new Vector3d(1));
-		car.name = "Car";
-		MeshRenderer renderer = (MeshRenderer) car.addComponent(MeshRenderer.class);
-		renderer.mesh = GameManager.carTextured;
 		
 		GameObject lightGm1 = new GameObject(new Vector3d(-100, 100, 100), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		Light light = (Light) lightGm1.addComponent(Light.class);
@@ -86,7 +64,7 @@ public class RandomScene extends StaticScript {
 
 	@Override
 	public void lateUpdate() {
-		// TODO Auto-generated method stub
-		
+		//ChunkRenderer.render(GameManager.textureAtlas);
 	}
+
 }

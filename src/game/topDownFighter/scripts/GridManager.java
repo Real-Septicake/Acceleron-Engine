@@ -1,4 +1,4 @@
-package game;
+package game.topDownFighter.scripts;
 
 import java.awt.image.BufferedImage;
 import java.util.HashSet;

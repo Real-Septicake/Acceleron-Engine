@@ -13,6 +13,7 @@ import gameEngine.rendering.data.meshData.*;
 import gameEngine.rendering.shaders.*;
 import gameEngine.common.Maths;
 import gameEngine.components.rendering.Camera;
+import gameEngine.debug.Debug;
 
 public class RendererHandler {
 	
@@ -100,7 +101,7 @@ public class RendererHandler {
 	private Vector2d getAtlasOffset(int rows, int location) {
 		int row = location / rows, collumn = location % rows;
 		
-		return new Vector2d(collumn / (float)rows, row / (float)rows);
+		return new Vector2d(collumn / (double)rows, row / (double)rows);
 	}
 	
 	private void createProjectionMatrix(Camera cam) {

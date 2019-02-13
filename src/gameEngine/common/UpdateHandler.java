@@ -27,7 +27,7 @@ public class UpdateHandler {
 			try {
 				script.start();
 			} catch (Exception e) {
-				Debug.logError(e);
+				Debug.logError(e.getStackTrace()[0] + " " + e);
 			}
 		}
 		
@@ -39,7 +39,7 @@ public class UpdateHandler {
 			try {
 				script.start();
 			} catch (Exception e) {
-				Debug.logError(e);
+				Debug.logError(e.getStackTrace()[0] + " " + e);
 			}
 		}
 		
@@ -51,7 +51,7 @@ public class UpdateHandler {
 			try {
 				script.update();
 			} catch (Exception e) {
-				Debug.logError(e);
+				Debug.logError(e.getStackTrace()[0] + " " + e);
 			}
 		}
 		
@@ -61,7 +61,7 @@ public class UpdateHandler {
 			try {
 				script.update();	
 			} catch (Exception e) {
-				Debug.logError(e);
+				Debug.logError(e.getStackTrace()[0] + " " + e);
 			}
 		}
 		
@@ -70,17 +70,17 @@ public class UpdateHandler {
 			try {
 				script.lateUpdate();
 			} catch (Exception e) {
-				Debug.logError(e);
+				Debug.logError(e.getStackTrace()[0] + " " + e);
 			}
 		}
 		
 		
-		//Run update on static scripts
+		//Run late update on static scripts
 		for (StaticScript script : staticScripts) {
 			try {
 				script.lateUpdate();	
 			} catch (Exception e) {
-				Debug.logError(e);
+				Debug.logError(e.getStackTrace()[0] + " " + e);
 			}
 		}
 		

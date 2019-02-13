@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.joml.Vector3d;
 
+import game.scripts.GameManager;
 import gameEngine.rendering.data.RenderObjectInfo;
 import gameEngine.rendering.data.meshData.*;
 import gameEngine.rendering.gui.GuiRendererHandler;
@@ -31,6 +32,10 @@ public class MasterRenderer {
 	
 	//The camera that is used to render
 	private static Camera cam;
+	
+	public static Camera currentCamera() {
+		return cam;
+	}
 	
 	//Counter for frames that we haven't been able to render for
 	private static int framesWithoutCamera = 0;

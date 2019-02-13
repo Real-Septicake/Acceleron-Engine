@@ -1,4 +1,4 @@
-package game;
+package game.topDownFighter.scripts;
 
 import java.util.HashSet;
 
@@ -144,17 +144,6 @@ foreach player
         if (player.position.x - 0.25 > tile.x + .5) return false;
         if (player.position.y + 0.25 < tile.y - .5) return false;
         if (player.position.y - 0.25 > tile.y + .5) return false;
-
-        return true;
-    }
-
-    //Is a player and a bullet overlapping?
-	private static boolean overlapPlayerBullet(Player player, Vector3d bullet)
-    {
-        if (bullet.x > player.position.x + 0.25) return false;
-        if (bullet.x < player.position.x - 0.25) return false;
-        if (bullet.y > player.position.y + 0.25) return false;
-        if (bullet.y < player.position.y - 0.25) return false;
 
         return true;
     }

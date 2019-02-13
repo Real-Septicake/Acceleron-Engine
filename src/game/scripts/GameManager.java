@@ -6,15 +6,13 @@ import org.joml.Vector2d;
 import org.joml.Vector3d;
 
 import game.scenes.*;
-import game.textures.*;
 import gameEngine.common.*;
 import gameEngine.components.essentials.*;
 import gameEngine.components.scripts.*;
 import gameEngine.debug.*;
 import gameEngine.rendering.WindowManager;
 import gameEngine.rendering.data.meshData.*;
-import gameEngine.rendering.gui.GuiRendererHandler;
-import gameEngine.rendering.gui.GuiTexture;
+import gameEngine.rendering.gui.*;
 
 public class GameManager extends StaticScript {
 
@@ -27,6 +25,8 @@ public class GameManager extends StaticScript {
 	public static GuiTexture menuTexture;
 	public static TexturedMeshLowLevel gridTile;
 	public static TexturedMeshLowLevel bulletTextured;
+	public static ModelTexture textureAtlas;
+	
 	
 	private int currentScene = 0;
 	
@@ -44,7 +44,13 @@ public class GameManager extends StaticScript {
 			currentScene = 2;
 			GameObject.clearScene();
 		}
-		else if (currentScene != 0 && InputManager.keyDown(GLFW_KEY_3)) {
+		else if (currentScene != 3 && InputManager.keyDown(GLFW_KEY_3)) {
+			currentState.stop();
+			currentState = new MinecraftScene();
+			currentScene = 3;
+			GameObject.clearScene();
+		}
+		else if (currentScene != 0 && InputManager.keyDown(GLFW_KEY_4)) {
 			currentState.stop();
 			currentState = new MainMenuScene();
 			currentScene = 0;
@@ -55,11 +61,6 @@ public class GameManager extends StaticScript {
 		GameManager.menuTexture.transform.position = new Vector3d(200, 1000, 0);
 		
 		GuiRendererHandler.addUIElement(GameManager.menuTexture);
-		
-		if(InputManager.keyDown(GLFW_KEY_F5)) {
-			MainGame.reloadGame();
-			glfwSetWindowShouldClose(WindowManager.manager.getWindowID(), true);
-		}
 	}
 
 	@Override
@@ -111,6 +112,8 @@ public class GameManager extends StaticScript {
 					new double[] {0, 0, 0, 1, 1, 0, 1, 1 }, 
 					new double[] { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1}), 
 				new ModelTexture(LowLevelLoader.loadTexture("Textures/BulletAtlas")), 2);
+		
+		textureAtlas = new ModelTexture(LowLevelLoader.loadTexture("Textures/Minecraft Texture Atlas"));
 		
 		Debug.log("Finished loading assets! Initializing scene...");
 		

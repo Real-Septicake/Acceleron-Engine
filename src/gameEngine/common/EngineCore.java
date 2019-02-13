@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import game.scripts.MainGame;
 import gameEngine.components.essentials.GameObject;
+import gameEngine.debug.Debug;
 import gameEngine.rendering.*;
 
 public class EngineCore {
@@ -27,6 +28,7 @@ public class EngineCore {
 	private void gameLoop(Game game) {
 		
 		GL.createCapabilities();
+		glfwSetErrorCallback(new GLFWError());
 		
 		long windowID = WindowManager.manager.getWindowID();
 		
@@ -60,15 +62,15 @@ public class EngineCore {
 	            frames = 0;
 	            timer += 1000;
 	        }
-			
+	        
 	        glfwSwapBuffers(windowID); // swap the color buffers
 	        
 	        //Get all of the glfw events
 	        glfwPollEvents();
-			
+	        
 			GL11.glViewport(0, 0, WindowManager.manager.getCurrentWidth(), WindowManager.manager.getCurrentHeight());
+			
 		}
-		
 		closeGame();
 	}
 	

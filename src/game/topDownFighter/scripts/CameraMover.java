@@ -1,4 +1,4 @@
-package game.scripts;
+package game.topDownFighter.scripts;
 
 import static org.lwjgl.glfw.GLFW.*;
 

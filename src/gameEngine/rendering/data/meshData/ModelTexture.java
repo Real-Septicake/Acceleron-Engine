@@ -1,4 +1,4 @@
-package game.textures;
+package gameEngine.rendering.data.meshData;
 
 public class ModelTexture {
 	private int textureID;

@@ -1,7 +1,5 @@
 package gameEngine.rendering.data.meshData;
 
-import game.textures.ModelTexture;
-
 public class TexturedMeshLowLevel {
 	private MeshLowLevel mesh;
 	private ModelTexture texture;
@@ -37,6 +35,10 @@ public class TexturedMeshLowLevel {
 	
 	public MeshLowLevel getMesh() {
 		return mesh;
+	}
+	
+	public void setMesh(MeshLowLevel mesh) {
+		this.mesh = mesh;
 	}
 	
 	public ModelTexture getTexture() {

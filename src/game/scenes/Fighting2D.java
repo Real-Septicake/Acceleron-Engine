@@ -2,7 +2,7 @@ package game.scenes;
 
 import org.joml.Vector3d;
 
-import game.GridManager;
+import game.topDownFighter.scripts.GridManager;
 import gameEngine.components.essentials.GameObject;
 import gameEngine.components.rendering.*;
 import gameEngine.components.scripts.StaticScript;
