@@ -45,6 +45,7 @@ public class Chunk {
 		}
 		
 		this.position = pos;
+		ChunkHandler.registerChunk(this);
 	}
 	
 	public void modifyChunk(int x, int y, int z, Blocks block) {

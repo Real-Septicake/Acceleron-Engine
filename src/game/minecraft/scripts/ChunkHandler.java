@@ -3,9 +3,11 @@ package game.minecraft.scripts;
 import java.util.*;
 
 import org.joml.Vector2i;
+import org.joml.Vector3d;
 
 import game.minecraft.data.Blocks;
 import game.minecraft.data.Chunk;
+import gameEngine.rendering.MasterRenderer;
 
 public class ChunkHandler {
 	
@@ -29,6 +31,15 @@ public class ChunkHandler {
 		Chunk chunk = chunkStorage.get(location);
 		if (chunk != null) {
 			chunk.refreshSegment(segment);
+		}
+	}
+	
+	public static void renderVisibleChunks() {
+		for (Chunk chunk : chunkStorage.values()) {
+			
+			for (int i = 0; i < chunk.meshes.length; i++) {
+				MasterRenderer.drawMesh(chunk.meshes[i], new Vector3d(chunk.position.x * 16, 0, chunk.position.y * 16), new Vector3d(0), new Vector3d(1));
+			}
 		}
 	}
 }

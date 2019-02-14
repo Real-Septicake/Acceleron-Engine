@@ -4,6 +4,7 @@ import org.joml.Vector2i;
 import org.joml.Vector3d;
 
 import game.minecraft.data.Chunk;
+import game.minecraft.scripts.ChunkHandler;
 import game.scripts.GameManager;
 import game.topDownFighter.scripts.CameraMover;
 import gameEngine.components.essentials.GameObject;
@@ -24,11 +25,7 @@ public class MinecraftScene extends StaticScript {
 			chunks[i].updateChunks();
 		}
 		
-		for (int x = 0; x < chunks.length; x++) {
-			for (int i = 0; i < chunks[x].meshes.length; i++) {
-				MasterRenderer.drawMesh(chunks[x].meshes[i], new Vector3d(chunks[x].position.x * 16, 0, chunks[x].position.y * 16), new Vector3d(0), new Vector3d(1));
-			}
-		}
+		ChunkHandler.renderVisibleChunks();
 	}
 
 	@Override
