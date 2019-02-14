@@ -21,9 +21,9 @@ public class MinecraftScene extends StaticScript {
 	public void update() {
 		chunk.updateChunks();
 		
-		MasterRenderer.drawMesh(chunk.meshes[0], new Vector3d(0), new Vector3d(0), new Vector3d(.2));
+		//MasterRenderer.drawMesh(chunk.meshes[0], new Vector3d(0), new Vector3d(0), new Vector3d(.2));
 		for (int i = 0; i < chunk.meshes.length; i++) {
-			//MasterRenderer.drawMesh(chunk.meshes[i], new Vector3d(chunk.position.x, i * 16, chunk.position.y), new Vector3d(0), new Vector3d(0.2));
+			MasterRenderer.drawMesh(chunk.meshes[i], new Vector3d(chunk.position.x, 0, chunk.position.y), new Vector3d(0), new Vector3d(1));
 		}
 	}
 
@@ -31,7 +31,7 @@ public class MinecraftScene extends StaticScript {
 	public void start() {
 		chunk = new Chunk(new Vector2i(0));
 		
-		GameObject cameraGm = new GameObject(new Vector3d(0, 2, 0), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
+		GameObject cameraGm = new GameObject(new Vector3d(0, 2, 1), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";
 		Camera camera = (Camera) cameraGm.addComponent(Camera.class);
 		camera.orthographic = false;

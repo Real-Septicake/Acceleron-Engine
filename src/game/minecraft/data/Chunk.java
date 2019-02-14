@@ -17,7 +17,7 @@ public class Chunk {
 	
 	public TexturedMeshLowLevel[] meshes = new TexturedMeshLowLevel[16];
 	
-	public final int textureAtlasRows = 2;
+	public final int textureAtlasRows = 16;
 	
 	public Vector2i position;
 	
@@ -26,8 +26,9 @@ public class Chunk {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 0; y < 256; y++) {
-					if(y < 1) {
-						chunkBlocks[x + z * 16 + y * 256] = Blocks.Grass;
+					if(y < 65) {
+						
+						chunkBlocks[x + z * 16 + y * 256] = (x % 2 == 0 || z % 2 == 0) ? Blocks.Grass : Blocks.Stone;
 					}
 					else {
 						chunkBlocks[x + z * 16 + y * 256] = Blocks.Air;
@@ -134,11 +135,12 @@ public class Chunk {
 	}
 	
 	private void generateFaces(int x, int y, int z, Queue<Double> positions, Queue<Integer> indices, Queue<Double> textureCoords, Queue<Double> normals) {
+		
 		Blocks block = getBlock(x, y, z);
 		BlockType type = block.getBlockType();
 		if(type == BlockType.Empty)
 			return;
-		/*
+
 		if(type == BlockType.Custom) {
 			Debug.log("Custom block type rendering not implemented, but is trying to be used!");
 		}
@@ -147,117 +149,131 @@ public class Chunk {
 			if(x == 0) {
 				//Generate west face
 				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, z, new Vector2i(position.x - 1, position.y));
-				if (otherChunkBlock != null && !otherChunkBlock.isTransparent()) {
-					generateFace(x, y, z, 3, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+				if (otherChunkBlock != null && otherChunkBlock.isTransparent()) {
+					generateFace(x, y, -z, 3, block.getTextureAtlasLocation(3), positions, indices, textureCoords, normals);
 				}
 				
 				//Generate east face
 				if(chunkBlocks[(x + 1) + z * 16 + y * 256].isTransparent()) {
-					generateFace(x, y, z, 2, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 2, block.getTextureAtlasLocation(2), positions, indices, textureCoords, normals);
 				}
 			}
 			else if (x == 15) {
 				//Generate east face
 				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, z, new Vector2i(position.x + 1, position.y));
-				if (otherChunkBlock != null && !otherChunkBlock.isTransparent()) {
-					generateFace(x, y, z, 2, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+				if (otherChunkBlock != null && otherChunkBlock.isTransparent()) {
+					generateFace(x, y, -z, 2, block.getTextureAtlasLocation(2), positions, indices, textureCoords, normals);
 				}
 				
 				//Generate west face
 				if(chunkBlocks[(x - 1) + z * 16 + y * 256].isTransparent()) {
-					generateFace(x, y, z, 3, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 3, block.getTextureAtlasLocation(3), positions, indices, textureCoords, normals);
 				}
 			}
 			else {
 				//Generate west face
 				if(chunkBlocks[(x - 1) + z * 16 + y * 256].isTransparent()) {
-					generateFace(x, y, z, 3, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 3, block.getTextureAtlasLocation(3), positions, indices, textureCoords, normals);
 				}
 				
 				//Generate east face
 				if(chunkBlocks[(x + 1) + z * 16 + y * 256].isTransparent()) {
-					generateFace(x, y, z, 2, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 2, block.getTextureAtlasLocation(2), positions, indices, textureCoords, normals);
 				}
 			}
 			
 			if(z == 0) {
 				//Generate south face
 				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, z, new Vector2i(position.x, position.y - 1));
-				if (otherChunkBlock != null && !otherChunkBlock.isTransparent()) {
-					generateFace(x, y, z, 1, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+				if (otherChunkBlock != null && otherChunkBlock.isTransparent()) {
+					generateFace(x, y, -z, 1, block.getTextureAtlasLocation(1), positions, indices, textureCoords, normals);
 				}
 				
 				//Generate north face
 				if(chunkBlocks[x + (z + 1) * 16 + y * 256].isTransparent()) {
-					generateFace(x, y, z, 0, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 0, block.getTextureAtlasLocation(0), positions, indices, textureCoords, normals);
 				}
 			}
 			else if (z == 15) {
 				//Generate north face
 				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, z, new Vector2i(position.x, position.y + 1));
-				if (otherChunkBlock != null && !otherChunkBlock.isTransparent()) {
-					generateFace(x, y, z, 0, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+				if (otherChunkBlock != null && otherChunkBlock.isTransparent()) {
+					generateFace(x, y, -z, 0, block.getTextureAtlasLocation(0), positions, indices, textureCoords, normals);
 				}
 				
 				//Generate south face
 				if(chunkBlocks[x + (z - 1) * 16 + y * 256].isTransparent()) {
-					generateFace(x, y, z, 1, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 1, block.getTextureAtlasLocation(1), positions, indices, textureCoords, normals);
 				}
 			}
 			else {
 				//Generate south face
 				if(chunkBlocks[x + (z - 1) * 16 + y * 256].isTransparent()) {
-					generateFace(x, y, z, 1, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 1, block.getTextureAtlasLocation(1), positions, indices, textureCoords, normals);
 				}
 				
 				//Generate north face
 				if(chunkBlocks[x + (z + 1) * 16 + y * 256].isTransparent()) {
-					generateFace(x, y, z, 0, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 0, block.getTextureAtlasLocation(0), positions, indices, textureCoords, normals);
 				}
 			}
 			
 			if(y == 0) {
-				generateFace(x, y, z, 4, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+				generateFace(x, y, -z, 4, block.getTextureAtlasLocation(4), positions, indices, textureCoords, normals);
 			}
 			else if(y == 255) {
-				generateFace(x, y, z, 5, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+				generateFace(x, y, -z, 5, block.getTextureAtlasLocation(5), positions, indices, textureCoords, normals);
 			}
 			else {
 				if(chunkBlocks[x + z * 16 + (y - 1) * 256].isTransparent()) {
-					generateFace(x, y, z, 4, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 4, block.getTextureAtlasLocation(4), positions, indices, textureCoords, normals);
 				}
 				if(chunkBlocks[x + z * 16 + (y + 1) * 256].isTransparent()) {
-					generateFace(x, y, z, 5, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
+					generateFace(x, y, -z, 5, block.getTextureAtlasLocation(5), positions, indices, textureCoords, normals);
 				}
 			}
 		}
+		/*
+		generateFace(x, y, -z, 0, block.getTextureAtlasLocation(0), positions, indices, textureCoords, normals);
+		generateFace(x, y, -z, 1, block.getTextureAtlasLocation(1), positions, indices, textureCoords, normals);
+		generateFace(x, y, -z, 2, block.getTextureAtlasLocation(2), positions, indices, textureCoords, normals);
+		generateFace(x, y, -z, 3, block.getTextureAtlasLocation(3), positions, indices, textureCoords, normals);
+		generateFace(x, y, -z, 4, block.getTextureAtlasLocation(4), positions, indices, textureCoords, normals);
+		generateFace(x, y, -z, 5, block.getTextureAtlasLocation(5), positions, indices, textureCoords, normals);
 		*/
-		//generateFace(x, y, z, 0, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
-		//generateFace(x, y, z, 1, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
-		//generateFace(x, y, z, 2, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
-		generateFace(x, y, z, 3, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
-		//generateFace(x, y, z, 4, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
-		generateFace(x, y, z, 5, block.getTextureAtlasLocation(), positions, indices, textureCoords, normals);
 	}
 	
 	private void generateFace(int x, int y, int z, int face, int textureAtlasLocation, Queue<Double> positions, Queue<Integer> indices, Queue<Double> textureCoords, Queue<Double> normals) {
+		int offset = positions.size();
 		
-		indices.add(positions.size());
-		indices.add(positions.size() + 1);
-		indices.add(positions.size() + 2);
-		indices.add(positions.size() + 2);
-		indices.add(positions.size() + 3);
-		indices.add(positions.size());
+		if(x == 0 || x == 10)
+			Debug.log(x + " " + y + " " + z);
+		
+		indices.add(offset / 3);
+		indices.add(offset / 3 + 1);
+		indices.add(offset / 3 + 2);
+		indices.add(offset / 3 + 2);
+		indices.add(offset / 3 + 3);
+		indices.add(offset / 3);
+		
+		int row = textureAtlasLocation / textureAtlasRows, collumn = textureAtlasLocation % textureAtlasRows;
+		
+		double xOffset = collumn / (double)textureAtlasRows, yOffset = row / (double)textureAtlasRows;
+		
+		textureCoords.add(xOffset);
+		textureCoords.add(yOffset + 1d / textureAtlasRows);
+		
+		textureCoords.add(xOffset + 1d / textureAtlasRows);
+		textureCoords.add(yOffset + 1d / textureAtlasRows);
+		
+		textureCoords.add(xOffset + 1d / textureAtlasRows);
+		textureCoords.add(yOffset);
+		
+		textureCoords.add(xOffset);
+		textureCoords.add(yOffset);
 		
 		//North
 		if(face == 0) {
-			positions.add((double)x + 1);
-			positions.add((double)y + 1);
-			positions.add((double)z - 1);
-			
-			positions.add((double)x);
-			positions.add((double)y + 1);
-			positions.add((double)z - 1);
 			
 			positions.add((double)x + 1);
 			positions.add((double)y);
@@ -265,6 +281,14 @@ public class Chunk {
 			
 			positions.add((double)x);
 			positions.add((double)y);
+			positions.add((double)z - 1);
+			
+			positions.add((double)x);
+			positions.add((double)y + 1);
+			positions.add((double)z - 1);
+			
+			positions.add((double)x + 1);
+			positions.add((double)y + 1);
 			positions.add((double)z - 1);
 			
 			normals.add(0d);
@@ -285,13 +309,6 @@ public class Chunk {
 		}
 		//South
 		else if(face == 1) {
-			positions.add((double)x);
-			positions.add((double)y + 1);
-			positions.add((double)z);
-			
-			positions.add((double)x + 1);
-			positions.add((double)y + 1);
-			positions.add((double)z);
 			
 			positions.add((double)x);
 			positions.add((double)y);
@@ -299,6 +316,14 @@ public class Chunk {
 			
 			positions.add((double)x + 1);
 			positions.add((double)y);
+			positions.add((double)z);
+			
+			positions.add((double)x + 1);
+			positions.add((double)y + 1);
+			positions.add((double)z);
+			
+			positions.add((double)x);
+			positions.add((double)y + 1);
 			positions.add((double)z);
 			
 			normals.add(0d);
@@ -319,13 +344,6 @@ public class Chunk {
 		}
 		//East
 		else if(face == 2) {
-			positions.add((double)x + 1);
-			positions.add((double)y + 1);
-			positions.add((double)z);
-			
-			positions.add((double)x + 1);
-			positions.add((double)y + 1);
-			positions.add((double)z - 1);
 			
 			positions.add((double)x + 1);
 			positions.add((double)y);
@@ -334,6 +352,14 @@ public class Chunk {
 			positions.add((double)x + 1);
 			positions.add((double)y);
 			positions.add((double)z - 1);
+			
+			positions.add((double)x + 1);
+			positions.add((double)y + 1);
+			positions.add((double)z - 1);
+			
+			positions.add((double)x + 1);
+			positions.add((double)y + 1);
+			positions.add((double)z);
 			
 			normals.add(1d);
 			normals.add(0d);
@@ -355,19 +381,19 @@ public class Chunk {
 		else if(face == 3) {
 			
 			positions.add((double)x);
-			positions.add((double)y + 1);
+			positions.add((double)y);
 			positions.add((double)z - 1);
 			
 			positions.add((double)x);
+			positions.add((double)y);
+			positions.add((double)z);
+			
+			positions.add((double)x);
 			positions.add((double)y + 1);
 			positions.add((double)z);
 			
 			positions.add((double)x);
-			positions.add((double)y);
-			positions.add((double)z);
-			
-			positions.add((double)x);
-			positions.add((double)y);
+			positions.add((double)y + 1);
 			positions.add((double)z - 1);
 			
 			normals.add(-1d);
@@ -386,73 +412,72 @@ public class Chunk {
 			normals.add(0d);
 			normals.add(0d);
 		}
-		//Top
+		//Bottom
 		else if(face == 4) {
 			positions.add((double)x);
-			positions.add((double)y + 1);
+			positions.add((double)y);
 			positions.add((double)z - 1);
+			
+			positions.add((double)x + 1);
+			positions.add((double)y);
+			positions.add((double)z - 1);
+			
+			positions.add((double)x + 1);
+			positions.add((double)y);
+			positions.add((double)z);
 			
 			positions.add((double)x);
-			positions.add((double)y + 1);
-			positions.add((double)z);
-			
-			positions.add((double)x + 1);
-			positions.add((double)y + 1);
-			positions.add((double)z - 1);
-			
-			positions.add((double)x + 1);
-			positions.add((double)y + 1);
+			positions.add((double)y);
 			positions.add((double)z);
 			
 			normals.add(0d);
-			normals.add(1d);
+			normals.add(-1d);
 			normals.add(0d);
 			
 			normals.add(0d);
-			normals.add(1d);
+			normals.add(-1d);
 			normals.add(0d);
 			
 			normals.add(0d);
-			normals.add(1d);
+			normals.add(-1d);
 			normals.add(0d);
 			
 			normals.add(0d);
-			normals.add(1d);
+			normals.add(-1d);
 			normals.add(0d);
 		}
-		//Bottom
+		//Top
 		else if(face == 5) {
-			
 			positions.add((double)x);
-			positions.add((double)y);
+			positions.add((double)y + 1);
 			positions.add((double)z - 1);
 			
+			positions.add((double)x);
+			positions.add((double)y + 1);
+			positions.add((double)z);
+			
 			positions.add((double)x + 1);
-			positions.add((double)y);
+			positions.add((double)y + 1);
+			positions.add((double)z);
+			
+			positions.add((double)x + 1);
+			positions.add((double)y + 1);
 			positions.add((double)z - 1);
 			
-			positions.add((double)x + 1);
-			positions.add((double)y);
-			positions.add((double)z);
-			
-			positions.add((double)x);
-			positions.add((double)y);
-			positions.add((double)z);
-			
 			normals.add(0d);
-			normals.add(-1d);
+			normals.add(1d);
 			normals.add(0d);
 			
 			normals.add(0d);
-			normals.add(-1d);
+			normals.add(1d);
 			normals.add(0d);
 			
 			normals.add(0d);
-			normals.add(-1d);
+			normals.add(1d);
 			normals.add(0d);
 			
 			normals.add(0d);
-			normals.add(-1d);
+			normals.add(1d);
 			normals.add(0d);
 		}
 	}

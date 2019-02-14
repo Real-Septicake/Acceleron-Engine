@@ -3,6 +3,7 @@ package gameEngine.common;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 
+import org.lwjgl.PointerBuffer;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 

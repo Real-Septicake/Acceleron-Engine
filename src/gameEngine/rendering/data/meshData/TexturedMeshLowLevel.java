@@ -1,5 +1,7 @@
 package gameEngine.rendering.data.meshData;
 
+import gameEngine.debug.Debug;
+
 public class TexturedMeshLowLevel {
 	private MeshLowLevel mesh;
 	private ModelTexture texture;

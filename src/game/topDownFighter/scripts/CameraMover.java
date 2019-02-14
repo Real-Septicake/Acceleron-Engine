@@ -8,6 +8,7 @@ import gameEngine.common.InputManager;
 import gameEngine.common.Maths;
 import gameEngine.common.UpdateHandler;
 import gameEngine.components.scripts.Script;
+import gameEngine.debug.Debug;
 
 public class CameraMover extends Script {
 

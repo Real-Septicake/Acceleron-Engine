@@ -1,16 +1,16 @@
 package game.minecraft.data;
 
 public enum Blocks {
-	Air("Air", "Base", true, BlockType.Empty, -1),
-	Grass("Grass", "Base", false, BlockType.Cube, 0),
-	Dirt("Dirt", "Base", false, BlockType.Cube, 1),
-	Stone("Stone", "Base", false, BlockType.Cube, 2);
+	Air("Air", "Base", true, BlockType.Empty, null),
+	Grass("Grass", "Base", false, BlockType.Cube, new int[] {2, 2, 2, 2, 3, 1} ),
+	Dirt("Dirt", "Base", false, BlockType.Cube, new int[] {3, 3, 3, 3, 3, 3}),
+	Stone("Stone", "Base", false, BlockType.Cube, new int[] {0, 0, 0, 0, 0, 0});
 	
 	private String name;
 	private String mod;
 	private boolean transparent;
 	private BlockType blockType;
-	private int textureAtlasLocation;
+	private int[] textureAtlasLocation;
 	
 	public String getName() {
 		return name;
@@ -28,11 +28,11 @@ public enum Blocks {
 		return blockType;
 	}
 	
-	public int getTextureAtlasLocation() {
-		return textureAtlasLocation;
+	public int getTextureAtlasLocation(int side) {
+		return textureAtlasLocation[side];
 	}
 	
-	private Blocks(String name, String mod, boolean transparent, BlockType blockType, int textureAtlasLocation) {
+	private Blocks(String name, String mod, boolean transparent, BlockType blockType, int[] textureAtlasLocation) {
 		this.name = name;
 		this.mod = mod;
 		this.transparent = transparent;
