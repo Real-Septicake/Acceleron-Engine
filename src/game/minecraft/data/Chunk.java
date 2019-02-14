@@ -2,6 +2,8 @@ package game.minecraft.data;
 
 import java.util.*;
 
+import javax.xml.bind.annotation.XmlAccessOrder;
+
 import org.joml.Vector2i;
 
 import game.minecraft.scripts.ChunkHandler;
@@ -28,7 +30,8 @@ public class Chunk {
 				for (int y = 0; y < 256; y++) {
 					if(y < 65) {
 						
-						chunkBlocks[x + z * 16 + y * 256] = (x % 2 == 0 || z % 2 == 0) ? Blocks.Grass : Blocks.Stone;
+						//(x % 4 < 2 && z % 4 < 2 && y % 4 < 2) || (x % 4 > 1 && z % 4 > 1)
+						chunkBlocks[x + z * 16 + y * 256] = (((x % 2 == z % 2) && y % 2 == 0) || (x % 2 != z % 2) && y % 2 != 0) ? Blocks.Grass : Blocks.Stone;
 					}
 					else {
 						chunkBlocks[x + z * 16 + y * 256] = Blocks.Air;
@@ -76,7 +79,6 @@ public class Chunk {
 				regenerateMesh(i);
 				
 				segmentDirty[i] = false;
-				Debug.log("Regenerated mesh");
 			}
 			
 		}
@@ -89,10 +91,10 @@ public class Chunk {
 	}
 	
 	private void regenerateMesh(int mesh) {
-		Queue<Double> positions = new LinkedList<Double>();
-		Queue<Integer> indices = new LinkedList<Integer>();
-		Queue<Double> textureCoords = new LinkedList<Double>();
-		Queue<Double> normals = new LinkedList<Double>();
+		ArrayList<Double> positions = new ArrayList<Double>();
+		ArrayList<Integer> indices = new ArrayList<Integer>();
+		ArrayList<Double> textureCoords = new ArrayList<Double>();
+		ArrayList<Double> normals = new ArrayList<Double>();
 		
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
@@ -104,25 +106,25 @@ public class Chunk {
 		
 		double[] posArray = new double[positions.size()];
 		for (int i = 0; i < positions.size(); i++) {
-			posArray[i] = positions.remove();
+			posArray[i] = positions.get(i);
 		}
 		positions.clear();
 		
 		int[] intArray = new int[indices.size()];
 		for (int i = 0; i < indices.size(); i++) {
-			intArray[i] = indices.remove();
+			intArray[i] = indices.get(i);
 		}
 		indices.clear();
 		
 		double[] textureArray = new double[textureCoords.size()];
 		for (int i = 0; i < textureCoords.size(); i++) {
-			textureArray[i] = textureCoords.remove();
+			textureArray[i] = textureCoords.get(i);
 		}
 		textureCoords.clear();
 		
 		double[] normalsArray = new double[normals.size()];
 		for (int i = 0; i < normals.size(); i++) {
-			normalsArray[i] = normals.remove();
+			normalsArray[i] = normals.get(i);
 		}
 		normals.clear();
 		
@@ -134,7 +136,7 @@ public class Chunk {
 		}
 	}
 	
-	private void generateFaces(int x, int y, int z, Queue<Double> positions, Queue<Integer> indices, Queue<Double> textureCoords, Queue<Double> normals) {
+	private void generateFaces(int x, int y, int z, ArrayList<Double> positions, ArrayList<Integer> indices, ArrayList<Double> textureCoords, ArrayList<Double> normals) {
 		
 		Blocks block = getBlock(x, y, z);
 		BlockType type = block.getBlockType();
@@ -233,21 +235,10 @@ public class Chunk {
 				}
 			}
 		}
-		/*
-		generateFace(x, y, -z, 0, block.getTextureAtlasLocation(0), positions, indices, textureCoords, normals);
-		generateFace(x, y, -z, 1, block.getTextureAtlasLocation(1), positions, indices, textureCoords, normals);
-		generateFace(x, y, -z, 2, block.getTextureAtlasLocation(2), positions, indices, textureCoords, normals);
-		generateFace(x, y, -z, 3, block.getTextureAtlasLocation(3), positions, indices, textureCoords, normals);
-		generateFace(x, y, -z, 4, block.getTextureAtlasLocation(4), positions, indices, textureCoords, normals);
-		generateFace(x, y, -z, 5, block.getTextureAtlasLocation(5), positions, indices, textureCoords, normals);
-		*/
 	}
 	
-	private void generateFace(int x, int y, int z, int face, int textureAtlasLocation, Queue<Double> positions, Queue<Integer> indices, Queue<Double> textureCoords, Queue<Double> normals) {
+	private void generateFace(int x, int y, int z, int face, int textureAtlasLocation, ArrayList<Double> positions, ArrayList<Integer> indices, ArrayList<Double> textureCoords, ArrayList<Double> normals) {
 		int offset = positions.size();
-		
-		if(x == 0 || x == 10)
-			Debug.log(x + " " + y + " " + z);
 		
 		indices.add(offset / 3);
 		indices.add(offset / 3 + 1);
@@ -479,6 +470,12 @@ public class Chunk {
 			normals.add(0d);
 			normals.add(1d);
 			normals.add(0d);
+		}
+	}
+	
+	public void clean() {
+		for (int i = 0; i < meshes.length; i++) {
+			LowLevelLoader.removeMesh(meshes[i].getMesh().getVaoID());
 		}
 	}
 }

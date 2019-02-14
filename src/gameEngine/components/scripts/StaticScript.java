@@ -11,6 +11,7 @@ public abstract class StaticScript {
 	public abstract void update();
 	public abstract void start();
 	public abstract void lateUpdate();
+	public abstract void onDestroy();
 	
 	private void setup() {
 		UpdateHandler.RegisterScript(this);
@@ -18,5 +19,6 @@ public abstract class StaticScript {
 	
 	public void stop() {
 		UpdateHandler.UnregisterScript(this);
+		onDestroy();
 	}
 }

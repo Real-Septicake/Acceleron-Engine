@@ -86,7 +86,11 @@ public class RandomScene extends StaticScript {
 
 	@Override
 	public void lateUpdate() {
-		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDestroy() {
 		
 	}
 }

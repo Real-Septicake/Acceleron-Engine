@@ -43,7 +43,7 @@ public class RendererHandler {
 		
 		for(TexturedMeshLowLevel mesh : entities.keySet()) {
 			
-			if(mesh != null) {
+			//if(mesh != null) {
 				
 				if(mesh.isDoubleSided()) {
 					GL11.glDisable(GL11.GL_CULL_FACE);
@@ -65,7 +65,7 @@ public class RendererHandler {
 				if(mesh.isDoubleSided()) {
 					GL11.glEnable(GL11.GL_CULL_FACE);
 				}
-			}
+			//}
 		}
 	}
 	

@@ -60,7 +60,11 @@ public class CameraMover extends Script {
 
 	@Override
 	public void lateUpdate() {
-		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDestroy() {
 		
 	}
 }

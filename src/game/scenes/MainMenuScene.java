@@ -69,4 +69,9 @@ public class MainMenuScene extends StaticScript {
 		
 	}
 
+	@Override
+	public void onDestroy() {
+		
+	}
+
 }

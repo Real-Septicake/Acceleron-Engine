@@ -13,14 +13,12 @@ public class ChunkHandler {
 	
 	public static Blocks getBlockInChunk(int x, int y, int z, Vector2i chunkLocation) {
 		
-		return Blocks.Air;
-		/*
 		Chunk chunk = chunkStorage.get(chunkLocation);
 		if(chunk == null) {
 			return null;
 		}
 		
-		return chunk.getBlock(x, y, z);*/
+		return chunk.getBlock(x, y, z);
 	}
 	
 	public static void registerChunk(Chunk chunk) {

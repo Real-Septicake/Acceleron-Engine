@@ -126,4 +126,9 @@ public class GameManager extends StaticScript {
 		
 	}
 
+	@Override
+	public void onDestroy() {
+		
+	}
+
 }

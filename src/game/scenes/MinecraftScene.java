@@ -11,27 +11,37 @@ import gameEngine.components.rendering.Camera;
 import gameEngine.components.rendering.Light;
 import gameEngine.components.rendering.MeshRenderer;
 import gameEngine.components.scripts.StaticScript;
+import gameEngine.debug.Debug;
 import gameEngine.rendering.MasterRenderer;
 
 public class MinecraftScene extends StaticScript {
 
-	Chunk chunk;
+	Chunk[] chunks;
 	
 	@Override
 	public void update() {
-		chunk.updateChunks();
+		for (int i = 0; i < chunks.length; i++) {
+			chunks[i].updateChunks();
+		}
 		
-		//MasterRenderer.drawMesh(chunk.meshes[0], new Vector3d(0), new Vector3d(0), new Vector3d(.2));
-		for (int i = 0; i < chunk.meshes.length; i++) {
-			MasterRenderer.drawMesh(chunk.meshes[i], new Vector3d(chunk.position.x, 0, chunk.position.y), new Vector3d(0), new Vector3d(1));
+		for (int x = 0; x < chunks.length; x++) {
+			for (int i = 0; i < chunks[x].meshes.length; i++) {
+				MasterRenderer.drawMesh(chunks[x].meshes[i], new Vector3d(chunks[x].position.x * 16, 0, chunks[x].position.y * 16), new Vector3d(0), new Vector3d(1));
+			}
 		}
 	}
 
 	@Override
 	public void start() {
-		chunk = new Chunk(new Vector2i(0));
 		
-		GameObject cameraGm = new GameObject(new Vector3d(0, 2, 1), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
+		chunks = new Chunk[9];
+		for (int x = 0; x < 3; x++) {
+			for (int y = 0; y < 3; y++) {
+				chunks[x + y * 3] = new Chunk(new Vector2i(x - 1, y - 1));
+			}
+		}
+		
+		GameObject cameraGm = new GameObject(new Vector3d(0, 70, 5), new Vector3d(0, 0, 0), new Vector3d(1, 1, 1));
 		cameraGm.name = "Camera / Player Object";
 		Camera camera = (Camera) cameraGm.addComponent(Camera.class);
 		camera.orthographic = false;
@@ -60,11 +70,20 @@ public class MinecraftScene extends StaticScript {
 		GameObject floor = new GameObject(new Vector3d(0), new Vector3d(0), new Vector3d(100, 1, 100));
 		MeshRenderer floorRend = (MeshRenderer) floor.addComponent(MeshRenderer.class);
 		floorRend.mesh = GameManager.floorTextured;
+		
+		Debug.log("Minecraft area loaded!");
 	}
 
 	@Override
 	public void lateUpdate() {
 		//ChunkRenderer.render(GameManager.textureAtlas);
+	}
+
+	@Override
+	public void onDestroy() {
+		for (int i = 0; i < chunks.length; i++) {
+			chunks[i].clean();
+		}
 	}
 
 }

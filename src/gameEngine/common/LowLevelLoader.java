@@ -70,6 +70,10 @@ public class LowLevelLoader {
 		return new MeshLowLevel(meshID, positions.length/3);
 	}
 
+	public static void removeMesh(int id) {
+		GL15.glDeleteBuffers(id);
+	}
+	
 	public static int loadTexture(String filepath) {
 		try {
 		  File file = new File("res/"+filepath+".png");

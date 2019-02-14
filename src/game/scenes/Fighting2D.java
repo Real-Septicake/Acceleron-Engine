@@ -16,7 +16,9 @@ public class Fighting2D extends StaticScript {
 	
 	@Override
 	public void update() {
-		//MasterRenderer.drawMesh(GameManager.sphereTextured, new Vector3d(0,0,0), new Vector3d(0, 0, 0), new Vector3d(2, 2, 2));
+		if (manager == null) {
+			return;
+		}
 		
 		float width = WindowManager.manager.getCurrentWidth(), height = WindowManager.manager.getCurrentHeight();
 		
@@ -59,7 +61,15 @@ public class Fighting2D extends StaticScript {
 
 	@Override
 	public void lateUpdate() {
+		if (manager == null) {
+			return;
+		}
 		manager.lateUpdate();
+	}
+
+	@Override
+	public void onDestroy() {
+		manager = null;
 	}
 
 }
