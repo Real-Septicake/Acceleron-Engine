@@ -60,6 +60,7 @@ public class EngineCore {
 	            if (RENDER_TIME) {
 	            	glfwSetWindowTitle(WindowManager.manager.getWindowID(), WindowManager.manager.windowName + String.format(" FPS: %s", frames));
 	            }
+	            
 	            frames = 0;
 	            timer += 1000;
 	        }

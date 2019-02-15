@@ -2,8 +2,8 @@ package game.scenes;
 
 import org.joml.*;
 
+import game.CameraMover;
 import game.scripts.*;
-import game.topDownFighter.scripts.CameraMover;
 import gameEngine.common.*;
 import gameEngine.components.essentials.GameObject;
 import gameEngine.components.rendering.*;
@@ -26,7 +26,7 @@ public class RandomScene extends StaticScript {
 					float distance = x * x + y * y + z * z;
 					if((distance <= 100 && distance > 98) || (distance <= 5 && distance > 3)) {
 						//count++;
-						MasterRenderer.drawMesh(GameManager.sphereTextured, new Vector3d(x, y, z).rotate(rot).add(new Vector3d(0, 10, -15)), new Vector3d(0, 0, 0), new Vector3d(2, 2, 2));
+						MasterRenderer.drawMesh(GameManager.sphereTextured, new Vector3d(x, y, z).rotate(rot).add(new Vector3d(0, 10, -15)), new Vector3d(0, -currentRotation, 0), new Vector3d(2, 2, 2));
 					}
 				}
 			}

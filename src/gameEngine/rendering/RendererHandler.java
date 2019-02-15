@@ -32,7 +32,7 @@ public class RendererHandler {
 	
 	public void render(Map<TexturedMeshLowLevel, List<RenderObjectInfo>> entities, Camera camera) {
 		
-		
+		//long currentMs = System.currentTimeMillis();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -40,33 +40,36 @@ public class RendererHandler {
 		createProjectionMatrix(camera);
 		
 		shader.loadProjectionMatrix(projectionMatrix);
+		List<RenderObjectInfo> batch;
+		
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
 		for(TexturedMeshLowLevel mesh : entities.keySet()) {
 			
-			//if(mesh != null) {
+			if(mesh.isDoubleSided()) {
+				GL11.glDisable(GL11.GL_CULL_FACE);
+			}
+			
+			prepareTexturedMesh(mesh);
+			
+			batch = entities.get(mesh);
+			
+			for(RenderObjectInfo entity : batch) {
 				
-				if(mesh.isDoubleSided()) {
-					GL11.glDisable(GL11.GL_CULL_FACE);
-				}
+				prepareInstance(entity, mesh.getTextureAtlasRows());
 				
-				prepareTexturedMesh(mesh);
-				
-				List<RenderObjectInfo> batch = entities.get(mesh);
-				
-				for(RenderObjectInfo entity : batch) {
-					
-					prepareInstance(entity, mesh.getTextureAtlasRows());
-					
-					GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-				}
-				
-				unbindTexturedModel();
-				
-				if(mesh.isDoubleSided()) {
-					GL11.glEnable(GL11.GL_CULL_FACE);
-				}
-			//}
+				GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+			}
+			
+			if(mesh.isDoubleSided()) {
+				GL11.glEnable(GL11.GL_CULL_FACE);
+			}
+			
+			unbindTexturedModel();
 		}
+		entities.clear();
+		
+		//Debug.log(System.currentTimeMillis() - currentMs + "ms to render");
 	}
 	
 	private void prepareTexturedMesh(TexturedMeshLowLevel mesh) {
@@ -78,12 +81,11 @@ public class RendererHandler {
 		
 		shader.loadAtlasRows(mesh.getTextureAtlasRows());
 		
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mesh.getTexture().getID());
 	}
 	
 	private void unbindTexturedModel() {
+		
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(2);

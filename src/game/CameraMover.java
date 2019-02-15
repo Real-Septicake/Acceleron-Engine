@@ -1,4 +1,4 @@
-package game.topDownFighter.scripts;
+package game;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -47,7 +47,7 @@ public class CameraMover extends Script {
 		if (InputManager.keyDown(GLFW_KEY_SPACE))
 			movement.y = 1;
 		
-		gameObject.transform.rotation.add(rotation);
+		gameObject.transform.rotation.add(rotation.mul(60 * UpdateHandler.timeDelta));
 		movement.rotate(Maths.fromEulerAngle(gameObject.transform.rotation));
 			
 		gameObject.transform.position.add(movement.mul(12 * UpdateHandler.timeDelta));

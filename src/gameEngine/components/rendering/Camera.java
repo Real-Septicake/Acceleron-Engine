@@ -8,7 +8,7 @@ public class Camera extends ComponentBase {
 	public double fov = 60.0f;
 	public double orthographicSize = 5;
 	public double nearPlane = 0.01f;
-	public double farPlane = 1000f;
+	public double farPlane = 10000f;
 	public boolean orthographic = false;
 	
 	@Override

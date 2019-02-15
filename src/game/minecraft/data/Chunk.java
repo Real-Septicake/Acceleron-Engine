@@ -2,11 +2,9 @@ package game.minecraft.data;
 
 import java.util.*;
 
-import javax.xml.bind.annotation.XmlAccessOrder;
-
 import org.joml.Vector2i;
 
-import game.minecraft.scripts.ChunkHandler;
+import game.minecraft.scripts.*;
 import game.scripts.GameManager;
 import gameEngine.common.LowLevelLoader;
 import gameEngine.debug.Debug;
@@ -22,13 +20,19 @@ public class Chunk {
 	public final int textureAtlasRows = 16;
 	
 	public Vector2i position;
+	public static FastNoise noise = new FastNoise(32941);
 	
 	public Chunk(Vector2i pos) {
 		
+		this.position = pos;
+		ChunkHandler.registerChunk(this);
+		
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
+				double output = (noise.GetPerlin((x + pos.x * 16) * 8, (z + pos.y * 16) * 8) + 1) / 2;
+				//Debug.log(Math.round(output * 5));
 				for (int y = 0; y < 256; y++) {
-					if(y < 65) {
+					if(y < 65 + Math.round(output * 5)) {
 						
 						//(x % 4 < 2 && z % 4 < 2 && y % 4 < 2) || (x % 4 > 1 && z % 4 > 1)
 						chunkBlocks[x + z * 16 + y * 256] = (((x % 2 == z % 2) && y % 2 == 0) || (x % 2 != z % 2) && y % 2 != 0) ? Blocks.Grass : Blocks.Stone;
@@ -42,10 +46,11 @@ public class Chunk {
 		
 		for (int i = 0; i < segmentDirty.length; i++) {
 			segmentDirty[i] = true;
+			ChunkHandler.refreshChunkSegment(new Vector2i(position.x - 1, position.y), i);
+			ChunkHandler.refreshChunkSegment(new Vector2i(position.x + 1, position.y), i);
+			ChunkHandler.refreshChunkSegment(new Vector2i(position.x, position.y - 1), i);
+			ChunkHandler.refreshChunkSegment(new Vector2i(position.x, position.y + 1), i);
 		}
-		
-		this.position = pos;
-		ChunkHandler.registerChunk(this);
 	}
 	
 	public void modifyChunk(int x, int y, int z, Blocks block) {
@@ -151,7 +156,7 @@ public class Chunk {
 			Blocks otherChunkBlock;
 			if(x == 0) {
 				//Generate west face
-				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, z, new Vector2i(position.x - 1, position.y));
+				otherChunkBlock = ChunkHandler.getBlockInChunk(15, y, z, new Vector2i(position.x - 1, position.y));
 				if (otherChunkBlock != null && otherChunkBlock.isTransparent()) {
 					generateFace(x, y, -z, 3, block.getTextureAtlasLocation(3), positions, indices, textureCoords, normals);
 				}
@@ -163,7 +168,7 @@ public class Chunk {
 			}
 			else if (x == 15) {
 				//Generate east face
-				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, z, new Vector2i(position.x + 1, position.y));
+				otherChunkBlock = ChunkHandler.getBlockInChunk(0, y, z, new Vector2i(position.x + 1, position.y));
 				if (otherChunkBlock != null && otherChunkBlock.isTransparent()) {
 					generateFace(x, y, -z, 2, block.getTextureAtlasLocation(2), positions, indices, textureCoords, normals);
 				}
@@ -187,7 +192,7 @@ public class Chunk {
 			
 			if(z == 0) {
 				//Generate south face
-				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, z, new Vector2i(position.x, position.y - 1));
+				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, 15, new Vector2i(position.x, position.y + 1));
 				if (otherChunkBlock != null && otherChunkBlock.isTransparent()) {
 					generateFace(x, y, -z, 1, block.getTextureAtlasLocation(1), positions, indices, textureCoords, normals);
 				}
@@ -199,7 +204,7 @@ public class Chunk {
 			}
 			else if (z == 15) {
 				//Generate north face
-				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, z, new Vector2i(position.x, position.y + 1));
+				otherChunkBlock = ChunkHandler.getBlockInChunk(x, y, 0, new Vector2i(position.x, position.y - 1));
 				if (otherChunkBlock != null && otherChunkBlock.isTransparent()) {
 					generateFace(x, y, -z, 0, block.getTextureAtlasLocation(0), positions, indices, textureCoords, normals);
 				}
