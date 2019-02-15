@@ -4,7 +4,8 @@ public enum Blocks {
 	Air("Air", "Base", true, BlockType.Empty, null),
 	Grass("Grass", "Base", false, BlockType.Cube, new int[] {2, 2, 2, 2, 3, 1} ),
 	Dirt("Dirt", "Base", false, BlockType.Cube, new int[] {3, 3, 3, 3, 3, 3}),
-	Stone("Stone", "Base", false, BlockType.Cube, new int[] {0, 0, 0, 0, 0, 0});
+	Stone("Stone", "Base", false, BlockType.Cube, new int[] {0, 0, 0, 0, 0, 0}),
+	OakLog("Oak Log", "Base", false, BlockType.Cube, new int[] {20, 20, 20, 20, 20, 19});
 	
 	private String name;
 	private String mod;

@@ -27,18 +27,26 @@ public class Chunk {
 		this.position = pos;
 		ChunkHandler.registerChunk(this);
 		
+		Vector2i worldChunkOffset = PosConverter.chunkToWorld(pos);
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
-				double output = (noise.GetPerlin((x + pos.x * 16) * 8, (z + pos.y * 16) * 8) + 1) / 2;
+				double output = (noise.GetPerlin((x + worldChunkOffset.x) * 4, (-z + worldChunkOffset.y) * 4) + 1) / 2;
 				//Debug.log(Math.round(output * 5));
 				for (int y = 0; y < 256; y++) {
-					if(y < 65 + Math.round(output * 5)) {
-						
-						//(x % 4 < 2 && z % 4 < 2 && y % 4 < 2) || (x % 4 > 1 && z % 4 > 1)
-						chunkBlocks[x + z * 16 + y * 256] = (((x % 2 == z % 2) && y % 2 == 0) || (x % 2 != z % 2) && y % 2 != 0) ? Blocks.Grass : Blocks.Stone;
-					}
-					else {
-						chunkBlocks[x + z * 16 + y * 256] = Blocks.Air;
+					if (chunkBlocks[x + z * 16 + y * 256] == null) {
+						if(y < 65 + Math.round(output * 15)) {
+							//(x % 4 < 2 && z % 4 < 2 && y % 4 < 2) || (x % 4 > 1 && z % 4 > 1)
+							chunkBlocks[x + z * 16 + y * 256] = Blocks.Grass;//(((x % 2 == z % 2) && y % 2 == 0) || (x % 2 != z % 2) && y % 2 != 0) ? Blocks.Grass : Blocks.Stone;
+						}
+						else {
+							
+							if (65 + Math.round(output * 15) + 4 >= y && (noise.GetPerlin((x + worldChunkOffset.x) * 16, (-z + worldChunkOffset.y) * 16) + 1) / 2 > 0.825) {
+								chunkBlocks[x + z * 16 + y * 256] = Blocks.OakLog;
+							}
+							else {
+								chunkBlocks[x + z * 16 + y * 256] = Blocks.Air;
+							}
+						}
 					}
 				}		
 			}
