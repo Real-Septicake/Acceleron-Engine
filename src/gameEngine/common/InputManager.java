@@ -3,11 +3,19 @@ package gameEngine.common;
 import static org.lwjgl.glfw.GLFW.*;
 
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
+
+import gameEngine.debug.Debug;
 
 public class InputManager {
 	
-	private static Dictionary<Integer, Boolean> currentKeys = new Hashtable<Integer, Boolean>();
+	private static HashMap<Integer, Boolean> currentKeys = new HashMap<Integer, Boolean>();
+	private static HashMap<Integer, Boolean> lastKeys = new HashMap<Integer, Boolean>();
+	
+	public static void inputUpdate() {
+		lastKeys = new HashMap<Integer, Boolean>(currentKeys);
+	}
 	
 	public static void setup(long windowID) {
 		glfwSetKeyCallback(windowID, (window, key, scancode, action, mods) -> {
@@ -26,5 +34,27 @@ public class InputManager {
 		
 		boolean b = currentKeys.get(id);
 		return b;
+	}
+	
+	public static boolean keyIsDown(int id) {
+		if (currentKeys.get(id) == null) {
+			return false;
+		}
+		
+		if (currentKeys.get(id) == true && (lastKeys.get(id) == null || lastKeys.get(id) == false)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean keyUp(int id) {
+		if (currentKeys.get(id) == null) {
+			return false;
+		}
+		
+		if (currentKeys.get(id) == false && (lastKeys.get(id) != null && lastKeys.get(id) == true)) {
+			return true;
+		}
+		return false;
 	}
 }

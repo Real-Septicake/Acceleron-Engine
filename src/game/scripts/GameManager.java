@@ -27,33 +27,26 @@ public class GameManager extends StaticScript {
 	public static TexturedMeshLowLevel bulletTextured;
 	public static ModelTexture textureAtlas;
 	
-	
-	private int currentScene = 0;
-	
 	@Override
 	public void update() {
-		if(currentScene != 1 && InputManager.keyDown(GLFW_KEY_1)) {
+		if(InputManager.keyIsDown(GLFW_KEY_1)) {
 			currentState.stop();
 			currentState = new RandomScene();
-			currentScene = 1;
 			GameObject.clearScene();
 		}
-		else if (currentScene != 2 && InputManager.keyDown(GLFW_KEY_2)) {
+		else if (InputManager.keyIsDown(GLFW_KEY_2)) {
 			currentState.stop();
 			currentState = new Fighting2D();
-			currentScene = 2;
 			GameObject.clearScene();
 		}
-		else if (currentScene != 3 && InputManager.keyDown(GLFW_KEY_3)) {
+		else if (InputManager.keyIsDown(GLFW_KEY_3)) {
 			currentState.stop();
 			currentState = new MinecraftScene();
-			currentScene = 3;
 			GameObject.clearScene();
 		}
-		else if (currentScene != 0 && InputManager.keyDown(GLFW_KEY_4)) {
+		else if (InputManager.keyIsDown(GLFW_KEY_4)) {
 			currentState.stop();
 			currentState = new MainMenuScene();
-			currentScene = 0;
 			GameObject.clearScene();
 		}
 		

@@ -46,13 +46,14 @@ public class EngineCore {
 				timeDelta = (System.currentTimeMillis() - lastFrameTime) / 1000d;
 				lastFrameTime = System.currentTimeMillis();
 			}
-			
 			UpdateHandler.RunUpdate(timeDelta);
 				
 			MasterRenderer.render();
 			
 			GameObject.clearOld();
 	        
+			InputManager.inputUpdate();
+			
 			frames++;
 			
 	        if (System.currentTimeMillis() - timer > 1000) {
@@ -71,7 +72,6 @@ public class EngineCore {
 	        glfwPollEvents();
 	        
 			GL11.glViewport(0, 0, WindowManager.manager.getCurrentWidth(), WindowManager.manager.getCurrentHeight());
-			
 		}
 		closeGame();
 	}
