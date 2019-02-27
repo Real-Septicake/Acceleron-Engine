@@ -2,6 +2,7 @@ package game;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import org.joml.Vector2d;
 import org.joml.Vector3d;
 
 import gameEngine.common.InputManager;
@@ -28,6 +29,7 @@ public class CameraMover extends Script {
 		// Right
 		if (InputManager.keyDown(GLFW_KEY_D))
 			movement.x = 1;
+		/*
 		// Look left
 		if (InputManager.keyDown(GLFW_KEY_Q))
 			rotation.y = -1;
@@ -40,6 +42,12 @@ public class CameraMover extends Script {
 		// Look down
 		if (InputManager.keyDown(GLFW_KEY_X))
 			rotation.x = -1;
+			*/
+		
+		Vector2d mouseMovement = InputManager.mouseDelta();
+		rotation.y = mouseMovement.x * UpdateHandler.timeDelta * 15;
+		rotation.x = mouseMovement.y * UpdateHandler.timeDelta * 15;
+		
 		// Down
 		if (InputManager.keyDown(GLFW_KEY_LEFT_SHIFT))
 			movement.y = -1;

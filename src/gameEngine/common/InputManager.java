@@ -9,6 +9,7 @@ import java.util.Hashtable;
 import org.joml.Vector2d;
 
 import gameEngine.debug.Debug;
+import gameEngine.rendering.WindowManager;
 
 public class InputManager {
 	
@@ -20,14 +21,21 @@ public class InputManager {
 	private static Vector2d mouseDelta = new Vector2d(0, 0);
 	private static HashMap<Integer, Boolean> currentMouseButtons = new HashMap<Integer, Boolean>();
 	private static HashMap<Integer, Boolean> lastMouseButtons = new HashMap<Integer, Boolean>();
+	private static boolean mouseLocked = true;
 	
 	//Run an update on inputs, send old ones to the last state storage
 	public static void inputUpdate() {
+		
 		lastKeys = new HashMap<Integer, Boolean>(currentKeys);
 		lastMouseButtons = new HashMap<Integer, Boolean>(lastMouseButtons);
 		
-		mouseDelta = new Vector2d(mousePosition.x - oldMousePosition.x, mouseDelta.y - oldMousePosition.y);
+		Vector2d mouseOldPos = (mouseLocked) ? new Vector2d(WindowManager.manager.getCurrentWidth() / 2, WindowManager.manager.getCurrentHeight() / 2) : oldMousePosition;
+		
+		mouseDelta = new Vector2d(mousePosition.x - mouseOldPos.x, mousePosition.y - mouseOldPos.y);
 		oldMousePosition = new Vector2d(mousePosition.x, mousePosition.y);
+		if (mouseLocked) {
+			glfwSetCursorPos(WindowManager.manager.getWindowID(), mouseOldPos.x, mouseOldPos.y);
+		}
 	}
 	
 	//Setup the callbacks that are used for getting inputs
@@ -43,6 +51,8 @@ public class InputManager {
 		glfwSetMouseButtonCallback(windowID, (window, button, action, mods) -> { 
 			mouseButtonHandler(window, button, action);
 		});
+		
+		setMouseLocked(true);
 	}
 	
 	//Update a keyboard input
@@ -60,6 +70,17 @@ public class InputManager {
 	private static void mouseButtonHandler(long window, int key, int action) {
 		if(action == GLFW_RELEASE || action == GLFW_PRESS)
 			currentMouseButtons.put(key, action == GLFW_PRESS);
+	}
+	
+	public static void setMouseLocked(boolean isLocked) {
+		if (isLocked) {
+			glfwSetInputMode(WindowManager.manager.getWindowID(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		}
+		mouseLocked = isLocked;
+	}
+	
+	public static boolean isMouseLocked() {
+		return mouseLocked;
 	}
 	
 	//Get if a mouse button is down
