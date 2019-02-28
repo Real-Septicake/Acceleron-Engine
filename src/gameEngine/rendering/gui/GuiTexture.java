@@ -12,6 +12,7 @@ public class GuiTexture {
 	public boolean autoScale = true;
 	public Vector2d baseScaleResolution = new Vector2d(1920, 1080);
 	public double heightWidthRatio = 0.5;
+	public UIAnchorPoint anchorPoint = UIAnchorPoint.Center;
 	
 	public GuiTexture(int textureID) {
 		this.textureId = textureID;
@@ -37,8 +38,12 @@ public class GuiTexture {
 		return transform.size.mul(scale);
 	}
 	
-	public Vector3d getScaledPosition(double width, double height) {
-		double scale = (1-heightWidthRatio) * (width / baseScaleResolution.x) + (heightWidthRatio) * (height / baseScaleResolution.y);
+	public Vector3d getScaledPosition(double x, double y) {
+		double scale = (1-heightWidthRatio) * (x / baseScaleResolution.x) + (heightWidthRatio) * (y / baseScaleResolution.y);
 		return transform.position.mul(scale);
+	}
+	
+	public Vector3d getAnchorOffset(double x, double y) {
+		return new Vector3d(anchorPoint.getAnchorPosition().x * (baseScaleResolution.x / 2) + baseScaleResolution.x / 2, anchorPoint.getAnchorPosition().y * (baseScaleResolution.y / 2) + baseScaleResolution.y / 2,0).mul((1-heightWidthRatio) * (x / baseScaleResolution.x) + (heightWidthRatio) * (y / baseScaleResolution.y));
 	}
 }

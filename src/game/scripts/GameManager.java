@@ -50,8 +50,9 @@ public class GameManager extends StaticScript {
 			GameObject.clearScene();
 		}
 		
-		GameManager.menuTexture.transform.size = new Vector2d(379, 74);
-		GameManager.menuTexture.transform.position = new Vector3d(200, 1000, 0);
+		GameManager.menuTexture.transform.size = new Vector2d(400, 100);
+		GameManager.menuTexture.transform.position = new Vector3d(250, -150, 0);
+		GameManager.menuTexture.anchorPoint = UIAnchorPoint.BottomLeft;
 		
 		GuiRendererHandler.addUIElement(GameManager.menuTexture);
 	}

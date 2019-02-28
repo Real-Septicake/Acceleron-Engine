@@ -3,11 +3,14 @@ package gameEngine.rendering.gui;
 import java.util.HashSet;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 import org.lwjgl.opengl.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
 import gameEngine.common.*;
+import gameEngine.debug.Debug;
 import gameEngine.rendering.WindowManager;
 import gameEngine.rendering.data.meshData.MeshLowLevel;
 import gameEngine.rendering.gui.shaders.GuiShader;
@@ -41,8 +44,8 @@ public class GuiRendererHandler {
 			
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, guiTexture.getTexture());
-			
-			Matrix4f matrix4f = Maths.createTransformationMatrixGui(guiTexture.getScaledPosition(width, height), guiTexture.transform.rotation, guiTexture.getScaledSize(width, height), width, height);
+
+			Matrix4f matrix4f = Maths.createTransformationMatrixGui(guiTexture.getScaledPosition(width, height).add(guiTexture.getAnchorOffset(width, height)), guiTexture.transform.rotation, guiTexture.getScaledSize(width, height), width, height);
 			
 			shader.loadTransformation(matrix4f);
 			
