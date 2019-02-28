@@ -45,8 +45,8 @@ public class CameraMover extends Script {
 			*/
 		
 		Vector2d mouseMovement = InputManager.mouseDelta();
-		rotation.y = mouseMovement.x * UpdateHandler.timeDelta * 15;
-		rotation.x = mouseMovement.y * UpdateHandler.timeDelta * 15;
+		rotation.y = mouseMovement.x;
+		rotation.x = mouseMovement.y;
 		
 		// Down
 		if (InputManager.keyDown(GLFW_KEY_LEFT_SHIFT))

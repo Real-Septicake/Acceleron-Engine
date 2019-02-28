@@ -76,6 +76,9 @@ public class InputManager {
 		if (isLocked) {
 			glfwSetInputMode(WindowManager.manager.getWindowID(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		}
+		else {
+			glfwSetInputMode(WindowManager.manager.getWindowID(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
 		mouseLocked = isLocked;
 	}
 	

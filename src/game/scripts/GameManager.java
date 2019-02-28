@@ -33,21 +33,25 @@ public class GameManager extends StaticScript {
 			currentState.stop();
 			currentState = new RandomScene();
 			GameObject.clearScene();
+			InputManager.setMouseLocked(true);
 		}
 		else if (InputManager.keyIsDown(GLFW_KEY_2)) {
 			currentState.stop();
 			currentState = new Fighting2D();
 			GameObject.clearScene();
+			InputManager.setMouseLocked(false);
 		}
 		else if (InputManager.keyIsDown(GLFW_KEY_3)) {
 			currentState.stop();
 			currentState = new MinecraftScene();
 			GameObject.clearScene();
+			InputManager.setMouseLocked(true);
 		}
 		else if (InputManager.keyIsDown(GLFW_KEY_4)) {
 			currentState.stop();
 			currentState = new MainMenuScene();
 			GameObject.clearScene();
+			InputManager.setMouseLocked(false);
 		}
 		
 		GameManager.menuTexture.transform.size = new Vector2d(400, 100);
@@ -61,6 +65,8 @@ public class GameManager extends StaticScript {
 	public void start() {
 		
 		Debug.log("Loading assets...");
+		
+		InputManager.setMouseLocked(false);
 		
 		menuTexture = new GuiTexture(LowLevelLoader.loadTexture("UI/Acceleron"));
 		
