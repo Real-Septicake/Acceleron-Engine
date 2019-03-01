@@ -37,7 +37,7 @@ public class GridManager {
 		}
 		
 		for (Player player : physicsEngine.players) {
-			MasterRenderer.drawMesh(GameManager.gridTile, new Vector3d(0.25 + player.position.x, 0.25 + player.position.y, player.position.z), new Vector3d(0), new Vector3d(.5));
+			MasterRenderer.drawMesh(GameManager.gridTile, new Vector3d(0.25 + player.position.x, 0.25 + player.position.y, player.position.z), new Vector3d(0), new Vector3d(.5), player.teamId == 0 ? 0 : 1);
 		}
 	}
 	
@@ -88,6 +88,7 @@ public class GridManager {
 		physicsEngine.setup(grid);
 		
 		physicsEngine.addPlayer(new Player(new Vector3d(-2, 1, .5), 0));
+		physicsEngine.addPlayer(new Player(new Vector3d(2, -1, .5), 1));
 	}
 	
 	public int largestDimension() {

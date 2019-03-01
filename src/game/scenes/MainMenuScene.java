@@ -18,19 +18,7 @@ public class MainMenuScene extends StaticScript {
 	public void update() {
 		currentRotation += 15 * UpdateHandler.timeDelta;
 		
-		Quaterniond rot = Maths.fromEulerAngle(new Vector3d(0,currentRotation,0));
-		
-		for (float x = -10; x <= 10; x+= 0.25f) {
-			for (float y = -10; y <= 10; y+= 0.25f) {
-				for (float z = -10; z <= 10; z+= 0.25f) {
-					float distance = x * x + y * y + z * z;
-					if((distance <= 100 && distance > 98) || (distance <= 5 && distance > 3)) {
-						//count++;
-						MasterRenderer.drawMesh(GameManager.sphereTextured, new Vector3d(x, y, z).rotate(rot).add(new Vector3d(0, 10, -15)), new Vector3d(0, currentRotation, 0), new Vector3d(2, 2, 2));
-					}
-				}
-			}
-		}
+		SpinningSphere.render(currentRotation);
 	}
 
 	@Override

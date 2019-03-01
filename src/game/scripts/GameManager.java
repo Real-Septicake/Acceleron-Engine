@@ -74,7 +74,7 @@ public class GameManager extends StaticScript {
 		sphereTextured = new CompleteMesh(
 				new TexturedMeshLowLevel(
 						OBJLoader.loadObjModel("Models/Sphere"), 
-						new ModelTexture(LowLevelLoader.loadTexture("Textures/Sphere Texture")))
+						new ModelTexture(LowLevelLoader.loadTexture("Textures/Sphere Texture Multi")), 2)
 				);
 		
 		//Tree Loading
