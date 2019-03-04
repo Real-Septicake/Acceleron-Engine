@@ -30,9 +30,10 @@ public class RendererHandler {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
+	long currentMs = System.currentTimeMillis();
+	
 	public void render(Map<TexturedMeshLowLevel, List<RenderObjectInfo>> entities, Camera camera) {
 		
-		//long currentMs = System.currentTimeMillis();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -45,7 +46,6 @@ public class RendererHandler {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
 		for(TexturedMeshLowLevel mesh : entities.keySet()) {
-			
 			if(mesh.isDoubleSided()) {
 				GL11.glDisable(GL11.GL_CULL_FACE);
 			}
@@ -55,7 +55,6 @@ public class RendererHandler {
 			batch = entities.get(mesh);
 			
 			for(RenderObjectInfo entity : batch) {
-				
 				prepareInstance(entity, mesh.getTextureAtlasRows());
 				
 				GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getMesh().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
@@ -97,7 +96,11 @@ public class RendererHandler {
 		
 		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.pos, entity.rot, entity.scale));
 		
+		currentMs = System.nanoTime();
+		
 		shader.loadAtlasOffset(getAtlasOffset(textureAtlasRows, entity.textureAtlasLocation));
+		
+		Debug.log((System.nanoTime() - currentMs) / 1 + "ns to create texture offset");
 	}
 	
 	private Vector2d getAtlasOffset(int rows, int location) {
