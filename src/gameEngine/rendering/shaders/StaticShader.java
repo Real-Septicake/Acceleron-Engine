@@ -67,8 +67,8 @@ public class StaticShader extends ShaderProgram {
 		super.loadFloat(location_numOfRows, rows);
 	}
 	
-	public void loadAtlasOffset(Vector2d offset) {
-		super.loadVector(location_atlasOffset, offset);
+	public void loadAtlasOffset(double[] offset) {
+		super.load2DVectorFromArray(location_atlasOffset, offset);
 	}
 	
 	public void loadLight(List<Light> light) {

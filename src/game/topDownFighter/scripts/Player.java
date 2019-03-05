@@ -30,48 +30,53 @@ public class Player {
 	public void update() {
 		
 		lastPosition = position;
+		boolean isFirstPlayer = (teamId == 0);
+		int up = (isFirstPlayer) ? GLFW_KEY_W : GLFW_KEY_UP;
+		int down = (isFirstPlayer) ? GLFW_KEY_S : GLFW_KEY_DOWN;
+		int left = (isFirstPlayer) ? GLFW_KEY_A : GLFW_KEY_LEFT; 
+		int right = (isFirstPlayer) ? GLFW_KEY_D : GLFW_KEY_RIGHT;
+		
+		int fireUp = (isFirstPlayer) ? GLFW_KEY_I : GLFW_KEY_KP_5;
+		int fireDown = (isFirstPlayer) ? GLFW_KEY_K : GLFW_KEY_KP_2;
+		int fireLeft = (isFirstPlayer) ? GLFW_KEY_J : GLFW_KEY_KP_1; 
+		int fireRight = (isFirstPlayer) ? GLFW_KEY_L : GLFW_KEY_KP_3;
 		
 		Vector3d movement = new Vector3d(0,0,0);
 		// Forward
-		if (InputManager.keyDown(GLFW_KEY_W)) {
+		if (InputManager.keyDown(up)) {
 			movement.y = 1;
 		}
 		// Backward
-		if (InputManager.keyDown(GLFW_KEY_S)) {
+		if (InputManager.keyDown(down)) {
 			movement.y = -1;
 		}
 		// Left
-		if (InputManager.keyDown(GLFW_KEY_A)) {
+		if (InputManager.keyDown(left)) {
 			movement.x = -1;
 		}
 		// Right
-		if (InputManager.keyDown(GLFW_KEY_D)) {
+		if (InputManager.keyDown(right)) {
 			movement.x = 1;
 		}
 		
-		if(InputManager.keyDown(GLFW_KEY_UP) && hasStoppedFiring) {
+		if(InputManager.keyIsDown(fireUp)) {
 			direction = BulletDirection.Up;
 			fireBullet = true;
-			hasStoppedFiring = false;
 		}
-		else if(InputManager.keyDown(GLFW_KEY_DOWN) && hasStoppedFiring) {
+		
+		if(InputManager.keyIsDown(fireDown)) {
 			direction = BulletDirection.Down;
 			fireBullet = true;
-			hasStoppedFiring = false;
 		}
-		else if(InputManager.keyDown(GLFW_KEY_LEFT) && hasStoppedFiring) {
+		
+		if(InputManager.keyIsDown(fireLeft)) {
 			direction = BulletDirection.Left;
 			fireBullet = true;
-			hasStoppedFiring = false;
 		}
-		else if(InputManager.keyDown(GLFW_KEY_RIGHT) && hasStoppedFiring) {
+		
+		if(InputManager.keyIsDown(fireRight)) {
 			direction = BulletDirection.Right;
 			fireBullet = true;
-			hasStoppedFiring = false;
-		}
-		else if (!InputManager.keyDown(GLFW_KEY_UP) && !InputManager.keyDown(GLFW_KEY_DOWN) &&
-				 !InputManager.keyDown(GLFW_KEY_LEFT) && !InputManager.keyDown(GLFW_KEY_RIGHT)){
-			hasStoppedFiring = true;
 		}
 		
 		shotIsFastShot = new Random().nextBoolean();

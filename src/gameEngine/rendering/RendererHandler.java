@@ -96,17 +96,13 @@ public class RendererHandler {
 		
 		shader.loadTransformationMatrix(Maths.createTransformationMatrix(entity.pos, entity.rot, entity.scale));
 		
-		currentMs = System.nanoTime();
-		
 		shader.loadAtlasOffset(getAtlasOffset(textureAtlasRows, entity.textureAtlasLocation));
-		
-		Debug.log((System.nanoTime() - currentMs) / 1 + "ns to create texture offset");
 	}
 	
-	private Vector2d getAtlasOffset(int rows, int location) {
+	private double[] getAtlasOffset(int rows, int location) {
 		int row = location / rows, collumn = location % rows;
 		
-		return new Vector2d(collumn / (double)rows, row / (double)rows);
+		return new double[] { collumn / (double)rows, row / (double)rows };
 	}
 	
 	private void createProjectionMatrix(Camera cam) {
