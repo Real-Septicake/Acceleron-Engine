@@ -20,7 +20,6 @@ public class Player {
 	
 	public BulletDirection direction = BulletDirection.Right;
 	public boolean fireBullet = false;
-	private boolean hasStoppedFiring = true;
 	
 	public Player (Vector3d pos, int teamId) {
 		this.position = pos;

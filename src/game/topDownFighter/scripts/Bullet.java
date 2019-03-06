@@ -16,7 +16,7 @@ public class Bullet {
 	public void update() {
 		position = position.add(direction.getDirection().mul(movementSpeed * UpdateHandler.timeDelta));
 		if(fastShot)
-			position = position.add(direction.getDirection().mul(movementSpeed * UpdateHandler.timeDelta));
+			position = position.add(direction.getDirection().mul(movementSpeed / 2 * UpdateHandler.timeDelta));
 	}
 	
 	public Bullet(BulletDirection direction, Vector3d pos, int teamId, boolean fastShot) {

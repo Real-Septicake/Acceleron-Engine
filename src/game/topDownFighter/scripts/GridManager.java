@@ -87,8 +87,11 @@ public class GridManager {
 		physicsEngine = new GridPhysicsEngine();
 		physicsEngine.setup(grid);
 		
-		physicsEngine.addPlayer(new Player(new Vector3d(-2, 1, .5), 0));
-		physicsEngine.addPlayer(new Player(new Vector3d(2, -1, .5), 1));
+		Vector2d spawn = getWhiteSpawn();
+		physicsEngine.addPlayer(new Player(new Vector3d(0, 0, .5).add(spawn.x, spawn.y, 0), 1));
+		
+		spawn = getBlackSpawn();
+		physicsEngine.addPlayer(new Player(new Vector3d(0, 0, .5).add(spawn.x, spawn.y, 0), 0));
 	}
 	
 	public int largestDimension() {
@@ -100,7 +103,7 @@ public class GridManager {
 	}
 	
 	public Vector2d getBlackSpawn() {
-		return (Vector2d) whiteSpawns.toArray()[new Random(1).nextInt(blackSpawns.size())];
+		return (Vector2d) blackSpawns.toArray()[new Random(1).nextInt(blackSpawns.size())];
 	}
 	
 	public void updateTile(int index, TileState state) {

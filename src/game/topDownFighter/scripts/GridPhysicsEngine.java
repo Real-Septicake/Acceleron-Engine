@@ -1,8 +1,14 @@
 package game.topDownFighter.scripts;
 
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Queue;
 
 import org.joml.Vector3d;
+
+import gameEngine.debug.Debug;
 
 public class GridPhysicsEngine {
 
@@ -34,6 +40,7 @@ foreach player
     private Bullet[] bulletArray;
     public void runUpdate() {
     	
+
     	for (Player player : players) {
     		player.update();
     		if(player.fireBullet) {
@@ -100,14 +107,29 @@ foreach player
         
         Vector3d tilePos;
         TileState tileState;
+        Map<Vector3d, Bullet> bulletFilledTile = new HashMap<Vector3d, Bullet>();
+        
         for (int y = 0; y < bulletArray.length; y++)
         {
-        	
             currentBullet = bulletArray[y];
+            for (Vector3d tile : bulletFilledTile.keySet()) {
+				if (overlapTileBullet(tile, currentBullet.position)) {
+					Bullet otherBullet = bulletFilledTile.get(tile);
+					if (otherBullet != currentBullet && currentBullet.teamId != otherBullet.teamId) {
+						removeBullet(bulletFilledTile.get(tile));
+						removeBullet(currentBullet);
+						break;
+					}
+				}
+            }
+            
+            bulletFilledTile.put(new Vector3d(Math.round(currentBullet.position.x), Math.round(currentBullet.position.y), 0), currentBullet);
+            
             tilePos = new Vector3d(currentBullet.position.x + grid.getWidth() / 2f, currentBullet.position.y + grid.getHeight() / 2f, 0);
             
             tilePos.x = Math.round(tilePos.x);
             tilePos.y = Math.round(tilePos.y);
+            
             
             if(tilePos.x < 0 || tilePos.x >= grid.getWidth() ||
             		tilePos.y < 0 || tilePos.y >= grid.getHeight()) {
@@ -123,6 +145,12 @@ foreach player
 	                {
 	                	grid.modifyGrid(location, (tileState == TileState.Black) ? TileState.White : TileState.Black);
 	                	grid.isDirty = true;
+	                	
+	                	for (Player player : playerArray) {
+							if (player.teamId != currentBullet.teamId && overlapPlayerTile(player, new Vector3d(Math.round(currentBullet.position.x), Math.round(currentBullet.position.y), 0))) {
+								removePlayer(player);
+							}
+						}
 	                }
 	            }
 	            else if (tileState == TileState.Empty || tileState == TileState.Wall)
