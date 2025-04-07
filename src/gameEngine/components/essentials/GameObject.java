@@ -9,7 +9,7 @@ import gameEngine.debug.Debug;
 
 public class GameObject {
 	
-	private static HashSet<GameObject> gameObjects = new HashSet<GameObject>();
+	private static HashMap<Integer, GameObject> gameObjects = new HashMap<Integer, GameObject>();
 	private static HashSet<GameObject> gmsToRemove = new HashSet<GameObject>();
 	private static int nextID = 0;
 	
@@ -24,15 +24,11 @@ public class GameObject {
 	}
 	
 	public static GameObject find(int id) {
-		for (GameObject gameObject : gameObjects) {
-			if(gameObject.id == id)
-				return gameObject;
-		}
-		return null;
+		return gameObjects.get(id);
 	}
 	
 	public static GameObject find(String name) {
-		for (GameObject gameObject : gameObjects) {
+		for (GameObject gameObject : gameObjects.values()) {
 			if(gameObject.name.equals(name))
 				return gameObject;
 		}
@@ -41,7 +37,7 @@ public class GameObject {
 	}
 	
 	public static void clearScene() {
-		Collection<GameObject> gms = gameObjects;
+		Collection<GameObject> gms = gameObjects.values();
 		for (GameObject gameObject : gms) {
 			gameObject.destroy();
 		}
@@ -50,7 +46,7 @@ public class GameObject {
 	
 	public static void clearOld() {
 		for (GameObject gameObject : gmsToRemove) {
-			gameObjects.remove(gameObject);
+			gameObjects.remove(gameObject.id);
 			
 		}
 		gmsToRemove.clear();
@@ -58,9 +54,8 @@ public class GameObject {
 	
 	public GameObject(Vector3d pos, Vector3d rot, Vector3d sca) {
 		transform = new Transform(pos, rot, sca);
-		id = nextID;
-		nextID++;
-		gameObjects.add(this);
+		id = nextID++;
+		gameObjects.put(id, this);
 	}
 	
 	private class ComponentArray <T extends ComponentBase>{
@@ -80,7 +75,7 @@ public class GameObject {
 		if(components.components.get(type) == null) {
 			
 			try {
-				ComponentBase comp = (ComponentBase) type.newInstance();
+				ComponentBase comp = type.getConstructor().newInstance();
 				comp.gameObject = this;
 				comp.setup();
 				components.components.put(type, comp);
